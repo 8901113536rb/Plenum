@@ -1,0 +1,36 @@
+import 'dart:ui';
+
+Color screenbgcolor = const Color(0xffF3F3F3);
+Color white = const Color(0xffffffff);
+Color black = const Color(0xff000000);
+Color primarycolor = const Color(0xff000000);
+Color blackcolor = const Color(0xff000000);
+Color themecolor = const Color(0xffFF3437);
+Color searchbgcolor = const Color(0xffffffff);
+Color create_acc_color = const Color(0xff7C7C7C);
+Color emailinputbordercolor = const Color(0xffE4DFDF);
+Color emailhintcolor = const Color(0xff747688);
+Color btnshadowcolor = const Color(0xffF3743D);
+Color singupcolor = const Color(0xff5669FF);
+Color titlecolor = const Color(0xff1E232C);
+Color otpverificationdetailcolor = const Color(0xff838BA1);
+Color pinputborder = const Color(0xffE1E1E1);
+Color indicatorcolor = const Color(0xffA6A7A8);
+Color searchtext = const Color(0xff9CABC2);
+Color totalpricecolor = const Color(0xff757575);
+Color itemdesccolor = const Color(0xff757575);
+Color itemqnty_brdr = const Color(0xffEAEAEA);
+Color ordercmpt_color = const Color(0xff319F43);
+Color ordercncl_color = const Color(0xffE33629);
+// Color gradientcolor1 = const Color(0xffF94761);
+// Color gradientcolor2 = const Color(0xffF98434);
+Color selectionborder = const Color(0xffE2E2E2);
+Color hint_color = const Color(0xffB7B8B8);
+Color bordercolorbordercolor = const Color(0xffC7C7C7);
+Color listboxcolor = const Color(0xff87CEFA);
+Color lightGreyColor = const Color(0xffD3D3D3);
+Color boxcolor = const Color(0xffF0E7E9);
+Color gradientcolor1 = const Color(0xffFF3437);
+Color gradientcolor2 = const Color(0xffD90157);
+Color dropdownborder = const Color(0xffAAAAAA);
+
