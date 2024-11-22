@@ -61,6 +61,7 @@ class _Profile_screenState extends State<Myprofilescreen> {
                       topRight: Radius.circular(25.0),
                     ),
                   ),
+
                   child: Column(
                     children: [
                       SizedBox(
