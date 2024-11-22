@@ -69,6 +69,7 @@ class _SetupProfileScreenState extends State<Profileui> {
                           ),
                         ),
                         child: body())),
+
               ],
             )),
       ),
