@@ -79,6 +79,7 @@ class _AddresslistingscreenState extends State<Addresslistingscreen> {
                           SizedBox(width: 3.w,),
                           GestureDetector(
                               onTap: (){
+                                controller.delete_address(6);
                               },
                               child: Icon(Icons.delete_outline_outlined,color:ordercncl_color ,)),
                         ],

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 import '../../../constants/Appcolors.dart';
-import '../../../constants/Stringconstants.dart';
+import '../../../constants/stringconstants.dart';
 import '../../../controllers/UserControllers/addresscontrollers/UpdateAddressController.dart';
 import '../../../utils/CommonAppBarWidget.dart';
 import '../../../utils/CommonValidations.dart';
@@ -27,11 +27,11 @@ class _UpdateadressscreenState extends State<Updateadressscreen> {
 
   @override
   void dispose() {
-    controller.addresslinecontroller.dispose();
+    controller.housenocontroller.dispose();
     controller.citycontroller.dispose();
     controller.statecontroller.dispose();
-    controller.postalcodecontroller.dispose();
-    controller.countrycontroller.dispose();
+    controller.pincodecodecontroller.dispose();
+    controller.landmarkcontroller.dispose();
     super.dispose();
   }
 
@@ -61,10 +61,10 @@ class _UpdateadressscreenState extends State<Updateadressscreen> {
                 height: 2.h,
               ),
               Commonformfield(
-                  hinttext: address_line,
-                  fieldcontroller: controller.addresslinecontroller,
+                  hinttext: houseno,
+                  fieldcontroller: controller.housenocontroller,
                   validator: (value) {
-                    return txtValidator(value, please_address_line);
+                    return txtValidator(value, please_houseno);
                   }),
               SizedBox(height: 2.h),
               Commonformfield(
@@ -82,25 +82,33 @@ class _UpdateadressscreenState extends State<Updateadressscreen> {
                   }),
               SizedBox(height: 2.h),
               Commonformfield(
+                  hinttext: street_txt,
+                  fieldcontroller: controller.streetcontroller,
+                  validator: (value) {
+                    return txtValidator(value, please_street_txt);
+                  }),
+              SizedBox(height: 2.h),
+              Commonformfield(
                   keyboardtype: TextInputType.number,
                   hinttext: postal_code,
-                  fieldcontroller: controller.postalcodecontroller,
+                  fieldcontroller: controller.pincodecodecontroller,
                   validator: (value) {
                     return txtValidator(value, please_postal_code);
                   }),
               SizedBox(height: 2.h),
               Commonformfield(
-                  hinttext: country_txt,
-                  fieldcontroller: controller.countrycontroller,
-                  validator: (value) {
-                    return txtValidator(value, please_country_txt);
-                  }),
+                  hinttext: landmark_txt,
+                  fieldcontroller: controller.landmarkcontroller,
+                  validator: (value){
+                    return  txtValidator(value,please_Landmark_txt);
+                  }
+              ),
               SizedBox(height: 5.h),
               CommonbtnWidget(
                 title: update_address,
                 onTap: () {
                   if (controller.formKey.currentState!.validate()) {
-                    Get.back();
+                    controller.updateaddress_api("6");
                   }
                 },
               ),

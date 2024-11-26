@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 import '../../constants/Appcolors.dart';
+import '../../constants/Networkconstants.dart';
 import '../../constants/Stringconstants.dart';
 import '../../constants/Textstyles.dart';
 import '../../controllers/UserControllers/ProfileController.dart';
@@ -34,6 +35,22 @@ class _SetupProfileScreenState extends State<Profileui> {
             onTap: () {
               print(controller.profileimage);
               if (controller.formKey.currentState!.validate()) {
+                if (controller.profileimage.value == null) {
+                  controller.uploadwithoutImage(
+                      controller.firstnameController.text,
+                      controller.lastnameController.text,
+                      controller.phonenumberController.text,
+                      controller.emailController.text,
+                      context);
+                } else {
+                  controller.uploadImage(
+                      controller.profileimage.value!,
+                      controller.firstnameController.text,
+                      controller.lastnameController.text,
+                      controller.phonenumberController.text,
+                      controller.emailController.text,
+                      context);
+                }
               }
             },
           ),
@@ -47,14 +64,24 @@ class _SetupProfileScreenState extends State<Profileui> {
                   flex:  0,
                   child: Container(
                     alignment: Alignment.centerLeft,
-                    padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
-                    child: Text(
-                      setup_your_profile,
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: white,
-                      ),
+                    padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 2.h),
+                    child: Row(
+                      children: [
+                        GestureDetector(
+                          onTap: (){
+                            Get.back();
+                          },
+                            child: Icon(Icons.arrow_back,color: white,)),
+                        SizedBox(width: 2.w,),
+                        Text(
+                          setup_your_profile,
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: white,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -97,7 +124,7 @@ class _SetupProfileScreenState extends State<Profileui> {
                         backgroundImage: controller.profileimage.value != null
                             ? FileImage(controller.profileimage.value!)
                             : controller.selectedImage.value.isNotEmpty
-                                ? NetworkImage(images_baseurl +
+                                ? NetworkImage(vhImageBaseUrl +
                                     controller.selectedImage.value)
                                 : const AssetImage(
                                     "assets/images/profilepic.png"), // Default avatar
@@ -177,28 +204,28 @@ class _SetupProfileScreenState extends State<Profileui> {
               SizedBox(
                 height: 2.h,
               ),
-              Obx(() {
-                return Commonformfield(
-                    hinttext: enter_password,
-                    fieldcontroller: controller.passwordcontroller,
-                    obscuretxt: controller.isObscured.value,
-                    suffix: IconButton(
-                      splashColor: Colors.transparent,
-                      icon: Icon(controller.isObscured.value
-                          ? Icons.visibility_off
-                          : Icons.visibility,color: themecolor,),
-                      onPressed: () {
-                        controller.togglePasswordVisibility();
-                      },
-                    ),
-                    // prefix: CommonImageWidget(
-                    //   imageSourceType: ImageSourceType.svg,
-                    //   imageUrl: "${images_baseurl}lockicon.svg",
-                    // ),
-                    validator: (value) {
-                      return passwordValidator(value);
-                    });
-              }),
+              // Obx(() {
+              //   return Commonformfield(
+              //       hinttext: enter_password,
+              //       fieldcontroller: controller.passwordcontroller,
+              //       obscuretxt: controller.isObscured.value,
+              //       suffix: IconButton(
+              //         splashColor: Colors.transparent,
+              //         icon: Icon(controller.isObscured.value
+              //             ? Icons.visibility_off
+              //             : Icons.visibility,color: themecolor,),
+              //         onPressed: () {
+              //           controller.togglePasswordVisibility();
+              //         },
+              //       ),
+              //       // prefix: CommonImageWidget(
+              //       //   imageSourceType: ImageSourceType.svg,
+              //       //   imageUrl: "${images_baseurl}lockicon.svg",
+              //       // ),
+              //       validator: (value) {
+              //         return passwordValidator(value);
+              //       });
+              // }),
               SizedBox(
                 height: 2.h,
               ),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 import '../../../constants/Appcolors.dart';
-import '../../../constants/Stringconstants.dart';
+import '../../../constants/stringconstants.dart';
 import '../../../controllers/UserControllers/addresscontrollers/AddAddressController.dart';
 import '../../../utils/CommonAppBarWidget.dart';
 import '../../../utils/CommonValidations.dart';
@@ -43,10 +43,10 @@ class _AddaddressscreenState extends State<Addaddressscreen> {
                 height: 2.h,
               ),
               Commonformfield(
-                  hinttext: address_line,
-                  fieldcontroller: controller.addresslinecontroller,
+                  hinttext: houseno,
+                  fieldcontroller: controller.housenocontroller,
                   validator: (value){
-                    return  txtValidator(value,please_address_line);
+                    return  txtValidator(value,please_houseno);
                   }
               ),
               SizedBox(
@@ -73,9 +73,19 @@ class _AddaddressscreenState extends State<Addaddressscreen> {
                   height:2.h
               ),
               Commonformfield(
+                  hinttext: street_txt,
+                  fieldcontroller: controller.streetcontroller,
+                  validator: (value){
+                    return  txtValidator(value,please_street_txt);
+                  }
+              ),
+              SizedBox(
+                  height:2.h
+              ),
+              Commonformfield(
                 keyboardtype: TextInputType.number,
                   hinttext: postal_code,
-                  fieldcontroller: controller.postalcodecontroller,
+                  fieldcontroller: controller.pincodecodecontroller,
                   validator: (value){
                     return  txtValidator(value,please_postal_code);
                   }
@@ -84,10 +94,10 @@ class _AddaddressscreenState extends State<Addaddressscreen> {
                   height:2.h
               ),
               Commonformfield(
-                  hinttext: country_txt,
-                  fieldcontroller: controller.countrycontroller,
+                  hinttext: landmark_txt,
+                  fieldcontroller: controller.landmarkcontroller,
                   validator: (value){
-                    return  txtValidator(value,please_country_txt);
+                    return  txtValidator(value,please_Landmark_txt);
                   }
               ),
               SizedBox(
@@ -97,7 +107,7 @@ class _AddaddressscreenState extends State<Addaddressscreen> {
                 title: "+ $add_address",
                 onTap: (){
                 if (controller.formKey.currentState!.validate()) {
-                Get.back();
+                  controller.addaddress_api();
                 }
               },),
             ],

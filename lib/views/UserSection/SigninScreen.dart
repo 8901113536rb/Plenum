@@ -52,13 +52,13 @@ class _SigninScreenState extends State<SigninScreen> {
                 fit: BoxFit.fitHeight,
               )),
               SizedBox(
-                height: 5.h,
+                height: 15.h,
               ),
               const Text(
                 signin,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 16,
+                  fontSize: 20,
                 ),
               ),
               SizedBox(
@@ -98,61 +98,61 @@ class _SigninScreenState extends State<SigninScreen> {
                     });
               }),
               SizedBox(height: 2.h),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  GestureDetector(
-                      onTap: () {
-                        Get.to(const Forgot_screen());
-                      },
-                      child: const Text(
-                        forgot_password,
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ))
-                ],
-              ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.end,
+              //   children: [
+              //     GestureDetector(
+              //         onTap: () {
+              //           Get.to(const Forgot_screen());
+              //         },
+              //         child: const Text(
+              //           forgot_password,
+              //           style: TextStyle(
+              //             fontSize: 14,
+              //             fontWeight: FontWeight.w500,
+              //           ),
+              //         ))
+              //   ],
+              // ),
               SizedBox(height: 2.h),
               CommonbtnWidget(
                 title: signin,
                 onTap: () {
-                  // if (controller.formKey.currentState!.validate()) {
-                  Get.to(BottomNavScreen());
-                  // }
+                  if (controller.formKey.currentState!.validate()) {
+                    controller.signin_user();
+                  }
                 },
               ),
               SizedBox(
                 height: 15.h,
               ),
-              GestureDetector(
-                onTap: () {
-                  Get.to(const SignupScreen());
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      dont_have_an_account,
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    Text(
-                      sign_up,
-                      style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: singupcolor),
-                    ),
-                  ],
-                ),
-              )
+              // GestureDetector(
+              //   onTap: () {
+              //     Get.to(const SignupScreen());
+              //   },
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.center,
+              //     children: [
+              //       const Text(
+              //         dont_have_an_account,
+              //         style: TextStyle(
+              //           fontSize: 14,
+              //           fontWeight: FontWeight.w500,
+              //         ),
+              //       ),
+              //       const SizedBox(
+              //         width: 5,
+              //       ),
+              //       Text(
+              //         sign_up,
+              //         style: TextStyle(
+              //             fontSize: 14,
+              //             fontWeight: FontWeight.w600,
+              //             color: singupcolor),
+              //       ),
+              //     ],
+              //   ),
+              // )
             ],
           ),
         ),
