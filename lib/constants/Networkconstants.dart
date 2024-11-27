@@ -4,6 +4,9 @@ const String vhImageBaseUrl = "https://adminapp.plenumbiotech.com/";
 const String loginEndpoint = "login";
 const String addaddressEndpoint = "address";
 const String updateProfile = "updateProfile";
+const String myProfile = "myProfile";
+const String getBanner = "banner";
+const String getProducts = "products";
 
 
 

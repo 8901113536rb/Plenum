@@ -8,6 +8,7 @@ import 'package:plenum/views/UserSection/BottomNavUi.dart';
 import '../../api/BaseProvider.dart';
 import '../../constants/Networkconstants.dart';
 import '../../constants/Stringconstants.dart';
+import '../../models/GetprofileModel.dart';
 import '../../utils/CommonToast.dart';
 import '../../utils/Progressdialog.dart';
 import '../../utils/Sharedutils.dart';
@@ -24,6 +25,7 @@ class Profilecontroller extends GetxController{
   RxString selectedImage="".obs;
   final ImagePicker picker = ImagePicker();
   RxBool isObscured = true.obs;
+  Rx<GetprofileModel?> profileData = Rx<GetprofileModel?>(null);
 
   void togglePasswordVisibility() {
     isObscured.value = !isObscured.value;
@@ -33,6 +35,7 @@ class Profilecontroller extends GetxController{
     // TODO: implement onInit
     super.onInit();
     Future.microtask(() {
+      get_profiledata();
     });
   }
 
@@ -108,15 +111,37 @@ class Profilecontroller extends GetxController{
     }
   }
 
-  // void updateTextFields() {
-  //   if (productdata.value != null) {
-  //     firstnameController.text = productdata.value?.data?.shopName ?? '';
-  //     lastnameController.text = productdata.value?.data?.name ?? '';
-  //     phonenumberController.text = productdata.value?.data?.phone ?? '';
-  //     emailController.text = productdata.value?.data?.email ?? '';
-  //     selectedImage.value = productdata.value?.data?.image ?? '';
-  //   }
-  // }
+  get_profiledata() async {
+    showProgressDialog(Get.context!);
+    try{
+      Response response=await Baseprovider().hitget2(url: myProfile);
+      hideprogressDialog(Get.context!);
+      print('Response: ${response.body}');
+      if (response.status.hasError) {
+        print('Error: ${response.statusText}');
+        failed_toast(response.body["message"].toString());
+      } else {
+        if(response.statusCode.toString()==success_statuscode){
+          profileData.value=GetprofileModel.fromJson(response.body);
+          updateTextFields();
+          // setImage(productdata.value?.data?.image);
+          // setPanImage(productdata.value?.data?.identity);
+        }
+      }
+    }catch(e){
+      print('Error: ${e.toString()}');
+    }
+  }
+
+  void updateTextFields() {
+    if (profileData.value != null) {
+      firstnameController.text = profileData.value?.data?.firstName ?? '';
+      lastnameController.text = profileData.value?.data?.lastName ?? '';
+      phonenumberController.text = profileData.value?.data?.phone ?? '';
+      emailController.text = profileData.value?.data?.email ?? '';
+      selectedImage.value = profileData.value?.data?.image ?? '';
+    }
+  }
 
   Future<void> uploadImage(
       File file,

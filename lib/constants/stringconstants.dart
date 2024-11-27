@@ -224,5 +224,6 @@ const String  whatsapp = "WhatsApp";
 const String  website = "Website";
 const String  wrong_credentials = "Login Credentials are incorrect.";
 const String  Login_successfully = "Login Successfully.";
+const String  no_banner_found = "No Banner Found!";
 
 

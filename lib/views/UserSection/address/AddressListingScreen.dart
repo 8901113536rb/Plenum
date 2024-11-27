@@ -7,11 +7,14 @@ import '../../../constants/Textstyles.dart';
 import '../../../constants/appcolors.dart';
 import '../../../controllers/UserControllers/addresscontrollers/AddressListingController.dart';
 import '../../../utils/CommonAppBarWidget.dart';
+import '../../../utils/Sharedutils.dart';
 import 'AddAddressScreen.dart';
 import 'UpdateAdressScreen.dart';
 
 class Addresslistingscreen extends StatefulWidget {
-   Addresslistingscreen({super.key});
+  String? comesfrom;
+  Addresslistingscreen({super.key,required this.comesfrom});
+
 
   @override
   State<Addresslistingscreen> createState() => _AddresslistingscreenState();
@@ -21,25 +24,32 @@ class _AddresslistingscreenState extends State<Addresslistingscreen> {
   Addresslistingcontroller controller=Get.put(Addresslistingcontroller());
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Obx((){
+      return Scaffold(
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
-             await Get.to(Addaddressscreen());
+            final result = await Get.to(Addaddressscreen());
+            print("Message "+result.toString());
+            if (result == 'addressAdded') {
+              controller.get_all_address();
+            }
           },
           child: Icon(Icons.add),
           backgroundColor: themecolor,
         ),
-      appBar: const Commonappbarwidget(
-        leftText: address,
-        showBackArrow: true,
-      ),
+        appBar: const Commonappbarwidget(
+          leftText: address,
+          showBackArrow: true,
+        ),
         body: addresslistview(),
       );
+    });
   }
   Widget addresslistview(){
-    return ListView.builder(
+    return controller.addressdata.isNotEmpty?
+           ListView.builder(
         padding: EdgeInsets.only(bottom: 2.h),
-        itemCount: 3,
+        itemCount: controller.addressdata.length,
         itemBuilder: (BuildContext context, int index) {
           return Container(
             width: double.infinity,
@@ -68,18 +78,29 @@ class _AddresslistingscreenState extends State<Addresslistingscreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Mohali",style: TextStyle(fontSize: 14,fontWeight: FontWeight.w600,color: blackcolor),),
+                      Text(controller.addressdata[index].houseNumber.toString(),style: TextStyle(fontSize: 14,fontWeight: FontWeight.w600,color: blackcolor),),
                       Row(
                         children: [
                           GestureDetector(
-                              onTap: (){
-                               Get.to(Updateadressscreen());
+                              onTap: () async{
+                                final result =  await Get.to(Updateadressscreen(
+                                  houseno:controller.addressdata[index].houseNumber.toString(),
+                                  city:controller.addressdata[index].city.toString(),
+                                  state:controller.addressdata[index].state.toString(),
+                                  street:controller.addressdata[index].street.toString(),
+                                  postalcode:controller.addressdata[index].pincode.toString(),
+                                  landmark:controller.addressdata[index].landmark.toString(),
+                                  id:controller.addressdata[index].id.toString(),
+                                ));
+                                if (result == 'addressUpdated') {
+                                  controller.get_all_address(); // Fetch the address list again
+                                }
                               },
                               child: Icon(Icons.edit_outlined,color:Colors.black ,)),
                           SizedBox(width: 3.w,),
                           GestureDetector(
                               onTap: (){
-                                controller.delete_address(6);
+                                controller.delete_address(controller.addressdata[index].id!.toInt());
                               },
                               child: Icon(Icons.delete_outline_outlined,color:ordercncl_color ,)),
                         ],
@@ -87,10 +108,11 @@ class _AddresslistingscreenState extends State<Addresslistingscreen> {
                     ],
                   ),
                   SizedBox(height: 1.h,),
-                  SizedBox(width:50.w,child: Text("1469",style: TextStyle(fontSize: 12,fontWeight: FontWeight.w500,color: blackcolor,overflow: TextOverflow.ellipsis))),
+                  SizedBox(width:50.w,child: Text(controller.addressdata[index].street.toString(),style: TextStyle(fontSize: 12,fontWeight: FontWeight.w500,color: blackcolor,overflow: TextOverflow.ellipsis))),
                   SizedBox(height: 1.h,),
-                  SizedBox(width:50.w,child: Text("phase 5",style: TextStyle(fontSize: 12,fontWeight: FontWeight.w500,color: blackcolor,overflow: TextOverflow.ellipsis))),
+                  SizedBox(width:50.w,child: Text(controller.addressdata[index].city.toString(),style: TextStyle(fontSize: 12,fontWeight: FontWeight.w500,color: blackcolor,overflow: TextOverflow.ellipsis))),
                   SizedBox(height: 1.h,),
+                  widget.comesfrom=="Placeorder"?
                   InkWell(
                     onTap: () {
                       setState(() async {
@@ -109,6 +131,18 @@ class _AddresslistingscreenState extends State<Addresslistingscreen> {
                           value: index,
                           groupValue: controller.selectedAddressIndex.value, // Selected value
                           onChanged: (int? value) {
+                            setState(() {
+                              controller.selectedAddressIndex.value = value!;
+                              print(controller.selectedAddressIndex.value.toString());
+                              if(widget.comesfrom=="Placeorder"){
+                                String userdetails=jsonEncode(controller.addressdata.elementAt(index));
+                                SharedUtils().save_address_data(userdetails);
+                                Get.back(result: controller.addressdata[index]);
+                              }else{
+                                String userdetails=jsonEncode(controller.addressdata.elementAt(index));
+                                SharedUtils().save_address_data(userdetails);
+                              }
+                            });
                           },
                           activeColor: themecolor,
                         ),
@@ -123,12 +157,13 @@ class _AddresslistingscreenState extends State<Addresslistingscreen> {
                         ),
                       ],
                     ),
-                  )
+                  ):SizedBox()
                 ],
               ),
             ),
           );
-        });
+        }):
+           Center(child: Text(no_data_found,style: Common_textstyles.ordrdtltitleTextStyle,));
   }
 
 }

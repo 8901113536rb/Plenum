@@ -10,8 +10,21 @@ import '../../../utils/CommonbtnWidget.dart';
 import '../../../utils/Commonformfield.dart';
 
 class Updateadressscreen extends StatefulWidget {
-  Updateadressscreen({
-    super.key,
+  String houseno;
+  String city;
+  String state;
+  String street;
+  String postalcode;
+  String landmark;
+  String id;
+  Updateadressscreen({super.key,
+    required this.houseno,
+    required this.city,
+    required this.state,
+    required this.street,
+    required this.postalcode,
+    required this.landmark,
+    required this.id
   });
 
   @override
@@ -23,6 +36,12 @@ class _UpdateadressscreenState extends State<Updateadressscreen> {
   @override
   void initState() {
     super.initState();
+    controller.housenocontroller = TextEditingController(text: widget.houseno);
+    controller.citycontroller = TextEditingController(text: widget.city);
+    controller.statecontroller = TextEditingController(text: widget.state);
+    controller.pincodecodecontroller = TextEditingController(text: widget.postalcode);
+    controller.streetcontroller = TextEditingController(text: widget.street);
+    controller.landmarkcontroller = TextEditingController(text: widget.landmark);
   }
 
   @override
@@ -108,7 +127,7 @@ class _UpdateadressscreenState extends State<Updateadressscreen> {
                 title: update_address,
                 onTap: () {
                   if (controller.formKey.currentState!.validate()) {
-                    controller.updateaddress_api("6");
+                    controller.updateaddress_api(widget.id.toString());
                   }
                 },
               ),

@@ -83,14 +83,16 @@ class _Profile_screenState extends State<Myprofilescreen> {
                             highlightColor: screenbgcolor,
                             splashColor: screenbgcolor,
                             onTap: (){
-                              Get.to(Profileui());
+                              Get.to(Profileui())?.then((result) {
+                                controller.getuserdetails();
+                              });
                             },
                             child: profile_items(yourprofile,"profile_icon.svg",)),
                         InkWell(
                             highlightColor: screenbgcolor,
                             splashColor: screenbgcolor,
                             onTap: (){
-                              Get.to(Addresslistingscreen());
+                              Get.to(Addresslistingscreen(comesfrom: "address",));
                             },
                             child: profile_items(delivery_address,"deliveryaddress.svg",)),
                         InkWell(
@@ -122,8 +124,8 @@ class _Profile_screenState extends State<Myprofilescreen> {
           return CircleAvatar(
             radius: 45,
             backgroundImage: controller.profile_image.isNotEmpty
-                ? NetworkImage(vhImageBaseUrl + controller.profile_image.value)
-                : const AssetImage(images_baseurl+"profilepic.png"), // Default avatar
+                ? NetworkImage(vhImageBaseUrl + controller.profile_image.value,)
+                : const AssetImage("${images_baseurl}profilepic.png"), // Default avatar
           );
         }),
       ],

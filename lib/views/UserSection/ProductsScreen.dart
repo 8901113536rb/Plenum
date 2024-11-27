@@ -19,7 +19,14 @@ class Productsscreen extends StatefulWidget {
 
 class _ProductsscreenState extends State<Productsscreen> {
   Productscontroller controller = Get.put(Productscontroller());
-
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Future.microtask(() {
+      controller.get_product();
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Obx((){
@@ -488,7 +495,7 @@ class _ProductsscreenState extends State<Productsscreen> {
   Widget productlistview(){
     return ListView.builder(
       // padding: EdgeInsets.only(bottom: 2.h),
-        itemCount: 8,
+        itemCount: controller.products.l,
         itemBuilder: (BuildContext context, int index) {
           return Column(
             children: [
