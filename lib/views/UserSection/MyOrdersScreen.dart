@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:plenum/views/MyOrderDetailUi.dart';
 import 'package:sizer/sizer.dart';
 import '../../constants/appcolors.dart';
 import '../../constants/stringconstants.dart';
@@ -19,7 +20,15 @@ class Myordersscreen extends StatefulWidget {
 
 class _MyordersscreenState extends State<Myordersscreen> {
   Myorderscontroller controller = Get.put(Myorderscontroller());
-
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    // controller.searchcontroller.text=widget.searchdata!;
+    Future.microtask(() {
+      controller.get_orders();
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Obx((){
@@ -488,7 +497,7 @@ class _MyordersscreenState extends State<Myordersscreen> {
   Widget productlistview(){
     return ListView.builder(
       // padding: EdgeInsets.only(bottom: 2.h),
-        itemCount: 8,
+        itemCount: controller.orders.length,
         itemBuilder: (BuildContext context, int index) {
           return Column(
             children: [
@@ -497,109 +506,115 @@ class _MyordersscreenState extends State<Myordersscreen> {
                 children: [
                   // Main Container
                   Positioned(
-                    child: Container(
-                      width: double.infinity,
-                      // height: 15.5.h,
-                      margin: EdgeInsets.only(left: 4.w, right: 4.w),
-                      decoration: BoxDecoration(
-                        color: boxcolor,
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(.2),
-                            blurRadius: 20.0, // Soften the shadow
-                            spreadRadius: 0.0, // Extend the shadow
-                            offset: Offset(
-                              5.0, // Move right 5 horizontally
-                              5.0, // Move down 5 vertically
-                            ),
-                          )
-                        ],
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 1.5.h),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            SizedBox(
-                              width: 30.w,
-                              height: 14.h,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.all(Radius.circular(18.0)),
+                    child: GestureDetector(
+                      onTap: (){
+                        Get.to(Myorderdetailui(productid:   controller.orders.elementAt(index).products?[0].id?.toInt()??0,));
+                      },
+                      child: Container(
+                        width: double.infinity,
+                        // height: 15.5.h,
+                        margin: EdgeInsets.only(left: 4.w, right: 4.w),
+                        decoration: BoxDecoration(
+                          color: boxcolor,
+                          borderRadius: BorderRadius.circular(20),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(.2),
+                              blurRadius: 20.0, // Soften the shadow
+                              spreadRadius: 0.0, // Extend the shadow
+                              offset: Offset(
+                                5.0, // Move right 5 horizontally
+                                5.0, // Move down 5 vertically
+                              ),
+                            )
+                          ],
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 1.5.h),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              SizedBox(
+                                width: 30.w,
+                                height: 14.h,
                                 child: CommonImageWidget(
-                                  imageSourceType: ImageSourceType.asset,
-                                  imageUrl: images_baseurl + "dummy_image.png",
+                                  imageSourceType: ImageSourceType.cached_image,
+                                  imageUrl: controller.orders.elementAt(index).products?[0].product?.productImage.toString()??"",
                                   fit: BoxFit.fill,
                                 ),
                               ),
-                            ),
-                            //SizedBox(width: 1.w),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "ALBINO - | Tab",
-                                  style: TextStyle(
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.w600,
-                                    color: black,
-                                  ),
-                                ),
-                                SizedBox(height: 1.h),
-                                SizedBox(
-                                  width: 35.w,
-                                  child: Text(
-                                    "gtyu hgdfd  fgyu hbvg ty7u jhbgy 78uijbgh yujhnbghyujyhgyh",
-                                    maxLines: 2,
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w500,
-                                      color: black,
+                              //SizedBox(width: 1.w),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  SizedBox(
+                                    width: 35.w,
+                                    child: Text(
+                                      controller.orders.elementAt(index).products?[0].product?.name.toString()??"",
                                       overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.w600,
+                                        color: black,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                SizedBox(height: 1.5.h,),
-                                Row(
-                                  children: [
-                                    Container(
-                                      padding: const EdgeInsets.all(3),
-                                      decoration: BoxDecoration(
-                                          color: themecolor,
-                                          borderRadius: BorderRadius.circular(5)),
-                                      child: Icon(
-                                        Icons.add,
-                                        color: white,
-                                        size: 20,
+                                  SizedBox(height: 1.h),
+                                  SizedBox(
+                                    width: 35.w,
+                                    child: Text(
+                                      controller.orders.elementAt(index).products?[0].product?.description.toString()??"",
+                                      maxLines: 2,
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w500,
+                                        color: black,
+                                        overflow: TextOverflow.ellipsis,
                                       ),
                                     ),
-                                    SizedBox(width: 1.w,),
-                                    Container(
-                                      padding:  EdgeInsets.all(3),
-                                      child: Text("0",style: TextStyle(color: black,fontSize: 15),),
-                                    ),
-                                    SizedBox(width: 1.w,),
-                                    Container(
-                                      padding: const EdgeInsets.all(3),
-                                      decoration: BoxDecoration(
-                                          color: themecolor,
-                                          borderRadius: BorderRadius.circular(5)),
-                                      child: Icon(
-                                        Icons.remove,
-                                        color: white,
-                                        size: 20,
+                                  ),
+                                  SizedBox(height: 1.5.h,),
+                                  Row(
+                                    children: [
+                                      Container(
+                                        padding: const EdgeInsets.all(3),
+                                        decoration: BoxDecoration(
+                                            color: themecolor,
+                                            borderRadius: BorderRadius.circular(5)),
+                                        child: Icon(
+                                          Icons.add,
+                                          color: white,
+                                          size: 20,
+                                        ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(width:2.w,),
-                              ],
-                            ),
-                            Icon(Icons.favorite, color: ordercncl_color),
-                            Icon(Icons.share_outlined, color: black),
-                          ],
+                                      SizedBox(width: 1.w,),
+                                      Container(
+                                        padding:  EdgeInsets.all(3),
+                                        child: Text("0",style: TextStyle(color: black,fontSize: 15),),
+                                      ),
+                                      SizedBox(width: 1.w,),
+                                      Container(
+                                        padding: const EdgeInsets.all(3),
+                                        decoration: BoxDecoration(
+                                            color: themecolor,
+                                            borderRadius: BorderRadius.circular(5)),
+                                        child: Icon(
+                                          Icons.remove,
+                                          color: white,
+                                          size: 20,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(width:2.w,),
+                                ],
+                              ),
+                              Icon(Icons.favorite, color: ordercncl_color),
+                              Icon(Icons.share_outlined, color: black),
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -626,7 +641,7 @@ class _MyordersscreenState extends State<Myordersscreen> {
                         ),
                         child: Center(
                           child: Text(
-                            'MRP Rs.42 per Bottle',
+                            "MRP Rs.  ${  controller.orders.elementAt(index).products?[0].product?.price}",
                             style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w600,

@@ -346,11 +346,11 @@ class _DashboarduiState extends State<Dashboardui> {
                 child:
                     Text(name[index], style: Common_textstyles.optionbtnstyle),
               ),
-              Positioned(
-                top: 3.h,
-                left: 3.w,
-                child: Text("1", style: Common_textstyles.optionbtnstyle),
-              ),
+              // Positioned(
+              //   top: 3.h,
+              //   left: 3.w,
+              //   child: Text("1", style: Common_textstyles.optionbtnstyle),
+              // ),
               Positioned(
                 top: 1.5.h,
                 right: 3.w,

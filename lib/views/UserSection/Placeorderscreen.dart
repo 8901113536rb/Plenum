@@ -259,7 +259,7 @@ class _PlaceorderscreenState extends State<Placeorderscreen> {
                     height: 0.4.h,
                   ),
                   Text(
-                      "${currency}30",
+                      currency+controller.totalAmount.value.toString(),
                       style: TextStyle(
                           fontWeight: FontWeight.w500,
                           fontSize: 13,
@@ -352,7 +352,7 @@ class _PlaceorderscreenState extends State<Placeorderscreen> {
                 style: Common_textstyles.checkoutTextStyle,
               ),
               onPressed: () {
-              Get.to(PlaceordersuccessScreen());
+                controller.placeorder(controller.addressdata.value!.id.toString());
               },
             ),
           ],

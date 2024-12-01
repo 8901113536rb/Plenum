@@ -2,11 +2,11 @@ import 'package:get/get.dart';
 
 import '../../api/BaseProvider.dart';
 import '../../constants/Networkconstants.dart';
-import '../../models/GetProductDetailModel.dart';
+import '../../models/GetMyOrderDetailModel.dart';
 import '../../utils/CommonToast.dart';
 import '../../utils/Progressdialog.dart';
 
-class ProductDetailController extends GetxController{
+class Getmyorderdetailcontroller extends GetxController{
   final List<String> variants = [
     'Small',
     'Medium',
@@ -21,10 +21,10 @@ class ProductDetailController extends GetxController{
     super.onInit();
 
   }
-  get_productdetail(int productid) async {
+  get_orderdetail(int productid) async {
     showProgressDialog(Get.context!);
     try{
-      Response response=await Baseprovider().hitget2(url: getProductDetails+productid.toString());
+      Response response=await Baseprovider().hitget2(url: getuser_orders_endpoint+productid.toString());
       hideprogressDialog(Get.context!);
       print('Response: ${response.body}');
       if (response.status.hasError) {
@@ -32,7 +32,7 @@ class ProductDetailController extends GetxController{
         failed_toast(response.body["message"].toString());
       } else {
         if(response.statusCode.toString()==success_statuscode){
-          GetProductDetailModel productdata=GetProductDetailModel.fromJson(response.body);
+          GetMyOrderDetailModel productdata=GetMyOrderDetailModel.fromJson(response.body);
           products.value=productdata.data;
         }
       }

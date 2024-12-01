@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:sizer/sizer.dart';
 import '../../constants/Stringconstants.dart';
 import '../../constants/appcolors.dart';
+import '../../controllers/NotificationController.dart';
 import '../../utils/CommonAppBarWidget.dart';
 import '../../utils/CommonImageWidget.dart';
 
@@ -13,23 +16,34 @@ class Notificationui extends StatefulWidget {
 }
 
 class _NotificationuiState extends State<Notificationui> {
+  Notificationcontroller controller = Get.put(Notificationcontroller());
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Future.microtask(() {
+      controller.get_notification();
+    });
+  }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: screenbgcolor,
-      appBar: const Commonappbarwidget(
-        leftText: notifications,
-        showBackArrow: true,
+    return Obx((){
+      return Scaffold(
+        backgroundColor: screenbgcolor,
+        appBar: const Commonappbarwidget(
+          leftText: notifications,
+          showBackArrow: true,
 
 
-      ),
-      body: notificationView(),
-    );
+        ),
+        body: notificationView(),
+      );
+    });
   }
   Widget notificationView(){
     return ListView.builder(
         padding: EdgeInsets.only(bottom: 2.h),
-        itemCount: 5,
+        itemCount: controller.notificationdata.length,
         itemBuilder: (BuildContext context, int index) {
           return Container(
             width: double.infinity,
@@ -55,14 +69,14 @@ class _NotificationuiState extends State<Notificationui> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("Product Status Changed",style: TextStyle(fontSize: 15,fontWeight: FontWeight.w600,color: black),),
+                  Text(controller.notificationdata[index].title.toString(),style: TextStyle(fontSize: 15,fontWeight: FontWeight.w600,color: black),),
                   SizedBox(height: 0.6.h,),
-                  Text("gtyu hgdfd  fgyu hbvg ty7u jhbgy 78uijbgh yuj hnbghyu",maxLines: 2,style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500,color: black,overflow: TextOverflow.ellipsis)),
+                  Text(controller.notificationdata[index].description.toString(),maxLines: 2,style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500,color: black,overflow: TextOverflow.ellipsis)),
                   SizedBox(height: 0.6.h,),
                   Row(
                     children: [
                       Text("Create: ",style: TextStyle(fontSize: 12,fontWeight: FontWeight.w500,color: black)),
-                      Text("05 Aug 2024 12:31 pm",style: TextStyle(fontSize: 12,fontWeight: FontWeight.w500,color: black)),
+                      Text(controller.formatDateTime(controller.notificationdata[index].createdAt.toString()),style: TextStyle(fontSize: 12,fontWeight: FontWeight.w500,color: black)),
                     ],
                   ),
                 ],

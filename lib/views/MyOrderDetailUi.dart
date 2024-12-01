@@ -1,6 +1,4 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:dots_indicator/dots_indicator.dart';
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -8,21 +6,21 @@ import 'package:sizer/sizer.dart';
 import '../../constants/Appcolors.dart';
 import '../../constants/Textstyles.dart';
 import '../../constants/stringconstants.dart';
-import '../../controllers/UserControllers/ProductDetailsController.dart';
 import '../../utils/CommonImageWidget.dart';
-import 'Placeorderscreen.dart';
+import '../controllers/UserControllers/GetMyOrderDetailController.dart';
+import 'UserSection/Placeorderscreen.dart';
 
-class Productdetailscreen extends StatefulWidget {
+class Myorderdetailui extends StatefulWidget {
   int productid;
-  Productdetailscreen({Key? key, required this.productid}) : super(key: key);
+  Myorderdetailui({Key? key, required this.productid}) : super(key: key);
 
   @override
-  State<Productdetailscreen> createState() => _Product_detail_screenState();
+  State<Myorderdetailui> createState() => _Myorderdetailui_screenState();
 }
 
-class _Product_detail_screenState extends State<Productdetailscreen> {
+class _Myorderdetailui_screenState extends State<Myorderdetailui> {
   int selected_image = 0;
-  ProductDetailController controller = Get.put(ProductDetailController());
+  Getmyorderdetailcontroller controller = Get.put(Getmyorderdetailcontroller());
 
   int sizeindex = 0;
   String selectedValue = "";
@@ -31,60 +29,60 @@ class _Product_detail_screenState extends State<Productdetailscreen> {
     // TODO: implement initState
     super.initState();
     Future.microtask(() {
-      controller.get_productdetail(widget.productid);
+      controller.get_orderdetail(widget.productid);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        bottomNavigationBar: Container(
-          padding: EdgeInsets.symmetric(horizontal: 2.5.w, vertical: 0.5.h),
-          height: 7.h, // Adjust height to fit both buttons
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              GestureDetector(
-                onTap: () {
-                  Get.to(Placeorderscreen());
-                },
-                child: Container(
-                  // margin: EdgeInsets.symmetric(horizontal: 15.w),
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    color: themecolor,
-                  ),
-                  height: 6.h,
-                  width: double.infinity,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      // Icon(Icons.share,color: white,size: 18,),
-                      // SizedBox(width: 1.w,),
-                      Text(
-                        placeorder,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
-                            color: white),
-                      ),
-                    ],
+    return Obx((){
+      return Scaffold(
+          bottomNavigationBar: Container(
+            padding: EdgeInsets.symmetric(horizontal: 2.5.w, vertical: 0.5.h),
+            height: 7.h, // Adjust height to fit both buttons
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    Get.to(Placeorderscreen());
+                  },
+                  child: Container(
+                    // margin: EdgeInsets.symmetric(horizontal: 15.w),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: themecolor,
+                    ),
+                    height: 6.h,
+                    width: double.infinity,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        // Icon(Icons.share,color: white,size: 18,),
+                        // SizedBox(width: 1.w,),
+                        Text(
+                          placeorder,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w600,
+                              color: white),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-        body: Container(
-          child: Column(
+          body: Column(
             children: [
               product_imageview(),
               product_content(),
             ],
-          ),
-        ));
+          ));
+    });
   }
 
   Widget product_content() {
@@ -109,16 +107,16 @@ class _Product_detail_screenState extends State<Productdetailscreen> {
               itemCount: 1,
               itemBuilder:
                   (BuildContext context, int itemIndex, int pageViewIndex) =>
-                      Container(
-                height: 30.h,
-                // margin: EdgeInsets.only(left: 5, right: 5),
-                child: CommonImageWidget(
-                  imageSourceType: ImageSourceType.asset,
-                  imageUrl: images_baseurl + "dummy_image.png",
-                  borderRadius: BorderRadius.circular(0),
-                  fit: BoxFit.cover,
-                ),
-              ),
+                  Container(
+                    height: 30.h,
+                    // margin: EdgeInsets.only(left: 5, right: 5),
+                    child: CommonImageWidget(
+                      imageSourceType: ImageSourceType.asset,
+                      imageUrl: images_baseurl + "dummy_image.png",
+                      borderRadius: BorderRadius.circular(0),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
               options: CarouselOptions(
                 enableInfiniteScroll: false,
                 viewportFraction: 1,
@@ -169,27 +167,27 @@ class _Product_detail_screenState extends State<Productdetailscreen> {
                           },
                           child: controller.favouritestatus.value
                               ? Container(
-                                  margin: EdgeInsets.all(5),
-                                  height: 3.h,
-                                  alignment: Alignment.centerRight,
-                                  width: 20.w,
-                                  child: Icon(
-                                    Icons.favorite,
-                                    color: ordercncl_color,
-                                    size: 30,
-                                  ),
-                                )
+                            margin: EdgeInsets.all(5),
+                            height: 3.h,
+                            alignment: Alignment.centerRight,
+                            width: 20.w,
+                            child: Icon(
+                              Icons.favorite,
+                              color: ordercncl_color,
+                              size: 30,
+                            ),
+                          )
                               : Container(
-                                  margin: EdgeInsets.all(5),
-                                  height: 3.h,
-                                  alignment: Alignment.centerRight,
-                                  width: 20.w,
-                                  child: Icon(
-                                    Icons.favorite_border,
-                                    color: ordercncl_color,
-                                    size: 30,
-                                  ),
-                                )),
+                            margin: EdgeInsets.all(5),
+                            height: 3.h,
+                            alignment: Alignment.centerRight,
+                            width: 20.w,
+                            child: Icon(
+                              Icons.favorite_border,
+                              color: ordercncl_color,
+                              size: 30,
+                            ),
+                          )),
                     ],
                   ),
                   SizedBox(
@@ -217,7 +215,7 @@ class _Product_detail_screenState extends State<Productdetailscreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                controller.products.value?.name.toString() ?? "",
+                controller.products.value?.products?[0].product?.name.toString() ?? "",
                 style: Common_textstyles.producttitlestyle,
               ),
             ],
@@ -226,7 +224,7 @@ class _Product_detail_screenState extends State<Productdetailscreen> {
             height: 10,
           ),
           Text(
-            controller.products.value?.description.toString() ?? "",
+            controller.products.value?.products?[0].product?.description.toString() ?? "",
             style: Common_textstyles.productdescstyle,
             maxLines: 6,
             overflow: TextOverflow.ellipsis,
@@ -337,7 +335,7 @@ class _Product_detail_screenState extends State<Productdetailscreen> {
                 style: Common_textstyles.productoptionstyle,
               ),
               option_btn(
-                  controller.products.value?.packingType.toString() ?? "")
+                  controller.products.value?.products?[0].product?.packingType.toString() ?? "")
             ],
           ),
           const SizedBox(
@@ -351,7 +349,7 @@ class _Product_detail_screenState extends State<Productdetailscreen> {
                 style: Common_textstyles.productoptionstyle,
               ),
               option_btn(
-                  controller.products.value?.packingSize.toString() ?? "")
+                  controller.products.value?.products?[0].product?.packingSize.toString() ?? "")
             ],
           ),
           const SizedBox(
@@ -365,14 +363,13 @@ class _Product_detail_screenState extends State<Productdetailscreen> {
                 style: Common_textstyles.productoptionstyle,
               ),
               option_btn(
-                  "$currency " + controller.products.value!.price.toString() ??
-                      ""),
+                  "$currency ${controller.products.value?.products![0].price}" ?? ""),
             ],
           ),
           const SizedBox(
             height: 25,
           ),
-          totalAmount()
+          // totalAmount()
         ],
       ),
     );
@@ -395,25 +392,25 @@ class _Product_detail_screenState extends State<Productdetailscreen> {
   }
 
   Widget totalAmount() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          total_amountstr,
-          style: Common_textstyles.totalamountstyle,
-        ),
-        Row(
-          children: [
-            const SizedBox(
-              width: 20,
-            ),
-            Text(
-              currency + controller.products.value!.price.toString() ?? "",
-              style: Common_textstyles.totalamountstyle,
-            ),
-          ],
-        ),
-      ],
-    );
+    return  Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            total_amountstr,
+            style: Common_textstyles.totalamountstyle,
+          ),
+          Row(
+            children: [
+              const SizedBox(
+                width: 20,
+              ),
+              Text(
+                currency +  controller.products.value!.products![0].price.toString()??"",
+                style: Common_textstyles.totalamountstyle,
+              ),
+            ],
+          ),
+        ],
+      );
   }
 }

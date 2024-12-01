@@ -16,6 +16,11 @@ const String getUpcomingProducts = "products/upcoming";
 const String getnewLaunchesProducts = "products/newLaunches";
 const String getCartProducts = "cart";
 const String aboutus = "setting";
+const String getNotifications = "notifications";
+const String getProductDetails = "products/";
+const String orderplace_endpoint = "order/create";
+const String myorders_endpoint = "user/orders";
+const String getuser_orders_endpoint = "user/order/";
 
 
 
@@ -30,6 +35,7 @@ const String key_city = "city";
 const String key_state = "state";
 const String key_pincode = "pincode";
 const String key_landmark = "landmark";
+const String key_address_id = "address_id";
 
 
 //api's status code
