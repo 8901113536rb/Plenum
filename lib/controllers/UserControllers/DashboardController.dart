@@ -12,14 +12,13 @@ import '../../utils/CommonToast.dart';
 class Dashboardcontroller extends GetxController{
   final key = GlobalKey<ExpandableFabState>();
   RxDouble currentIndex=0.0.obs;
-  var bannerlist=<Data>[].obs;
   var bannerimages=[].obs;
   int selected_banner = 0;
-  final List<String> imageList = [
-    "dummy_image.png",
-    "dummy_image.png",
-    "dummy_image.png",
-  ].obs;
+  // final List<String> imageList = [
+  //   "dummy_image.png",
+  //   "dummy_image.png",
+  //   "dummy_image.png",
+  // ].obs;
   Future<void> onInit() async {
     // TODO: implement onInit
     super.onInit();
@@ -39,8 +38,8 @@ class Dashboardcontroller extends GetxController{
       } else {
         if(response.body["status"]==true){
           GetBannerModel bannerdata=GetBannerModel.fromJson(response.body);
-          bannerlist.value=bannerdata.data!;
           bannerimages.value = bannerdata.data!.map((banner) => banner.image).toList();
+          print("all images --> $bannerimages");
         }
       }
     }catch(e){

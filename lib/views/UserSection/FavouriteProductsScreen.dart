@@ -19,6 +19,21 @@ class Favouriteproductsscreen extends StatefulWidget {
 
 class _FavouriteproductsscreenState extends State<Favouriteproductsscreen> {
   Favouriteproductscontroller controller = Get.put(Favouriteproductscontroller());
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    // controller.searchcontroller.text=widget.searchdata!;
+    Future.microtask(() {
+      if(controller.searchcontroller.text.isNotEmpty){
+        // controller.search_product();
+      }else{
+        Future.microtask(() {
+          controller.get_favouriteproduct();
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -488,7 +503,7 @@ class _FavouriteproductsscreenState extends State<Favouriteproductsscreen> {
   Widget productlistview(){
     return ListView.builder(
       // padding: EdgeInsets.only(bottom: 2.h),
-        itemCount: 8,
+        itemCount: controller.products.length,
         itemBuilder: (BuildContext context, int index) {
           return Column(
             children: [
@@ -525,13 +540,10 @@ class _FavouriteproductsscreenState extends State<Favouriteproductsscreen> {
                             SizedBox(
                               width: 30.w,
                               height: 14.h,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.all(Radius.circular(18.0)),
-                                child: CommonImageWidget(
-                                  imageSourceType: ImageSourceType.asset,
-                                  imageUrl: images_baseurl + "dummy_image.png",
-                                  fit: BoxFit.fill,
-                                ),
+                              child: CommonImageWidget(
+                                imageSourceType: ImageSourceType.cached_image,
+                                imageUrl: controller.products.elementAt(index).product?.productImage.toString()??"",
+                                fit: BoxFit.fill,
                               ),
                             ),
                             //SizedBox(width: 1.w),
@@ -539,19 +551,23 @@ class _FavouriteproductsscreenState extends State<Favouriteproductsscreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(
-                                  "ALBINO - | Tab",
-                                  style: TextStyle(
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.w600,
-                                    color: black,
+                                SizedBox(
+                                  width: 35.w,
+                                  child: Text(
+                                    controller.products.elementAt(index).product?.name.toString()??"",
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.w600,
+                                      color: black,
+                                    ),
                                   ),
                                 ),
                                 SizedBox(height: 1.h),
                                 SizedBox(
                                   width: 35.w,
                                   child: Text(
-                                    "gtyu hgdfd  fgyu hbvg ty7u jhbgy 78uijbgh yujhnbghyujyhgyh",
+                                    controller.products.elementAt(index).product?.description.toString()??"",
                                     maxLines: 2,
                                     style: TextStyle(
                                       fontSize: 12,
@@ -626,7 +642,7 @@ class _FavouriteproductsscreenState extends State<Favouriteproductsscreen> {
                         ),
                         child: Center(
                           child: Text(
-                            'MRP Rs.42 per Bottle',
+                            "MRP Rs.  ${controller.products.elementAt(index).product?.price.toString()}",
                             style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w600,

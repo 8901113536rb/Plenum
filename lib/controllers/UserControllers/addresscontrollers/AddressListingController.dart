@@ -65,7 +65,7 @@ class Addresslistingcontroller extends GetxController{
         failed_toast(response.body["message"].toString());
       } else {
         success_toast(response.body["message"].toString());
-        //get_all_address();
+        get_all_address();
       }
     }catch(e){
       print('Error: ${e.toString()}');

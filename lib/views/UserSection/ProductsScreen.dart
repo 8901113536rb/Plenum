@@ -23,8 +23,15 @@ class _ProductsscreenState extends State<Productsscreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    // controller.searchcontroller.text=widget.searchdata!;
     Future.microtask(() {
-      controller.get_product();
+      if(controller.searchcontroller.text.isNotEmpty){
+        // controller.search_product();
+      }else{
+        Future.microtask(() {
+          controller.get_product();
+        });
+      }
     });
   }
   @override
@@ -495,7 +502,7 @@ class _ProductsscreenState extends State<Productsscreen> {
   Widget productlistview(){
     return ListView.builder(
       // padding: EdgeInsets.only(bottom: 2.h),
-        itemCount: controller.products.l,
+        itemCount: controller.products.length,
         itemBuilder: (BuildContext context, int index) {
           return Column(
             children: [
@@ -532,13 +539,10 @@ class _ProductsscreenState extends State<Productsscreen> {
                             SizedBox(
                               width: 30.w,
                               height: 14.h,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.all(Radius.circular(18.0)),
-                                child: CommonImageWidget(
-                                  imageSourceType: ImageSourceType.asset,
-                                  imageUrl: images_baseurl + "dummy_image.png",
-                                  fit: BoxFit.fill,
-                                ),
+                              child: CommonImageWidget(
+                                imageSourceType: ImageSourceType.cached_image,
+                                imageUrl: controller.products.elementAt(index).productImage.toString(),
+                                fit: BoxFit.fill,
                               ),
                             ),
                             //SizedBox(width: 1.w),
@@ -546,19 +550,23 @@ class _ProductsscreenState extends State<Productsscreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(
-                                  "ALBINO - | Tab",
-                                  style: TextStyle(
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.w600,
-                                    color: black,
+                                SizedBox(
+                                  width: 35.w,
+                                  child: Text(
+                                    controller.products.elementAt(index).name.toString(),
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.w600,
+                                      color: black,
+                                    ),
                                   ),
                                 ),
                                 SizedBox(height: 1.h),
                                 SizedBox(
                                   width: 35.w,
                                   child: Text(
-                                    "gtyu hgdfd  fgyu hbvg ty7u jhbgy 78uijbgh yujhnbghyujyhgyh",
+                                    controller.products.elementAt(index).description.toString(),
                                     maxLines: 2,
                                     style: TextStyle(
                                       fontSize: 12,
@@ -604,7 +612,25 @@ class _ProductsscreenState extends State<Productsscreen> {
                                 SizedBox(width:2.w,),
                               ],
                             ),
-                            Icon(Icons.favorite, color: ordercncl_color),
+                            GestureDetector(
+                                onTap: () {
+                                  if (controller.favouritestatus.value) {
+                                    controller
+                                        .deletewishlist(controller.products.elementAt(index).id?.toInt()??0);
+                                  } else {
+                                    controller.addtowishlist(controller.products.elementAt(index).id?.toInt()??0);
+                                  }
+                                },
+                                child:  controller.favouritestatus.value
+                                    ? Icon(
+                                  Icons.favorite,
+                                  color: ordercncl_color,
+                                )
+                                    : Icon(
+                                  Icons.favorite_border,
+                                  color: ordercncl_color,
+                                )
+                            ),
                             Icon(Icons.share_outlined, color: black),
                           ],
                         ),
@@ -633,7 +659,7 @@ class _ProductsscreenState extends State<Productsscreen> {
                         ),
                         child: Center(
                           child: Text(
-                            'MRP Rs.42 per Bottle',
+                            "MRP Rs.  ${controller.products.elementAt(index).price}",
                             style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w600,

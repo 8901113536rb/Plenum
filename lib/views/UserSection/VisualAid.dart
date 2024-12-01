@@ -6,6 +6,7 @@ import 'package:sizer/sizer.dart';
 import '../../constants/Appcolors.dart';
 import '../../constants/stringconstants.dart';
 import '../../controllers/UserControllers/VisualAidController.dart';
+import '../../utils/CommonImageWidget.dart';
 import '../../utils/Commonwidgets.dart';
 import 'VisualAidDetailUi.dart';
 
@@ -18,8 +19,17 @@ class Visualaid extends StatefulWidget {
 
 class _VisualaidState extends State<Visualaid> {
   final sample = List.generate(30, (i) => i);
-
   Visualaidcontroller controller = Get.put(Visualaidcontroller());
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    // controller.searchcontroller.text=widget.searchdata!;
+    Future.microtask(() {
+      controller.get_VisualAid();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -260,10 +270,10 @@ class _VisualaidState extends State<Visualaid> {
         crossAxisSpacing: 1
       ),
       padding: EdgeInsets.only(left:2.w,right: 2.w,top: 2.h),
-      itemCount: controller.imageUrls.length, // <-- required
+      itemCount: controller.products.length, // <-- required
       itemBuilder: (context, index) => GestureDetector(
         onTap: (){
-          Get.to(Visualaiddetailui());
+          Get.to(Visualaiddetailui(productsimage: controller.products));
         },
         child: Card(
           // color: themecolor,
@@ -272,8 +282,9 @@ class _VisualaidState extends State<Visualaid> {
           ),
           child:ClipRRect(
             borderRadius: BorderRadius.circular(8.0), // Optional: rounded corners
-            child: Image.asset(
-              images_baseurl+controller.imageUrls[index],
+            child: CommonImageWidget(
+              imageSourceType: ImageSourceType.cached_image,
+              imageUrl: controller.products[index],
               fit: BoxFit.fill,
             ),
           ),

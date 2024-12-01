@@ -7,6 +7,16 @@ const String updateProfile = "updateProfile";
 const String myProfile = "myProfile";
 const String getBanner = "banner";
 const String getProducts = "products";
+const String getFavouriteProducts = "wishlist";
+const String addToFavourite = "wishlist/add";
+const String removewishlist = "wishlist/remove/";
+const String visualAids = "visualAids";
+const String getFeaturedProducts = "products/featured";
+const String getUpcomingProducts = "products/upcoming";
+const String getnewLaunchesProducts = "products/newLaunches";
+const String getCartProducts = "cart";
+const String aboutus = "setting";
+
 
 
 

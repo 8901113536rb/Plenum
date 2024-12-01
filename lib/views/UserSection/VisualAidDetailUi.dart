@@ -6,9 +6,13 @@ import 'package:sizer/sizer.dart';
 import '../../constants/Appcolors.dart';
 import '../../constants/stringconstants.dart';
 import '../../controllers/UserControllers/VisualAidDetailControllelr.dart';
+import '../../utils/CommonImageWidget.dart';
 import 'VisualAidViewUi.dart';
 
 class Visualaiddetailui extends StatefulWidget {
+  final List<String> productsimage;
+
+  Visualaiddetailui({required this.productsimage});
   @override
   _VisualaiddetailuiState createState() => _VisualaiddetailuiState();
 }
@@ -32,7 +36,7 @@ class _VisualaiddetailuiState extends State<Visualaiddetailui> {
         SizedBox(height: 8.h,),
         Center(
           child: Text(
-            '${controller.currentIndex.value + 1}/${controller.imageUrls.length}',
+            '${controller.currentIndex.value + 1}/${widget.productsimage.length}',
             style:  TextStyle(
               color: white,
               fontSize: 15,
@@ -44,12 +48,12 @@ class _VisualaiddetailuiState extends State<Visualaiddetailui> {
         Padding(
           padding:  EdgeInsets.only(left: 4.0.w,right: 4.w),
           child: CarouselSlider.builder(
-            itemCount: controller.imageUrls.length,
+            itemCount: widget.productsimage.length,
             itemBuilder: (context, index, realIndex) {
-              return Image.asset(
-                images_baseurl+controller.imageUrls[index],
+              return CommonImageWidget(
+                imageSourceType: ImageSourceType.cached_image,
+                imageUrl: widget.productsimage[index],
                 fit: BoxFit.cover,
-                width: double.infinity,
               );
             },
             options: CarouselOptions(

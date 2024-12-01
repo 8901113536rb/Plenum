@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:plenum/views/UserSection/AboutUsUi.dart';
 import 'package:sizer/sizer.dart';
 import '../../constants/Textstyles.dart';
 import '../../constants/appcolors.dart';
@@ -112,13 +113,12 @@ class _DashboarduiState extends State<Dashboardui> {
                             child: Stack(
                               alignment: Alignment.bottomCenter,
                               children: [
-                                CarouselSlider(
-                                // CarouselSlider.builder(
-                                //   itemCount: controller.bannerimages.length,
+                                CarouselSlider.builder(
+                                  itemCount: controller.bannerimages.length,
                                   options: CarouselOptions(
                                     height: 15.h, // Adjusted height for carousel slider
                                     viewportFraction: 1.0,
-                                    enableInfiniteScroll: false,
+                                    enableInfiniteScroll: true,
                                     autoPlay: false,
                                     autoPlayInterval: Duration(seconds: 3),
                                     onPageChanged: (index, reason) {
@@ -127,47 +127,29 @@ class _DashboarduiState extends State<Dashboardui> {
                                       });
                                     },
                                   ),
-                                  // itemBuilder:
-                                  //     (BuildContext context, int itemIndex, int pageViewIndex) =>
-                                  //     Container(
-                                  //         margin: const EdgeInsets.only(left: 5, right: 5),
-                                  //         // decoration: BoxDecoration(
-                                  //         //     borderRadius: BorderRadius.circular(15),
-                                  //         //     image: const DecorationImage(
-                                  //         //         image: AssetImage(
-                                  //         //           "assets/images/bannerdemo.png",
-                                  //         //         ),
-                                  //         //         fit: BoxFit.fill)
-                                  //         child: CommonImageWidget(
-                                  //           imageSourceType: ImageSourceType.cached_image,
-                                  //           imageUrl: controller.bannerimages.string,
-                                  //           borderRadius: BorderRadius.circular(15),
-                                  //         )),
-
-                                  items: controller.imageList.map((imageUrl) {
-                                    return Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal:
-                                          10.0), // Adding space between items
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(10.0),
-                                        child: Image.asset(
-                                          images_baseurl + imageUrl,
-                                          fit: BoxFit.cover,
-                                          width: double.infinity,
-                                        ),
-                                      ),
-                                    );
-                                  }).toList(),
+                                  itemBuilder:
+                                      (BuildContext context, int itemIndex, int pageViewIndex) =>
+                                      Container(
+                                          margin: const EdgeInsets.only(left: 5, right: 5),
+                                          // decoration: BoxDecoration(
+                                          //     borderRadius: BorderRadius.circular(15),
+                                          //     image: const DecorationImage(
+                                          //         image: AssetImage(
+                                          //           "assets/images/bannerdemo.png",
+                                          //         ),
+                                          //         fit: BoxFit.fill)
+                                          child: CommonImageWidget(
+                                            imageSourceType: ImageSourceType.cached_image,
+                                            imageUrl: controller.bannerimages[itemIndex],
+                                            borderRadius: BorderRadius.circular(15),
+                                            fit: BoxFit.fill,
+                                          )),
                                 ),
                                 Positioned(
                                   bottom: 0.5.h,
                                   child: DotsIndicator(
-                                    dotsCount: 2,
-                                    // dotsCount: controller.bannerimages.length,
+                                    dotsCount: controller.bannerimages.length,
                                     position: double.parse(controller.selected_banner.toString()),
-                                    // position: controller.currentIndex.value,
-                                    // dotsCount: controller.imageList.length,
                                     decorator: DotsDecorator(
                                       activeColor: themecolor,
                                       color: lightGreyColor,
@@ -320,7 +302,10 @@ class _DashboarduiState extends State<Dashboardui> {
       itemBuilder: (context, index) {
         return GestureDetector(
           onTap: () {
-            if (index == 1) {
+            if (index == 0) {
+              Get.to(const Aboutusui());
+            }
+            else if (index == 1) {
               Get.to(const Myordersscreen());
             } else if (index == 2) {
               Get.to(const Productsscreen());

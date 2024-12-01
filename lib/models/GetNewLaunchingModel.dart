@@ -1,12 +1,12 @@
-/// data : [{"id":1,"name":"High-Performance Lubricant X500","price":"150.00","category_id":1,"subcategory_id":1,"packing_size":"5 Liters","packing_type":"Plastic Drum","use_in_segment":"Automotive, Heavy Machinery, Aerospace","description":"A premium-grade lubricant engineered for high-performance and durability. Ideal for reducing friction, preventing corrosion, and ensuring smooth machinery operations in extreme environments. Certified for industrial use.","product_image":"https://adminapp.plenumbiotech.com/storage/app/public/products/1519374525product_image.jfif","visual_aids":["https://adminapp.plenumbiotech.com/storage/app/public/products/aids/1413552132visual_aid.jfif","https://adminapp.plenumbiotech.com/storage/app/public/products/aids/1592886192visual_aid.png"],"created_at":"2024-11-24T04:53:48.000000Z","updated_at":"2024-11-24T05:24:09.000000Z","product_status":"featured","inWishlist":false,"category":{"id":1,"sort":1,"name":"Biotechnology","status":"active","created_at":"2024-11-24T07:38:38.000000Z","updated_at":"2024-11-24T07:38:38.000000Z","deleted_at":"2024-11-24 07:38:38"},"subcategory":{"id":1,"category_id":1,"subcategoryimage":"/storage/app/public/subcategory/1322713001subcategory","sort":1,"name":"Genetics","status":"active","created_at":"2024-11-24T07:39:06.000000Z","updated_at":"2024-11-29T05:06:49.000000Z"}}]
+/// data : [{"id":1,"name":"High-Performance Lubricant X500","price":"150.00","category_id":1,"subcategory_id":1,"packing_size":"5 Liters","packing_type":"Plastic Drum","use_in_segment":"Automotive, Heavy Machinery, Aerospace","description":"A premium-grade lubricant engineered for high-performance and durability. Ideal for reducing friction, preventing corrosion, and ensuring smooth machinery operations in extreme environments. Certified for industrial use.","product_image":"https://adminapp.plenumbiotech.com/storage/app/public/products/1519374525product_image.jfif","visual_aids":["https://adminapp.plenumbiotech.com/storage/app/public/products/aids/1413552132visual_aid.jfif","https://adminapp.plenumbiotech.com/storage/app/public/products/aids/1592886192visual_aid.png"],"created_at":"2024-11-24T04:53:48.000000Z","updated_at":"2024-12-01T06:14:49.000000Z","product_status":"new_launches","inWishlist":false,"category":{"id":1,"sort":1,"name":"Biotechnology","status":"active","created_at":"2024-11-24T07:38:38.000000Z","updated_at":"2024-11-30T07:06:29.000000Z","deleted_at":"2024-11-24 07:38:38"},"subcategory":{"id":1,"category_id":1,"subcategoryimage":"/storage/app/public/subcategory/1322713001subcategory","sort":1,"name":"Genetics","status":"active","created_at":"2024-11-24T07:39:06.000000Z","updated_at":"2024-11-29T05:06:49.000000Z"}}]
 
-class GetProductsModel {
-  GetProductsModel({
+class GetNewLaunchingModel {
+  GetNewLaunchingModel({
       List<Data>? data,}){
     _data = data;
 }
 
-  GetProductsModel.fromJson(dynamic json) {
+  GetNewLaunchingModel.fromJson(dynamic json) {
     if (json['data'] != null) {
       _data = [];
       json['data'].forEach((v) {
@@ -15,8 +15,8 @@ class GetProductsModel {
     }
   }
   List<Data>? _data;
-GetProductsModel copyWith({  List<Data>? data,
-}) => GetProductsModel(  data: data ?? _data,
+GetNewLaunchingModel copyWith({  List<Data>? data,
+}) => GetNewLaunchingModel(  data: data ?? _data,
 );
   List<Data>? get data => _data;
 
@@ -42,30 +42,30 @@ GetProductsModel copyWith({  List<Data>? data,
 /// product_image : "https://adminapp.plenumbiotech.com/storage/app/public/products/1519374525product_image.jfif"
 /// visual_aids : ["https://adminapp.plenumbiotech.com/storage/app/public/products/aids/1413552132visual_aid.jfif","https://adminapp.plenumbiotech.com/storage/app/public/products/aids/1592886192visual_aid.png"]
 /// created_at : "2024-11-24T04:53:48.000000Z"
-/// updated_at : "2024-11-24T05:24:09.000000Z"
-/// product_status : "featured"
+/// updated_at : "2024-12-01T06:14:49.000000Z"
+/// product_status : "new_launches"
 /// inWishlist : false
-/// category : {"id":1,"sort":1,"name":"Biotechnology","status":"active","created_at":"2024-11-24T07:38:38.000000Z","updated_at":"2024-11-24T07:38:38.000000Z","deleted_at":"2024-11-24 07:38:38"}
+/// category : {"id":1,"sort":1,"name":"Biotechnology","status":"active","created_at":"2024-11-24T07:38:38.000000Z","updated_at":"2024-11-30T07:06:29.000000Z","deleted_at":"2024-11-24 07:38:38"}
 /// subcategory : {"id":1,"category_id":1,"subcategoryimage":"/storage/app/public/subcategory/1322713001subcategory","sort":1,"name":"Genetics","status":"active","created_at":"2024-11-24T07:39:06.000000Z","updated_at":"2024-11-29T05:06:49.000000Z"}
 
 class Data {
   Data({
-      num? id,
-      String? name,
-      String? price,
-      num? categoryId,
-      num? subcategoryId,
-      String? packingSize,
-      String? packingType,
-      String? useInSegment,
-      String? description,
-      String? productImage,
-      List<String>? visualAids,
-      String? createdAt,
-      String? updatedAt,
-      String? productStatus,
-      bool? inWishlist,
-      Category? category,
+      num? id, 
+      String? name, 
+      String? price, 
+      num? categoryId, 
+      num? subcategoryId, 
+      String? packingSize, 
+      String? packingType, 
+      String? useInSegment, 
+      String? description, 
+      String? productImage, 
+      List<String>? visualAids, 
+      String? createdAt, 
+      String? updatedAt, 
+      String? productStatus, 
+      bool? inWishlist, 
+      Category? category, 
       Subcategory? subcategory,}){
     _id = id;
     _name = name;
@@ -214,13 +214,13 @@ Data copyWith({  num? id,
 
 class Subcategory {
   Subcategory({
-      num? id,
-      num? categoryId,
-      String? subcategoryimage,
-      num? sort,
-      String? name,
-      String? status,
-      String? createdAt,
+      num? id, 
+      num? categoryId, 
+      String? subcategoryimage, 
+      num? sort, 
+      String? name, 
+      String? status, 
+      String? createdAt, 
       String? updatedAt,}){
     _id = id;
     _categoryId = categoryId;
@@ -296,17 +296,17 @@ Subcategory copyWith({  num? id,
 /// name : "Biotechnology"
 /// status : "active"
 /// created_at : "2024-11-24T07:38:38.000000Z"
-/// updated_at : "2024-11-24T07:38:38.000000Z"
+/// updated_at : "2024-11-30T07:06:29.000000Z"
 /// deleted_at : "2024-11-24 07:38:38"
 
 class Category {
   Category({
-      num? id,
-      num? sort,
-      String? name,
-      String? status,
-      String? createdAt,
-      String? updatedAt,
+      num? id, 
+      num? sort, 
+      String? name, 
+      String? status, 
+      String? createdAt, 
+      String? updatedAt, 
       String? deletedAt,}){
     _id = id;
     _sort = sort;
