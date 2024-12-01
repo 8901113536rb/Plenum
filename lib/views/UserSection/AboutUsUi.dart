@@ -10,6 +10,7 @@ import '../../constants/stringconstants.dart';
 import '../../controllers/UserControllers/AboutUsController.dart';
 import '../../utils/CommonImageWidget.dart';
 import '../../utils/Commonwidgets.dart';
+import '../../utils/NoDataFound.dart';
 
 class Aboutusui extends StatefulWidget {
   const Aboutusui({super.key});
@@ -35,7 +36,8 @@ class _AboutusuiState extends State<Aboutusui> {
       return SafeArea(
         child: Scaffold(
           //appBar: appBar(),
-          body: Container(
+          body:
+          Container(
               color: themecolor,
               child: Column(
                 children: [
@@ -83,12 +85,15 @@ class _AboutusuiState extends State<Aboutusui> {
                           topRight: Radius.circular(25.0),
                         ),
                       ),
-                      child: aboutusview(),
+                      child: controller.products.value==[]?
+                      aboutusview():
+                      const NoDataFound(message: no_data_found,),
                     ),
                   ),
                 ],
               )
-          ),
+          )
+
         ),
       );
     });

@@ -21,6 +21,7 @@ const String getProductDetails = "products/";
 const String orderplace_endpoint = "order/create";
 const String myorders_endpoint = "user/orders";
 const String getuser_orders_endpoint = "user/order/";
+const String addtocart = "cart/add";
 
 
 

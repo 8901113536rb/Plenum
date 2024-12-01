@@ -9,6 +9,7 @@ import '../../constants/stringconstants.dart';
 import '../../controllers/UserControllers/FeaturedProductController.dart';
 import '../../utils/CommonImageWidget.dart';
 import '../../utils/Commonwidgets.dart';
+import '../../utils/NoDataFound.dart';
 import 'ProductDetailScreen.dart';
 
 class Featuredproductscreen extends StatefulWidget {
@@ -100,7 +101,7 @@ class _FeaturedproductscreenState extends State<Featuredproductscreen> {
                           topRight: Radius.circular(25.0),
                         ),
                       ),
-                      child: Column(
+                      child:controller.products.isNotEmpty? Column(
                         children: [
                           // Dropdown and Clear Button Row
                           Container(
@@ -270,7 +271,7 @@ class _FeaturedproductscreenState extends State<Featuredproductscreen> {
                             child: productlistview(),
                           ),
                         ],
-                      ),
+                      ):const NoDataFound(message: no_data_found,),
                     ),
                   ),
                 ],
@@ -557,7 +558,7 @@ class _FeaturedproductscreenState extends State<Featuredproductscreen> {
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   SizedBox(
-                                    width: 35.w,
+                                    width: 40.w,
                                     child: Text(
                                       controller.products.elementAt(index).name.toString(),
                                       overflow: TextOverflow.ellipsis,
@@ -570,10 +571,10 @@ class _FeaturedproductscreenState extends State<Featuredproductscreen> {
                                   ),
                                   SizedBox(height: 1.h),
                                   SizedBox(
-                                    width: 35.w,
+                                    width: 40.w,
                                     child: Text(
                                       controller.products.elementAt(index).description.toString(),
-                                      maxLines: 2,
+                                      maxLines: 4,
                                       style: TextStyle(
                                         fontSize: 12,
                                         fontWeight: FontWeight.w500,
@@ -583,59 +584,41 @@ class _FeaturedproductscreenState extends State<Featuredproductscreen> {
                                     ),
                                   ),
                                   SizedBox(height: 1.5.h,),
-                                  Row(
-                                    children: [
-                                      Container(
-                                        padding: const EdgeInsets.all(3),
-                                        decoration: BoxDecoration(
-                                            color: themecolor,
-                                            borderRadius: BorderRadius.circular(5)),
-                                        child: Icon(
-                                          Icons.add,
-                                          color: white,
-                                          size: 20,
-                                        ),
-                                      ),
-                                      SizedBox(width: 1.w,),
-                                      Container(
-                                        padding:  EdgeInsets.all(3),
-                                        child: Text("0",style: TextStyle(color: black,fontSize: 15),),
-                                      ),
-                                      SizedBox(width: 1.w,),
-                                      Container(
-                                        padding: const EdgeInsets.all(3),
-                                        decoration: BoxDecoration(
-                                            color: themecolor,
-                                            borderRadius: BorderRadius.circular(5)),
-                                        child: Icon(
-                                          Icons.remove,
-                                          color: white,
-                                          size: 20,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                  // Row(
+                                  //   children: [
+                                  //     Container(
+                                  //       padding: const EdgeInsets.all(3),
+                                  //       decoration: BoxDecoration(
+                                  //           color: themecolor,
+                                  //           borderRadius: BorderRadius.circular(5)),
+                                  //       child: Icon(
+                                  //         Icons.add,
+                                  //         color: white,
+                                  //         size: 20,
+                                  //       ),
+                                  //     ),
+                                  //     SizedBox(width: 1.w,),
+                                  //     Container(
+                                  //       padding:  EdgeInsets.all(3),
+                                  //       child: Text("0",style: TextStyle(color: black,fontSize: 15),),
+                                  //     ),
+                                  //     SizedBox(width: 1.w,),
+                                  //     Container(
+                                  //       padding: const EdgeInsets.all(3),
+                                  //       decoration: BoxDecoration(
+                                  //           color: themecolor,
+                                  //           borderRadius: BorderRadius.circular(5)),
+                                  //       child: Icon(
+                                  //         Icons.remove,
+                                  //         color: white,
+                                  //         size: 20,
+                                  //       ),
+                                  //     ),
+                                  //   ],
+                                  // ),
                                   SizedBox(width:2.w,),
                                 ],
                               ),
-                              GestureDetector(
-                                  onTap: () {
-                                    if (controller.favouritestatus.value) {
-                                      controller
-                                          .deletewishlist(controller.products.elementAt(index).id?.toInt()??0);
-                                    } else {
-                                      controller.addtowishlist(controller.products.elementAt(index).id?.toInt()??0);
-                                    }
-                                  },
-                                  child:   controller.favouritestatus.value
-                                      ? Icon(
-                                    Icons.favorite,
-                                    color: ordercncl_color,
-                                  )
-                                      : Icon(
-                                    Icons.favorite_border,
-                                    color: ordercncl_color,
-                                  )),
                               Icon(Icons.share_outlined, color: black),
                             ],
                           ),

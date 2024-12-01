@@ -124,7 +124,7 @@ class _Profile_screenState extends State<Myprofilescreen> {
           return CircleAvatar(
             radius: 45,
             backgroundImage: controller.profile_image.isNotEmpty
-                ? NetworkImage(vhImageBaseUrl + controller.profile_image.value,)
+                ? NetworkImage(controller.profile_image.value,)
                 : const AssetImage("${images_baseurl}profilepic.png"), // Default avatar
           );
         }),

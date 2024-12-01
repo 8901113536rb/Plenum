@@ -8,6 +8,7 @@ import '../../constants/stringconstants.dart';
 import '../../controllers/UserControllers/VisualAidController.dart';
 import '../../utils/CommonImageWidget.dart';
 import '../../utils/Commonwidgets.dart';
+import '../../utils/NoDataFound.dart';
 import 'VisualAidDetailUi.dart';
 
 class Visualaid extends StatefulWidget {
@@ -36,7 +37,7 @@ class _VisualaidState extends State<Visualaid> {
     return Obx((){
       return Scaffold(
         appBar: appBar(),
-        body: productView(),
+        body: controller.products.isNotEmpty?productView():const NoDataFound(message: no_data_found,),
       );
     });
   }

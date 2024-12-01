@@ -362,8 +362,11 @@ class _Myorderdetailui_screenState extends State<Myorderdetailui> {
                 price,
                 style: Common_textstyles.productoptionstyle,
               ),
-              option_btn(
-                  "$currency ${controller.products.value?.products![0].price}" ?? ""),
+        option_btn(
+          controller.products.value != null && controller.products.value!.products![0].price != null
+              ? "$currency ${controller.products.value?.products![0].price}"
+              : "$currency 0.0",
+        )
             ],
           ),
           const SizedBox(

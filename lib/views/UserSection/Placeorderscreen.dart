@@ -9,6 +9,7 @@ import '../../controllers/UserControllers/Placeordercontroller.dart';
 import '../../utils/CommonImageWidget.dart';
 import '../../utils/CommonToast.dart';
 import '../../utils/CommonbtnWidget.dart';
+import '../../utils/NoDataFound.dart';
 import 'PlaceOrderSuccess_screen.dart';
 import 'address/AddressListingScreen.dart';
 
@@ -39,47 +40,42 @@ class _PlaceorderscreenState extends State<Placeorderscreen> {
           bottomNavigationBar:  Container(
             padding: EdgeInsets.symmetric(horizontal: 2.5.w, vertical: 0.5.h),
             height: 7.h, // Adjust height to fit both buttons
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    if(controller.addressdata.value!=null){
-                      showOrderConfirmationDialog(context);
-                    }else{
-                      failed_toast("Select Address First!");
-                    }
-                  },
-                  child: Container(
-                    // margin: EdgeInsets.symmetric(horizontal: 15.w),
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      color: themecolor,
-                    ),
-                    height: 6.h,
-                    width: double.infinity,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        // Icon(Icons.share,color: white,size: 18,),
-                        // SizedBox(width: 1.w,),
-                        Text(
-                          confirm_order,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w600,
-                              color: white),
-                        ),
-                      ],
-                    ),
-                  ),
+            child: GestureDetector(
+              onTap: () {
+                if(controller.addressdata.value!=null){
+                  showOrderConfirmationDialog(context);
+                }else{
+                  failed_toast("Select Address First!");
+                }
+              },
+              child: Container(
+                // margin: EdgeInsets.symmetric(horizontal: 15.w),
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  color: themecolor,
                 ),
-              ],
+                height: 6.h,
+                width: double.infinity,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    // Icon(Icons.share,color: white,size: 18,),
+                    // SizedBox(width: 1.w,),
+                    Text(
+                      confirm_order,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w600,
+                          color: white),
+                    ),
+                  ],
+                ),
+              ),
             ),
           ),
-          body: productsView(),
+          body: controller.products.isNotEmpty?productsView():const NoDataFound(message: no_data_found,),
         );
       })
     );

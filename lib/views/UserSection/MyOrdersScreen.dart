@@ -10,6 +10,7 @@ import '../../constants/stringconstants.dart';
 import '../../controllers/UserControllers/MyOrdersController.dart';
 import '../../utils/CommonImageWidget.dart';
 import '../../utils/Commonwidgets.dart';
+import '../../utils/NoDataFound.dart';
 
 class Myordersscreen extends StatefulWidget {
   const Myordersscreen({super.key});
@@ -93,7 +94,7 @@ class _MyordersscreenState extends State<Myordersscreen> {
                           topRight: Radius.circular(25.0),
                         ),
                       ),
-                      child: Column(
+                      child:controller.orders!=[]? Column(
                         children: [
                           // Dropdown and Clear Button Row
                           Container(
@@ -260,10 +261,10 @@ class _MyordersscreenState extends State<Myordersscreen> {
                           ),
                           // Expanded Product List
                           Expanded(
-                            child: productlistview(),
+                            child: productlistview()
                           ),
                         ],
-                      ),
+                      ):const NoDataFound(message: no_data_found,),
                     ),
                   ),
                 ],
@@ -550,7 +551,7 @@ class _MyordersscreenState extends State<Myordersscreen> {
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   SizedBox(
-                                    width: 35.w,
+                                    width: 40.w,
                                     child: Text(
                                       controller.orders.elementAt(index).products?[0].product?.name.toString()??"",
                                       overflow: TextOverflow.ellipsis,
@@ -563,10 +564,10 @@ class _MyordersscreenState extends State<Myordersscreen> {
                                   ),
                                   SizedBox(height: 1.h),
                                   SizedBox(
-                                    width: 35.w,
+                                    width: 40.w,
                                     child: Text(
                                       controller.orders.elementAt(index).products?[0].product?.description.toString()??"",
-                                      maxLines: 2,
+                                      maxLines: 4,
                                       style: TextStyle(
                                         fontSize: 12,
                                         fontWeight: FontWeight.w500,
@@ -575,43 +576,10 @@ class _MyordersscreenState extends State<Myordersscreen> {
                                       ),
                                     ),
                                   ),
-                                  SizedBox(height: 1.5.h,),
-                                  Row(
-                                    children: [
-                                      Container(
-                                        padding: const EdgeInsets.all(3),
-                                        decoration: BoxDecoration(
-                                            color: themecolor,
-                                            borderRadius: BorderRadius.circular(5)),
-                                        child: Icon(
-                                          Icons.add,
-                                          color: white,
-                                          size: 20,
-                                        ),
-                                      ),
-                                      SizedBox(width: 1.w,),
-                                      Container(
-                                        padding:  EdgeInsets.all(3),
-                                        child: Text("0",style: TextStyle(color: black,fontSize: 15),),
-                                      ),
-                                      SizedBox(width: 1.w,),
-                                      Container(
-                                        padding: const EdgeInsets.all(3),
-                                        decoration: BoxDecoration(
-                                            color: themecolor,
-                                            borderRadius: BorderRadius.circular(5)),
-                                        child: Icon(
-                                          Icons.remove,
-                                          color: white,
-                                          size: 20,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
                                   SizedBox(width:2.w,),
                                 ],
                               ),
-                              Icon(Icons.favorite, color: ordercncl_color),
+                              // Icon(Icons.favorite, color: ordercncl_color),
                               Icon(Icons.share_outlined, color: black),
                             ],
                           ),

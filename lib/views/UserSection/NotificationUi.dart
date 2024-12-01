@@ -7,6 +7,7 @@ import '../../constants/appcolors.dart';
 import '../../controllers/NotificationController.dart';
 import '../../utils/CommonAppBarWidget.dart';
 import '../../utils/CommonImageWidget.dart';
+import '../../utils/NoDataFound.dart';
 
 class Notificationui extends StatefulWidget {
   const Notificationui({super.key});
@@ -36,7 +37,7 @@ class _NotificationuiState extends State<Notificationui> {
 
 
         ),
-        body: notificationView(),
+        body: controller.notificationdata.isNotEmpty?notificationView():const NoDataFound(message: no_data_found,),
       );
     });
   }

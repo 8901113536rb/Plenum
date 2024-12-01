@@ -37,54 +37,56 @@ class _Product_detail_screenState extends State<Productdetailscreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        bottomNavigationBar: Container(
-          padding: EdgeInsets.symmetric(horizontal: 2.5.w, vertical: 0.5.h),
-          height: 7.h, // Adjust height to fit both buttons
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              GestureDetector(
-                onTap: () {
-                  Get.to(Placeorderscreen());
-                },
-                child: Container(
-                  // margin: EdgeInsets.symmetric(horizontal: 15.w),
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    color: themecolor,
-                  ),
-                  height: 6.h,
-                  width: double.infinity,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      // Icon(Icons.share,color: white,size: 18,),
-                      // SizedBox(width: 1.w,),
-                      Text(
-                        placeorder,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
-                            color: white),
-                      ),
-                    ],
+    return Obx((){
+      return Scaffold(
+          bottomNavigationBar: Container(
+            padding: EdgeInsets.symmetric(horizontal: 2.5.w, vertical: 0.5.h),
+            height: 7.h, // Adjust height to fit both buttons
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    Get.to(Placeorderscreen());
+                  },
+                  child: Container(
+                    // margin: EdgeInsets.symmetric(horizontal: 15.w),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: themecolor,
+                    ),
+                    height: 6.h,
+                    width: double.infinity,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        // Icon(Icons.share,color: white,size: 18,),
+                        // SizedBox(width: 1.w,),
+                        Text(
+                          placeorder,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w600,
+                              color: white),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-        body: Container(
-          child: Column(
-            children: [
-              product_imageview(),
-              product_content(),
-            ],
-          ),
-        ));
+          body: Container(
+            child: Column(
+              children: [
+                product_imageview(),
+                product_content(),
+              ],
+            ),
+          ));
+    });
   }
 
   Widget product_content() {
@@ -159,7 +161,7 @@ class _Product_detail_screenState extends State<Productdetailscreen> {
                               ))),
                       GestureDetector(
                           onTap: () {
-                            if (controller.favouritestatus.value) {
+                            if (controller.favouritestatus.value==false) {
                               controller.deletewishlist(
                                   controller.products.value?.id?.toInt() ?? 0);
                             } else {
@@ -167,7 +169,7 @@ class _Product_detail_screenState extends State<Productdetailscreen> {
                                   controller.products.value?.id?.toInt() ?? 0);
                             }
                           },
-                          child: controller.favouritestatus.value
+                          child: controller.favouritestatus.value==true
                               ? Container(
                                   margin: EdgeInsets.all(5),
                                   height: 3.h,
@@ -365,14 +367,17 @@ class _Product_detail_screenState extends State<Productdetailscreen> {
                 style: Common_textstyles.productoptionstyle,
               ),
               option_btn(
-                  "$currency " + controller.products.value!.price.toString() ??
-                      ""),
+                controller.products.value != null &&
+                        controller.products.value!.price != null
+                    ? "$currency ${controller.products.value!.price}"
+                    : "$currency 0.0",
+              )
             ],
           ),
           const SizedBox(
             height: 25,
           ),
-          totalAmount()
+          // totalAmount()
         ],
       ),
     );

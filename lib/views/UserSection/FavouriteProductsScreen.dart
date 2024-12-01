@@ -9,6 +9,7 @@ import '../../constants/stringconstants.dart';
 import '../../controllers/UserControllers/FavouriteProductsController.dart';
 import '../../utils/CommonImageWidget.dart';
 import '../../utils/Commonwidgets.dart';
+import '../../utils/NoDataFound.dart';
 import 'ProductDetailScreen.dart';
 
 class Favouriteproductsscreen extends StatefulWidget {
@@ -100,7 +101,7 @@ class _FavouriteproductsscreenState extends State<Favouriteproductsscreen> {
                           topRight: Radius.circular(25.0),
                         ),
                       ),
-                      child: Column(
+                      child: controller.products.isNotEmpty? Column(
                         children: [
                           // Dropdown and Clear Button Row
                           Container(
@@ -270,7 +271,7 @@ class _FavouriteproductsscreenState extends State<Favouriteproductsscreen> {
                             child: productlistview(),
                           ),
                         ],
-                      ),
+                      ):const NoDataFound(message: no_data_found,),
                     ),
                   ),
                 ],

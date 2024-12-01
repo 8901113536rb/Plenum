@@ -7,6 +7,7 @@ import '../../../constants/Textstyles.dart';
 import '../../../constants/appcolors.dart';
 import '../../../controllers/UserControllers/addresscontrollers/AddressListingController.dart';
 import '../../../utils/CommonAppBarWidget.dart';
+import '../../../utils/NoDataFound.dart';
 import '../../../utils/Sharedutils.dart';
 import 'AddAddressScreen.dart';
 import 'UpdateAdressScreen.dart';
@@ -41,13 +42,12 @@ class _AddresslistingscreenState extends State<Addresslistingscreen> {
           leftText: address,
           showBackArrow: true,
         ),
-        body: addresslistview(),
+        body: controller.addressdata.isNotEmpty?addresslistview():const NoDataFound(message: no_data_found,),
       );
     });
   }
   Widget addresslistview(){
-    return controller.addressdata.isNotEmpty?
-           ListView.builder(
+    return ListView.builder(
         padding: EdgeInsets.only(bottom: 2.h),
         itemCount: controller.addressdata.length,
         itemBuilder: (BuildContext context, int index) {
@@ -162,8 +162,7 @@ class _AddresslistingscreenState extends State<Addresslistingscreen> {
               ),
             ),
           );
-        }):
-           Center(child: Text(no_data_found,style: Common_textstyles.ordrdtltitleTextStyle,));
+        });
   }
 
 }

@@ -34,6 +34,9 @@ class ProductDetailController extends GetxController{
         if(response.statusCode.toString()==success_statuscode){
           GetProductDetailModel productdata=GetProductDetailModel.fromJson(response.body);
           products.value=productdata.data;
+          favouritestatus.value=productdata.data?.inWishlist??false;
+          favouritestatus.refresh();
+          products.refresh();
         }
       }
     }catch(e){
@@ -41,7 +44,7 @@ class ProductDetailController extends GetxController{
     }
   }
   addtowishlist(int productid) async {
-    Map<String,dynamic>param={"product_id":productid.toString()};
+    Map<String,dynamic>param={"product_id":productid};
     showProgressDialog(Get.context!);
     try{
       Response response=await Baseprovider().hitPost(url: addToFavourite,param);
@@ -54,6 +57,7 @@ class ProductDetailController extends GetxController{
         if(response.body["status"]==true){
           success_toast(response.body["message"].toString());
           favouritestatus.value=true;
+          favouritestatus.refresh();
         }
       }
     }catch(e){
@@ -73,6 +77,7 @@ class ProductDetailController extends GetxController{
         if(response.body["status"]==true){
           success_toast(response.body["message"].toString());
           favouritestatus.value=false;
+          favouritestatus.refresh();
         }
       }
     }catch(e){

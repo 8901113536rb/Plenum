@@ -124,7 +124,7 @@ class _SetupProfileScreenState extends State<Profileui> {
                         backgroundImage: controller.profileimage.value != null
                             ? FileImage(controller.profileimage.value!)
                             : controller.selectedImage.value.isNotEmpty
-                                ? NetworkImage(vhImageBaseUrl +
+                                ? NetworkImage(
                                     controller.selectedImage.value)
                                 : const AssetImage(
                                     "assets/images/profilepic.png"), // Default avatar
