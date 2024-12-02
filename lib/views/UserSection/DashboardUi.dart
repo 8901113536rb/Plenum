@@ -427,7 +427,11 @@ class _DashboarduiState extends State<Dashboardui> {
               onPressed: () async {
                 makeDirectCall(phoneNumber);
               },
-              child: Icon(Icons.phone, color: white),
+              child: GestureDetector(
+                onTap: (){
+                  makeDirectCall(phoneNumber);
+                },
+                  child: Icon(Icons.phone, color: white)),
             ),
           ],
         ),
@@ -455,9 +459,14 @@ class _DashboarduiState extends State<Dashboardui> {
               onPressed: () {
                 openWhatsApp(phoneNumber,"Hello, I would like to chat with you!");
               },
-              child: Icon(
-                Icons.chat_bubble,
-                color: white,
+              child: GestureDetector(
+                onTap: (){
+                  openWhatsApp(phoneNumber,"Hello, I would like to chat with you!");
+                },
+                child: Icon(
+                  Icons.chat_bubble,
+                  color: white,
+                ),
               ),
             ),
           ],
