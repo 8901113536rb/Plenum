@@ -120,15 +120,15 @@ class _AboutusuiState extends State<Aboutusui> {
           SizedBox(height: 5.h,),
           Row(
             children: [
-              Text(
-                "$aboutname :-",
-                style: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w600,
-                  color: black,
-                ),
-              ),
-              SizedBox(width: 2.w,),
+              // Text(
+              //   "$aboutname :-",
+              //   style: TextStyle(
+              //     fontSize: 15,
+              //     fontWeight: FontWeight.w600,
+              //     color: black,
+              //   ),
+              // ),
+              // SizedBox(width: 2.w,),
               Text(
                 controller.products.value?.data?.title.toString()??'',
                 overflow: TextOverflow.ellipsis,

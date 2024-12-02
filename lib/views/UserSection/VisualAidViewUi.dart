@@ -10,6 +10,9 @@ import '../../utils/CommonAppBarWidget.dart';
 import '../../utils/CommonbtnWidget.dart';
 
 class Visualaidviewui extends StatefulWidget {
+  String? visualImage;
+
+  Visualaidviewui({super.key,required this.visualImage});
   @override
   _VisualaidviewuiState createState() => _VisualaidviewuiState();
 }
@@ -33,8 +36,8 @@ class _VisualaidviewuiState extends State<Visualaidviewui> {
         SizedBox(height: 4.h),
         SizedBox(
           height: 65.h,
-          child: Image.asset(
-            "${images_baseurl}dummy_image.png",
+          child: Image.network(
+            widget.visualImage.toString(),
             fit: BoxFit.fill,
             width: double.infinity,
           ),

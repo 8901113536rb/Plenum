@@ -15,31 +15,10 @@ import '../../utils/Progressdialog.dart';
 class Visualaidcontroller extends GetxController{
   TextEditingController searchcontroller=TextEditingController();
   RxBool isSearchVisible = false.obs;
-  final List<String> imageUrls = [
-    'dummy_image.png',
-    'dummy_image.png',
-    'dummy_image.png',
-    'dummy_image.png',
-    'dummy_image.png',
-    'dummy_image.png',
-    'dummy_image.png',
-    'dummy_image.png',
-  ].obs;
+
   void toggleSearch() {
     isSearchVisible.value = !isSearchVisible.value;
   }
-  final List<String> divisionItems = [
-    'Item1',
-    'Item2',
-    'Item3',
-    'Item4',
-  ].obs;
-  final List<String> categoryItems = [
-    'Item1',
-    'Item2',
-    'Item3',
-    'Item4',
-  ].obs;
   RxString selectedSubCategoryValue = "".obs;
   RxString selectedCategoryValue = "".obs;
   var products=<String>[].obs;

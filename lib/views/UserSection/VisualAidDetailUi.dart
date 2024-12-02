@@ -83,12 +83,12 @@ class _VisualaiddetailuiState extends State<Visualaiddetailui> {
               Get.back();
             },
               child: Text(close,style: TextStyle(color: themecolor,fontSize: 16,fontWeight: FontWeight.bold),)),
-          SizedBox(width: 20.w,),
-          GestureDetector(
-            onTap: (){
-              Get.to(Visualaidviewui());
-            },
-              child: Text(view,style: TextStyle(color: themecolor,fontSize: 16,fontWeight: FontWeight.bold),)),
+          // SizedBox(width: 20.w,),
+          // GestureDetector(
+          //   onTap: (){
+          //     // Get.to(Visualaidviewui(visualImage: widget.productsimage[index],));
+          //   },
+          //     child: Text(view,style: TextStyle(color: themecolor,fontSize: 16,fontWeight: FontWeight.bold),)),
         ],
       ),
     );

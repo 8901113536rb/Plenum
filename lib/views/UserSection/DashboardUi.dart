@@ -119,7 +119,7 @@ class _DashboarduiState extends State<Dashboardui> {
                                 CarouselSlider.builder(
                                   itemCount: controller.bannerimages.length,
                                   options: CarouselOptions(
-                                    height: 15.h, // Adjusted height for carousel slider
+                                    height: 18.h, // Adjusted height for carousel slider
                                     viewportFraction: 1.0,
                                     enableInfiniteScroll: true,
                                     autoPlay: false,
@@ -328,7 +328,7 @@ class _DashboarduiState extends State<Dashboardui> {
           child: Card(
               color: boxcolor,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8.0),
+                borderRadius: BorderRadius.circular(15.0),
               ),
               child: listDataView(titleText, index, images)),
         );
@@ -359,7 +359,7 @@ class _DashboarduiState extends State<Dashboardui> {
                 right: 3.w,
                 child: CircleAvatar(
                   radius: 4.w,
-                  backgroundColor: Colors.transparent.withOpacity(0.2),
+                  backgroundColor: white,
                   child: SvgPicture.asset(
                     images_baseurl + imagepath[index],
                     color: black,

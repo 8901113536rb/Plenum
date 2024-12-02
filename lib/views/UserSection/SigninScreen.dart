@@ -93,9 +93,10 @@ class _SigninScreenState extends State<SigninScreen> {
                       imageSourceType: ImageSourceType.svg,
                       imageUrl: "${images_baseurl}lockicon.svg",
                     ),
-                    validator: (value) {
-                      return passwordValidator(value);
-                    });
+                    // validator: (value) {
+                    //   return passwordValidator(value);
+                    // }
+                );
               }),
               SizedBox(height: 2.h),
               // Row(

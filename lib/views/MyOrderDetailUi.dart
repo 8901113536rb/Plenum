@@ -76,12 +76,14 @@ class _Myorderdetailui_screenState extends State<Myorderdetailui> {
           //     ],
           //   ),
           // ),
-          body: Column(
+          body:
+          controller.products.value!=null?
+          Column(
             children: [
               product_imageview(),
               product_content(),
             ],
-          ));
+          ):const Center(child: CircularProgressIndicator(),));
     });
   }
 
@@ -111,8 +113,8 @@ class _Myorderdetailui_screenState extends State<Myorderdetailui> {
                     height: 30.h,
                     // margin: EdgeInsets.only(left: 5, right: 5),
                     child: CommonImageWidget(
-                      imageSourceType: ImageSourceType.asset,
-                      imageUrl: images_baseurl + "dummy_image.png",
+                      imageSourceType: ImageSourceType.network,
+                      imageUrl: controller.products.value!.products![0].product!.productImage.toString(),
                       borderRadius: BorderRadius.circular(0),
                       fit: BoxFit.cover,
                     ),
@@ -233,7 +235,7 @@ class _Myorderdetailui_screenState extends State<Myorderdetailui> {
           const SizedBox(
             height: 5,
           ),
-          Divider(),
+          const Divider(),
           const SizedBox(
             height: 5,
           ),
@@ -327,20 +329,20 @@ class _Myorderdetailui_screenState extends State<Myorderdetailui> {
           // const SizedBox(
           //   height: 15,
           // ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                packing_type,
-                style: Common_textstyles.productoptionstyle,
-              ),
-              option_btn(
-                  controller.products.value?.products?[0].product?.packingType.toString() ?? "")
-            ],
-          ),
-          const SizedBox(
-            height: 15,
-          ),
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //   children: [
+          //     Text(
+          //       packing_type,
+          //       style: Common_textstyles.productoptionstyle,
+          //     ),
+          //     option_btn(
+          //         controller.products.value?.products?[0].product?.packingType.toString() ?? "")
+          //   ],
+          // ),
+          // const SizedBox(
+          //   height: 15,
+          // ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -380,7 +382,7 @@ class _Myorderdetailui_screenState extends State<Myorderdetailui> {
 
   Widget option_btn(String title) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 10),
       alignment: Alignment.center,
       // width: 15.w,
       height: 4.h,

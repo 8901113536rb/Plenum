@@ -78,15 +78,52 @@ class _Product_detail_screenState extends State<Productdetailscreen> {
               ],
             ),
           ),
-          body: Container(
+          body:
+          controller.products.value!=null?
+          Container(
             child: Column(
               children: [
                 product_imageview(),
                 product_content(),
+                vistualAdsBtn()
               ],
             ),
-          ));
+          ):const Center(child: CircularProgressIndicator())
+
+      );
     });
+  }
+  Widget vistualAdsBtn(){
+    return   GestureDetector(
+      onTap: () {
+        // controller.addtocart(widget.productid.toString());
+      },
+      child: Container(
+        // margin: EdgeInsets.symmetric(horizontal: 15.w),
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          color: themecolor,
+        ),
+        height: 6.h,
+        width: 35.w,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // Icon(Icons.share,color: white,size: 18,),
+            // SizedBox(width: 1.w,),
+            Text(
+              visual_ads,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w600,
+                  color: white),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   Widget product_content() {
@@ -115,8 +152,8 @@ class _Product_detail_screenState extends State<Productdetailscreen> {
                 height: 30.h,
                 // margin: EdgeInsets.only(left: 5, right: 5),
                 child: CommonImageWidget(
-                  imageSourceType: ImageSourceType.asset,
-                  imageUrl: images_baseurl + "dummy_image.png",
+                  imageSourceType: ImageSourceType.network,
+                  imageUrl: controller.products.value!.productImage.toString(),
                   borderRadius: BorderRadius.circular(0),
                   fit: BoxFit.cover,
                 ),
@@ -171,7 +208,7 @@ class _Product_detail_screenState extends State<Productdetailscreen> {
                           },
                           child: controller.favouritestatus.value
                               ? Container(
-                                  margin: EdgeInsets.all(5),
+                                  margin: const EdgeInsets.all(5),
                                   height: 3.h,
                                   alignment: Alignment.centerRight,
                                   width: 20.w,
@@ -182,7 +219,7 @@ class _Product_detail_screenState extends State<Productdetailscreen> {
                                   ),
                                 )
                               : Container(
-                                  margin: EdgeInsets.all(5),
+                                  margin: const EdgeInsets.all(5),
                                   height: 3.h,
                                   alignment: Alignment.centerRight,
                                   width: 20.w,
@@ -237,7 +274,7 @@ class _Product_detail_screenState extends State<Productdetailscreen> {
           const SizedBox(
             height: 5,
           ),
-          Divider(),
+          const Divider(),
           const SizedBox(
             height: 5,
           ),
@@ -331,20 +368,20 @@ class _Product_detail_screenState extends State<Productdetailscreen> {
           // const SizedBox(
           //   height: 15,
           // ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                packing_type,
-                style: Common_textstyles.productoptionstyle,
-              ),
-              option_btn(
-                  controller.products.value?.packingType.toString() ?? "")
-            ],
-          ),
-          const SizedBox(
-            height: 15,
-          ),
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //   children: [
+          //     Text(
+          //       packing_type,
+          //       style: Common_textstyles.productoptionstyle,
+          //     ),
+          //     option_btn(
+          //         controller.products.value?.packingType.toString() ?? "")
+          //   ],
+          // ),
+          // const SizedBox(
+          //   height: 15,
+          // ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -404,16 +441,16 @@ class _Product_detail_screenState extends State<Productdetailscreen> {
                             });
                           },
                           child: Container(
-                            padding: EdgeInsets.all(6),
-                            child: Icon(
+                            padding: const EdgeInsets.all(6),
+                            child: const Icon(
                               Icons.remove,
                               size: 12,
                             ),
                           ),
                         ),
                         Container(
-                            margin: EdgeInsets.only(left: 5, right: 5),
-                            child: Text(controller.quantity.value.toString(),style: TextStyle(fontWeight: FontWeight.w500),)),
+                            margin: const EdgeInsets.only(left: 5, right: 5),
+                            child: Text(controller.quantity.value.toString(),style: const TextStyle(fontWeight: FontWeight.w500),)),
                         GestureDetector(
                           onTap: () {
                             setState(() {
@@ -421,8 +458,8 @@ class _Product_detail_screenState extends State<Productdetailscreen> {
                             });
                           },
                           child: Container(
-                            padding: EdgeInsets.all(6),
-                            child: Icon(
+                            padding: const EdgeInsets.all(6),
+                            child: const Icon(
                               Icons.add,
                               size: 12,
                             ),
@@ -446,7 +483,7 @@ class _Product_detail_screenState extends State<Productdetailscreen> {
 
   Widget option_btn(String title) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 10),
       alignment: Alignment.center,
       // width: 15.w,
       height: 4.h,

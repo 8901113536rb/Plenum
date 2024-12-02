@@ -144,7 +144,7 @@ class _ProductsscreenState extends State<Productsscreen> {
                                         borderSide: BorderSide(color: dropdownborder),
                                       ),
                                     ),
-                                    hint: Text(
+                                    hint: const Text(
                                       category,
                                       style: TextStyle(
                                         fontSize: 14,

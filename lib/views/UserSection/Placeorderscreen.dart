@@ -14,6 +14,8 @@ import 'PlaceOrderSuccess_screen.dart';
 import 'address/AddressListingScreen.dart';
 
 class Placeorderscreen extends StatefulWidget {
+  const Placeorderscreen({super.key});
+
   @override
   State<Placeorderscreen> createState() => _PlaceorderscreenState();
 }
@@ -37,7 +39,9 @@ class _PlaceorderscreenState extends State<Placeorderscreen> {
           appBar: PreferredSize(
               preferredSize: Size.fromHeight(20.h), // Set this height
               child: appbarView()),
-          bottomNavigationBar:  Container(
+          bottomNavigationBar:
+          controller.products.isNotEmpty?
+          Container(
             padding: EdgeInsets.symmetric(horizontal: 2.5.w, vertical: 0.5.h),
             height: 7.h, // Adjust height to fit both buttons
             child: GestureDetector(
@@ -74,7 +78,7 @@ class _PlaceorderscreenState extends State<Placeorderscreen> {
                 ),
               ),
             ),
-          ),
+          ):const SizedBox(),
           body: controller.products.isNotEmpty?productsView():const NoDataFound(message: no_data_found,),
         );
       })
@@ -96,7 +100,7 @@ class _PlaceorderscreenState extends State<Placeorderscreen> {
                   color: Colors.grey.withOpacity(.5),
                   blurRadius: 20.0, // soften the shadow
                   spreadRadius: 0.0, //extend the shadow
-                  offset: Offset(
+                  offset: const Offset(
                     5.0, // Move to right 10  horizontally
                     5.0, // Move to bottom 10 Vertically
                   ),
@@ -317,9 +321,9 @@ class _PlaceorderscreenState extends State<Placeorderscreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          insetPadding: EdgeInsets.all(20),
-          title: Text(order_confirmation),
-          content: Text(do_you_want_place_order),
+          insetPadding: const EdgeInsets.all(20),
+          title: const Text(order_confirmation),
+          content: const Text(do_you_want_place_order),
           actions: <Widget>[
             TextButton(
               child: Text(Dismiss,style: TextStyle(color: themecolor),),
