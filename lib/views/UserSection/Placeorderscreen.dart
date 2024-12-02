@@ -35,7 +35,7 @@ class _PlaceorderscreenState extends State<Placeorderscreen> {
         return  Scaffold(
           backgroundColor: white,
           appBar: PreferredSize(
-              preferredSize: Size.fromHeight(26.h), // Set this height
+              preferredSize: Size.fromHeight(20.h), // Set this height
               child: appbarView()),
           bottomNavigationBar:  Container(
             padding: EdgeInsets.symmetric(horizontal: 2.5.w, vertical: 0.5.h),
@@ -85,98 +85,92 @@ class _PlaceorderscreenState extends State<Placeorderscreen> {
     return ListView.builder(
         itemCount:controller.products.length,
         itemBuilder: (BuildContext context, int index) {
-          return  Column(
-            children: [
-              SizedBox(
-                height: 2.h,
-              ),
-              Container(
-                width: double.infinity,
-                // height: 21.5.h,
-                margin: EdgeInsets.only(left: 5.w, right: 5.w, top: 2.h),
-                decoration:  BoxDecoration(
-                  color: white,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(.5),
-                      blurRadius: 20.0, // soften the shadow
-                      spreadRadius: 0.0, //extend the shadow
-                      offset: Offset(
-                        5.0, // Move to right 10  horizontally
-                        5.0, // Move to bottom 10 Vertically
-                      ),
-                    )
-                  ],
-                ),
-                child: Padding(
-                  padding:
-                  EdgeInsets.only(left: 3.w, right: 3.w, top: 1.5.h, bottom: 1.h),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          return  Container(
+            width: double.infinity,
+            // height: 21.5.h,
+            margin: EdgeInsets.only(left: 5.w, right: 5.w, top: 2.h),
+            decoration:  BoxDecoration(
+              color: white,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(.5),
+                  blurRadius: 20.0, // soften the shadow
+                  spreadRadius: 0.0, //extend the shadow
+                  offset: Offset(
+                    5.0, // Move to right 10  horizontally
+                    5.0, // Move to bottom 10 Vertically
+                  ),
+                )
+              ],
+            ),
+            child: Padding(
+              padding:
+              EdgeInsets.only(left: 3.w, right: 3.w, top: 1.5.h, bottom: 1.h),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    width: 10.h,
+                    height: 9.h,
+                    child: CommonImageWidget(
+                      imageSourceType: ImageSourceType.cached_image,
+                      imageUrl: controller.products.elementAt(index).product?.productImage.toString()??"",
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                  Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      // Container(
-                      //     width: 12.h,
-                      //     height: 10.h,
-                      //     child: Image.asset(images_baseurl + "appledummy.png")),
                       SizedBox(
-                        width: 10.h,
-                        height: 9.h,
-                        child: CommonImageWidget(
-                          imageSourceType: ImageSourceType.cached_image,
-                          imageUrl: controller.products.elementAt(index).product?.productImage.toString()??"",
-                          fit: BoxFit.fill,
+                        width: 45.w,
+                        child: Text(
+                          controller.products.elementAt(index).product?.name.toString()??"",
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: black,
+                          ),
                         ),
                       ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          SizedBox(
-                            width: 57.w,
-                            child: Text(
-                              controller.products.elementAt(index).product?.name.toString()??"",
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
-                                color: black,
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 0.3.h,
-                          ),
-                          SizedBox(
-                              width: 60.w,
-                              child: Text(
-                                  controller.products.elementAt(index).product?.description.toString()??"",
-                                  maxLines: 2,
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w500,
-                                      color: create_acc_color,
-                                      overflow: TextOverflow.ellipsis))),
-                          SizedBox(
-                            height: 1.h,
-                          ),
-                          Text(
-                              "$currency ${controller.products.elementAt(index).product?.price.toString()??""}" ??
-                                  '',
+                      SizedBox(
+                        height: 0.3.h,
+                      ),
+                      SizedBox(
+                          width: 50.w,
+                          child: Text(
+                              controller.products.elementAt(index).product?.description.toString()??"",
+                              maxLines: 2,
                               style: TextStyle(
                                   fontSize: 12,
-                                  fontWeight: FontWeight.w600,
-                                  color: blackcolor)),
-                          SizedBox(
-                            height: 1.h,
-                          ),
-                        ],
+                                  fontWeight: FontWeight.w500,
+                                  color: create_acc_color,
+                                  overflow: TextOverflow.ellipsis))),
+                      SizedBox(
+                        height: 1.h,
+                      ),
+                      Text(
+                          "$currency ${controller.products.elementAt(index).product?.price.toString()??""}" ??
+                              '',
+                          style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                              color: blackcolor)),
+                      SizedBox(
+                        height: 1.h,
                       ),
                     ],
                   ),
-                ),
+                  GestureDetector(
+                    onTap: (){
+                      controller.removeCartProduct(controller.products.elementAt(index).productId.toString());
+                    },
+                      child: Icon(Icons.delete_outline_outlined,color: black,))
+                ],
               ),
-            ],
+            ),
           );
         });
   }
@@ -232,34 +226,25 @@ class _PlaceorderscreenState extends State<Placeorderscreen> {
               decoration:
               BoxDecoration(color: white, border: Border.all(color: white)),
               padding:
-              EdgeInsets.only(left: 4.w, right: 4.w, top: 2.h, bottom: 2.h),
+              EdgeInsets.only(left: 4.w, right: 4.w, top: 1.h, bottom: 2.h),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        total_price,
-                        style: Common_textstyles.descTextstyle,
-                      ),
-                      Text("Free delivery",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 13,
-                              color: ordercmpt_color)),
-                    ],
-                  ),
+                  // Text("Free delivery",
+                  //     style: TextStyle(
+                  //         fontWeight: FontWeight.w500,
+                  //         fontSize: 13,
+                  //         color: ordercmpt_color)),
                   SizedBox(
                     height: 0.4.h,
                   ),
-                  Text(
-                      currency+controller.totalAmount.value.toString(),
-                      style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 13,
-                          color: blackcolor)),
+                  // Text(
+                  //     currency+controller.totalAmount.value.toString(),
+                  //     style: TextStyle(
+                  //         fontWeight: FontWeight.w500,
+                  //         fontSize: 13,
+                  //         color: blackcolor)),
                   SizedBox(
                     height: 0.4.h,
                   ),

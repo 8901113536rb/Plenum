@@ -8,6 +8,7 @@ import '../../constants/appcolors.dart';
 import '../../constants/stringconstants.dart';
 import '../../controllers/UserControllers/FeaturedProductController.dart';
 import '../../utils/CommonImageWidget.dart';
+import '../../utils/CommonToast.dart';
 import '../../utils/Commonwidgets.dart';
 import '../../utils/NoDataFound.dart';
 import 'ProductDetailScreen.dart';
@@ -29,10 +30,11 @@ class _FeaturedproductscreenState extends State<Featuredproductscreen> {
     // controller.searchcontroller.text=widget.searchdata!;
     Future.microtask(() {
       if(controller.searchcontroller.text.isNotEmpty){
-        // controller.search_product();
+        controller.get_product("","",controller.searchcontroller.value);
       }else{
         Future.microtask(() {
-          controller.get_product();
+          controller.get_product("","","");
+          controller.fetchCategoriesData();
         });
       }
     });
@@ -85,7 +87,18 @@ class _FeaturedproductscreenState extends State<Featuredproductscreen> {
                           ),
                           SizedBox(height: controller.isSearchVisible.value ? 1.h : 0),
                           if (controller.isSearchVisible.value)
-                            searchbar(controller.searchcontroller, context, () {}),
+                            searchbar(controller.searchcontroller, context, () {
+                              print("on tap search....");
+                              if(controller.searchcontroller.text==""){
+                                failed_toast(please_enter_text);
+                              }else{
+                                controller.get_product(
+                                  controller.selectedCategoryValue.value,
+                                  controller.selectedSubCategoryValue.value,
+                                  controller.searchcontroller.value.text,
+                                );
+                              }
+                            }),
                         ],
                       ),
                     ),
@@ -101,7 +114,7 @@ class _FeaturedproductscreenState extends State<Featuredproductscreen> {
                           topRight: Radius.circular(25.0),
                         ),
                       ),
-                      child:controller.products.isNotEmpty? Column(
+                      child:Column(
                         children: [
                           // Dropdown and Clear Button Row
                           Container(
@@ -133,7 +146,7 @@ class _FeaturedproductscreenState extends State<Featuredproductscreen> {
                                       ),
                                     ),
                                     hint: Text(
-                                      divisions,
+                                      category,
                                       style: TextStyle(
                                         fontSize: 14,
                                         color: Colors.black,
@@ -141,21 +154,19 @@ class _FeaturedproductscreenState extends State<Featuredproductscreen> {
                                       ),
                                       overflow: TextOverflow.ellipsis,
                                     ),
-                                    items: controller.divisionItems
-                                        .map((String item) => DropdownMenuItem<String>(
-                                      value: item,
-                                      child: Text(
-                                        item,
-                                        style: const TextStyle(
-                                            fontSize: 14, fontWeight: FontWeight.w500),
-                                      ),
-                                    ))
-                                        .toList(),
+                                    items:  controller.categories.map((category) {
+                                      return DropdownMenuItem<String>(
+                                        value: category['id'].toString(),
+                                        child: Text(category['name']),
+                                      );
+                                    }).toList(),
                                     onChanged: (newValue) {
-                                      controller.selectedDivisionValue.value = newValue!;
+                                      controller.selectedCategoryValue.value = newValue!;
+                                      controller.get_product(controller.selectedCategoryValue.value,controller.selectedSubCategoryValue.value , controller.searchcontroller.text);
+                                      controller.get_subcategory(controller.selectedCategoryValue.value);
                                     },
                                     onSaved: (value) {
-                                      controller.selectedDivisionValue.value = value.toString();
+                                      controller.selectedCategoryValue.value = value.toString();
                                     },
                                     iconStyleData: const IconStyleData(
                                       icon: Icon(
@@ -170,8 +181,9 @@ class _FeaturedproductscreenState extends State<Featuredproductscreen> {
                                         borderRadius: BorderRadius.circular(8),
                                       ),
                                     ),
-                                    menuItemStyleData: const MenuItemStyleData(
-                                      padding: EdgeInsets.symmetric(horizontal: 16),
+                                    menuItemStyleData:  MenuItemStyleData(
+                                        padding: EdgeInsets.symmetric(horizontal: 16),
+                                        height: 9.h
                                     ),
                                   ),
                                 ),
@@ -199,7 +211,7 @@ class _FeaturedproductscreenState extends State<Featuredproductscreen> {
                                       ),
                                     ),
                                     hint: Text(
-                                      category,
+                                      subcategory,
                                       style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w500,
@@ -207,21 +219,18 @@ class _FeaturedproductscreenState extends State<Featuredproductscreen> {
                                       ),
                                       overflow: TextOverflow.ellipsis,
                                     ),
-                                    items: controller.categoryItems
-                                        .map((String item) => DropdownMenuItem<String>(
-                                      value: item,
-                                      child: Text(
-                                        item,
-                                        style: const TextStyle(
-                                            fontSize: 14, fontWeight: FontWeight.w500),
-                                      ),
-                                    ))
-                                        .toList(),
+                                    items:  controller.subcategories.map((category) {
+                                      return DropdownMenuItem<String>(
+                                        value: category['id'].toString(),
+                                        child: Text(category['name']),
+                                      );
+                                    }).toList(),
                                     onChanged: (newValue) {
-                                      controller.selectedCategoryValue.value = newValue!;
+                                      controller.selectedSubCategoryValue.value = newValue!;
+                                      controller.get_product(controller.selectedCategoryValue.value,controller.selectedSubCategoryValue.value , controller.searchcontroller.text);
                                     },
                                     onSaved: (value) {
-                                      controller.selectedCategoryValue.value = value.toString();
+                                      controller.selectedSubCategoryValue.value = value.toString();
                                     },
                                     iconStyleData: const IconStyleData(
                                       icon: Icon(
@@ -242,25 +251,39 @@ class _FeaturedproductscreenState extends State<Featuredproductscreen> {
                                   ),
                                 ),
                                 // Clear Button
-                                Container(
-                                  height: 5.h,
-                                  width: 25.w,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                                    border: Border.all(color: dropdownborder),
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      Icon(Icons.refresh, color: Colors.black, size: 20),
-                                      SizedBox(width: 2.w),
-                                      Text(
-                                        clear,
-                                        style: TextStyle(fontSize: 14, color: Colors.black),
-                                      ),
-                                    ],
+                                GestureDetector(
+                                  onTap: (){
+                                    controller.selectedCategoryValue.value="";
+                                    controller.selectedSubCategoryValue.value="";
+                                    controller.searchcontroller.clear();
+                                    controller.categories.clear();
+                                    controller.subcategories.clear();
+                                    controller.get_product(
+                                      "",
+                                      "",
+                                      "",
+                                    );
+                                  },
+                                  child: Container(
+                                    height: 5.h,
+                                    width: 25.w,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                                      border: Border.all(color: dropdownborder),
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        Icon(Icons.refresh, color: Colors.black, size: 20),
+                                        SizedBox(width: 2.w),
+                                        Text(
+                                          clear,
+                                          style: TextStyle(fontSize: 14, color: Colors.black),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ],
@@ -268,10 +291,10 @@ class _FeaturedproductscreenState extends State<Featuredproductscreen> {
                           ),
                           // Expanded Product List
                           Expanded(
-                            child: productlistview(),
+                            child: controller.products.isNotEmpty?productlistview():const NoDataFound(message: no_data_found,),
                           ),
                         ],
-                      ):const NoDataFound(message: no_data_found,),
+                      )
                     ),
                   ),
                 ],
@@ -281,227 +304,7 @@ class _FeaturedproductscreenState extends State<Featuredproductscreen> {
       );
     });
   }
-  appBar(){
-    return AppBar(
-      toolbarHeight: controller.isSearchVisible.value?20.h:15.h,
-      automaticallyImplyLeading: false, // Disable default back button
-      title: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                products,
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-              GestureDetector(
-                  onTap: (){
-                    controller.toggleSearch();
-                  },
-                  child: Icon(Icons.search))
-            ],
-          ),
-          Container(
-            margin: EdgeInsets.only(top: 2.h),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      height: 5.h,
-                      width: 32.w,
-                      child: DropdownButtonFormField2<String>(
-                        isExpanded: true,
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: white,
-                          contentPadding: const EdgeInsets.symmetric(vertical: 0),
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(8.0),
-                              ),
-                              borderSide: BorderSide(color: white)
-                          ),
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                              borderSide: BorderSide(color: white)),
-                          enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                              borderSide: BorderSide(color: white)),
-                          errorBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                              borderSide: BorderSide(color: white)),
-                          // Add more decoration..
-                        ),
-                        hint: SizedBox(
-                          child: Text(
-                            divisions,
-                            style: TextStyle(fontSize: 14, color: black,fontWeight: FontWeight.w500),
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        items: controller.divisionItems
-                            .map((String item) => DropdownMenuItem<String>(
-                          value: item,
-                          child: Text(
-                            item,
-                            style: const TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500
-                            ),
-                          ),
-                        ))
-                            .toList(),
-                        // validator: (value) {
-                        //   if (value == null) {
-                        //     return select_box_type;
-                        //   }
-                        //   return null;
-                        // },
-                        onChanged: (newValue) {
-                          controller.selectedDivisionValue.value = newValue!;
-                        },
-                        onSaved: (value) {
-                          controller.selectedDivisionValue.value = value.toString();
-                        },
-                        buttonStyleData: const ButtonStyleData(
-                          padding: EdgeInsets.only(
-                            right: 8,
-                          ),
-                        ),
-                        iconStyleData: const IconStyleData(
-                          icon: Icon(
-                            Icons.arrow_drop_down,
-                            color: Colors.black45,
-                          ),
-                          iconSize: 24,
-                        ),
-                        dropdownStyleData: DropdownStyleData(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                        ),
-                        menuItemStyleData: const MenuItemStyleData(
-                          padding: EdgeInsets.symmetric(horizontal: 16),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      height: 5.h,
-                      width: 32.w,
-                      child: DropdownButtonFormField2<String>(
-                        isExpanded: true,
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: white,
-                          contentPadding: const EdgeInsets.symmetric(vertical: 0),
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(8.0),
-                              ),
-                              borderSide: BorderSide(color: white)
-                          ),
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                              borderSide: BorderSide(color: white)),
-                          enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                              borderSide: BorderSide(color: white)),
-                          errorBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                              borderSide: BorderSide(color: white)),
-                          // Add more decoration..
-                        ),
-                        hint: SizedBox(
-                          child: Text(
-                            category,
-                            style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, color: black),
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        items: controller.categoryItems
-                            .map((String item) => DropdownMenuItem<String>(
-                          value: item,
-                          child: Text(
-                            item,
-                            style: const TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500
-                            ),
-                          ),
-                        ))
-                            .toList(),
-                        // validator: (value) {
-                        //   if (value == null) {
-                        //     return select_box_type;
-                        //   }
-                        //   return null;
-                        // },
-                        onChanged: (newValue) {
-                          controller.selectedCategoryValue.value = newValue!;
-                        },
-                        onSaved: (value) {
-                          controller.selectedCategoryValue.value = value.toString();
-                        },
-                        buttonStyleData: const ButtonStyleData(
-                          padding: EdgeInsets.only(
-                            right: 8,
-                          ),
-                        ),
-                        iconStyleData: const IconStyleData(
-                          icon: Icon(
-                            Icons.arrow_drop_down,
-                            color: Colors.black45,
-                          ),
-                          iconSize: 24,
-                        ),
-                        dropdownStyleData: DropdownStyleData(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                        ),
-                        menuItemStyleData: const MenuItemStyleData(
-                          padding: EdgeInsets.symmetric(horizontal: 16),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      height: 5.h,
-                      width: 25.w,
-                      decoration: BoxDecoration(
-                        color: white,
-                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                        // borderSide: BorderSide(color: white)
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Icon(Icons.refresh,color: black,size: 20,),
-                          SizedBox(width: 2.w,),
-                          Text(clear, style: TextStyle(fontSize: 14, color: black),)
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-                controller.isSearchVisible.value?
-                SizedBox(height: 1.h,):const SizedBox(),
-                controller.isSearchVisible.value?
-                searchbar(controller.searchcontroller,context,(){}):const SizedBox()
-              ],
-            ),
-          ),
-        ],
-      ),
-      centerTitle: true,
-      backgroundColor: themecolor,
-      elevation: 0,
-    );
-  }
+
   Widget productlistview(){
     return ListView.builder(
       // padding: EdgeInsets.only(bottom: 2.h),

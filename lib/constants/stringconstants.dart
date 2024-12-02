@@ -43,6 +43,7 @@ const String  phonenumber = "Phone Number";
 const String  gstnumber = "GST Number";
 const String  search = "Search";
 const String  category = "Category";
+const String  subcategory = "SubCategory";
 const String  popular = "Popular";
 const String  viewall = "View All";
 const String  all_products = "All Products";
@@ -227,5 +228,6 @@ const String  Login_successfully = "Login Successfully.";
 const String  no_banner_found = "No Banner Found!";
 const String  aboutname = "App Name";
 const String  abouttxt = "About";
+const String  please_enter_text = "PLease Enter Text";
 
 

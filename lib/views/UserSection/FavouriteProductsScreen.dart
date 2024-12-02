@@ -71,12 +71,12 @@ class _FavouriteproductsscreenState extends State<Favouriteproductsscreen> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  GestureDetector(
-                                    onTap: () {
-                                      controller.toggleSearch();
-                                    },
-                                    child: Icon(Icons.search, color: white),
-                                  ),
+                                  // GestureDetector(
+                                  //   onTap: () {
+                                  //     controller.toggleSearch();
+                                  //   },
+                                  //   child: Icon(Icons.search, color: white),
+                                  // ),
                                   SizedBox(width: 2.w),
                                   Icon(Icons.shopping_bag_outlined, color: white),
                                 ],
@@ -101,177 +101,7 @@ class _FavouriteproductsscreenState extends State<Favouriteproductsscreen> {
                           topRight: Radius.circular(25.0),
                         ),
                       ),
-                      child: controller.products.isNotEmpty? Column(
-                        children: [
-                          // Dropdown and Clear Button Row
-                          Container(
-                            margin: EdgeInsets.symmetric(horizontal: 4.5.w, vertical: 2.h),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                // Dropdown for Division
-                                SizedBox(
-                                  height: 5.h,
-                                  width: 32.w,
-                                  child: DropdownButtonFormField2<String>(
-                                    isExpanded: true,
-                                    decoration: InputDecoration(
-                                      filled: true,
-                                      fillColor: Colors.white,
-                                      contentPadding: const EdgeInsets.symmetric(vertical: 0),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                                        borderSide: BorderSide(color: dropdownborder),
-                                      ),
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                                        borderSide: BorderSide(color: dropdownborder),
-                                      ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                                        borderSide: BorderSide(color: dropdownborder),
-                                      ),
-                                    ),
-                                    hint: Text(
-                                      divisions,
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                    items: controller.divisionItems
-                                        .map((String item) => DropdownMenuItem<String>(
-                                      value: item,
-                                      child: Text(
-                                        item,
-                                        style: const TextStyle(
-                                            fontSize: 14, fontWeight: FontWeight.w500),
-                                      ),
-                                    ))
-                                        .toList(),
-                                    onChanged: (newValue) {
-                                      controller.selectedDivisionValue.value = newValue!;
-                                    },
-                                    onSaved: (value) {
-                                      controller.selectedDivisionValue.value = value.toString();
-                                    },
-                                    iconStyleData: const IconStyleData(
-                                      icon: Icon(
-                                        Icons.arrow_drop_down,
-                                        color: Colors.black45,
-                                      ),
-                                      iconSize: 24,
-                                    ),
-                                    dropdownStyleData: DropdownStyleData(
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(8),
-                                      ),
-                                    ),
-                                    menuItemStyleData: const MenuItemStyleData(
-                                      padding: EdgeInsets.symmetric(horizontal: 16),
-                                    ),
-                                  ),
-                                ),
-                                // Dropdown for Category
-                                SizedBox(
-                                  height: 5.h,
-                                  width: 32.w,
-                                  child: DropdownButtonFormField2<String>(
-                                    isExpanded: true,
-                                    decoration: InputDecoration(
-                                      filled: true,
-                                      fillColor: Colors.white,
-                                      contentPadding: const EdgeInsets.symmetric(vertical: 0),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                                        borderSide: BorderSide(color: dropdownborder),
-                                      ),
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                                        borderSide: BorderSide(color: dropdownborder),
-                                      ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                                        borderSide: BorderSide(color: dropdownborder),
-                                      ),
-                                    ),
-                                    hint: Text(
-                                      category,
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.black,
-                                      ),
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                    items: controller.categoryItems
-                                        .map((String item) => DropdownMenuItem<String>(
-                                      value: item,
-                                      child: Text(
-                                        item,
-                                        style: const TextStyle(
-                                            fontSize: 14, fontWeight: FontWeight.w500),
-                                      ),
-                                    ))
-                                        .toList(),
-                                    onChanged: (newValue) {
-                                      controller.selectedCategoryValue.value = newValue!;
-                                    },
-                                    onSaved: (value) {
-                                      controller.selectedCategoryValue.value = value.toString();
-                                    },
-                                    iconStyleData: const IconStyleData(
-                                      icon: Icon(
-                                        Icons.arrow_drop_down,
-                                        color: Colors.black45,
-                                      ),
-                                      iconSize: 24,
-                                    ),
-                                    dropdownStyleData: DropdownStyleData(
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(8),
-                                      ),
-                                    ),
-                                    menuItemStyleData: const MenuItemStyleData(
-                                      padding: EdgeInsets.symmetric(horizontal: 16),
-                                    ),
-                                  ),
-                                ),
-                                // Clear Button
-                                Container(
-                                  height: 5.h,
-                                  width: 25.w,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                                    border: Border.all(color: dropdownborder),
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      Icon(Icons.refresh, color: Colors.black, size: 20),
-                                      SizedBox(width: 2.w),
-                                      Text(
-                                        clear,
-                                        style: TextStyle(fontSize: 14, color: Colors.black),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          // Expanded Product List
-                          Expanded(
-                            child: productlistview(),
-                          ),
-                        ],
-                      ):const NoDataFound(message: no_data_found,),
+                      child:  controller.products.isNotEmpty?productlistview():const NoDataFound(message: no_data_found,)
                     ),
                   ),
                 ],
@@ -504,7 +334,7 @@ class _FavouriteproductsscreenState extends State<Favouriteproductsscreen> {
   }
   Widget productlistview(){
     return ListView.builder(
-      // padding: EdgeInsets.only(bottom: 2.h),
+      padding: EdgeInsets.only(top: 2.h),
         itemCount: controller.products.length,
         itemBuilder: (BuildContext context, int index) {
           return Column(
@@ -574,7 +404,7 @@ class _FavouriteproductsscreenState extends State<Favouriteproductsscreen> {
                                     width: 35.w,
                                     child: Text(
                                       controller.products.elementAt(index).product?.description.toString()??"",
-                                      maxLines: 2,
+                                      maxLines: 4,
                                       style: TextStyle(
                                         fontSize: 12,
                                         fontWeight: FontWeight.w500,
@@ -584,42 +414,39 @@ class _FavouriteproductsscreenState extends State<Favouriteproductsscreen> {
                                     ),
                                   ),
                                   SizedBox(height: 1.5.h,),
-                                  Row(
-                                    children: [
-                                      Container(
-                                        padding: const EdgeInsets.all(3),
-                                        decoration: BoxDecoration(
-                                            color: themecolor,
-                                            borderRadius: BorderRadius.circular(5)),
-                                        child: Icon(
-                                          Icons.add,
-                                          color: white,
-                                          size: 20,
-                                        ),
-                                      ),
-                                      SizedBox(width: 1.w,),
-                                      Container(
-                                        padding:  EdgeInsets.all(3),
-                                        child: Text("0",style: TextStyle(color: black,fontSize: 15),),
-                                      ),
-                                      SizedBox(width: 1.w,),
-                                      Container(
-                                        padding: const EdgeInsets.all(3),
-                                        decoration: BoxDecoration(
-                                            color: themecolor,
-                                            borderRadius: BorderRadius.circular(5)),
-                                        child: Icon(
-                                          Icons.remove,
-                                          color: white,
-                                          size: 20,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(width:2.w,),
+                                  // SizedBox(width:2.w,),
                                 ],
                               ),
-                              Icon(Icons.favorite, color: ordercncl_color),
+                              GestureDetector(
+                                  onTap: () {
+                                    if (controller.favouritestatus.value==true) {
+                                      controller.deletewishlist(
+                                          controller.products.elementAt(index).productId?.toInt() ?? 0);
+                                    }
+                                  },
+                                  child: controller.favouritestatus.value==true
+                                      ? Container(
+                                   // margin: EdgeInsets.all(5),
+                                   // height: 3.h,
+                                    alignment: Alignment.centerRight,
+                                   // width: 20.w,
+                                    child: Icon(
+                                      Icons.favorite,
+                                      color: ordercncl_color,
+                                      size: 30,
+                                    ),
+                                  )
+                                      : Container(
+                                   // margin: EdgeInsets.all(5),
+                                   // height: 3.h,
+                                    alignment: Alignment.centerRight,
+                                   // width: 20.w,
+                                    child: Icon(
+                                      Icons.favorite_border,
+                                      color: ordercncl_color,
+                                      size: 30,
+                                    ),
+                                  )),
                               Icon(Icons.share_outlined, color: black),
                             ],
                           ),

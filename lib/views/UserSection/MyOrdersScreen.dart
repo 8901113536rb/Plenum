@@ -50,8 +50,14 @@ class _MyordersscreenState extends State<Myordersscreen> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
+                              GestureDetector(
+                                onTap: (){
+                                  Get.back();
+                                },
+                                  child: Icon(Icons.arrow_back,color: white,)),
+                              SizedBox(width: 2.w,),
                               Text(
                                 my_orders,
                                 style: TextStyle(
@@ -59,20 +65,6 @@ class _MyordersscreenState extends State<Myordersscreen> {
                                   fontWeight: FontWeight.bold,
                                   color: white,
                                 ),
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  GestureDetector(
-                                    onTap: () {
-                                      controller.toggleSearch();
-                                    },
-                                    child: Icon(Icons.search, color: white),
-                                  ),
-                                  SizedBox(width: 2.w),
-                                  Icon(Icons.shopping_bag_outlined, color: white),
-                                ],
                               ),
                             ],
                           ),
@@ -94,176 +86,8 @@ class _MyordersscreenState extends State<Myordersscreen> {
                           topRight: Radius.circular(25.0),
                         ),
                       ),
-                      child:controller.orders!=[]? Column(
-                        children: [
-                          // Dropdown and Clear Button Row
-                          Container(
-                            margin: EdgeInsets.symmetric(horizontal: 4.5.w, vertical: 2.h),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                // Dropdown for Division
-                                SizedBox(
-                                  height: 5.h,
-                                  width: 32.w,
-                                  child: DropdownButtonFormField2<String>(
-                                    isExpanded: true,
-                                    decoration: InputDecoration(
-                                      filled: true,
-                                      fillColor: Colors.white,
-                                      contentPadding: const EdgeInsets.symmetric(vertical: 0),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                                        borderSide: BorderSide(color: dropdownborder),
-                                      ),
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                                        borderSide: BorderSide(color: dropdownborder),
-                                      ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                                        borderSide: BorderSide(color: dropdownborder),
-                                      ),
-                                    ),
-                                    hint: Text(
-                                      divisions,
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                    items: controller.divisionItems
-                                        .map((String item) => DropdownMenuItem<String>(
-                                      value: item,
-                                      child: Text(
-                                        item,
-                                        style: const TextStyle(
-                                            fontSize: 14, fontWeight: FontWeight.w500),
-                                      ),
-                                    ))
-                                        .toList(),
-                                    onChanged: (newValue) {
-                                      controller.selectedDivisionValue.value = newValue!;
-                                    },
-                                    onSaved: (value) {
-                                      controller.selectedDivisionValue.value = value.toString();
-                                    },
-                                    iconStyleData: const IconStyleData(
-                                      icon: Icon(
-                                        Icons.arrow_drop_down,
-                                        color: Colors.black45,
-                                      ),
-                                      iconSize: 24,
-                                    ),
-                                    dropdownStyleData: DropdownStyleData(
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(8),
-                                      ),
-                                    ),
-                                    menuItemStyleData: const MenuItemStyleData(
-                                      padding: EdgeInsets.symmetric(horizontal: 16),
-                                    ),
-                                  ),
-                                ),
-                                // Dropdown for Category
-                                SizedBox(
-                                  height: 5.h,
-                                  width: 32.w,
-                                  child: DropdownButtonFormField2<String>(
-                                    isExpanded: true,
-                                    decoration: InputDecoration(
-                                      filled: true,
-                                      fillColor: Colors.white,
-                                      contentPadding: const EdgeInsets.symmetric(vertical: 0),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                                        borderSide: BorderSide(color: dropdownborder),
-                                      ),
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                                        borderSide: BorderSide(color: dropdownborder),
-                                      ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                                        borderSide: BorderSide(color: dropdownborder),
-                                      ),
-                                    ),
-                                    hint: Text(
-                                      category,
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.black,
-                                      ),
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                    items: controller.categoryItems
-                                        .map((String item) => DropdownMenuItem<String>(
-                                      value: item,
-                                      child: Text(
-                                        item,
-                                        style: const TextStyle(
-                                            fontSize: 14, fontWeight: FontWeight.w500),
-                                      ),
-                                    ))
-                                        .toList(),
-                                    onChanged: (newValue) {
-                                      controller.selectedCategoryValue.value = newValue!;
-                                    },
-                                    onSaved: (value) {
-                                      controller.selectedCategoryValue.value = value.toString();
-                                    },
-                                    iconStyleData: const IconStyleData(
-                                      icon: Icon(
-                                        Icons.arrow_drop_down,
-                                        color: Colors.black45,
-                                      ),
-                                      iconSize: 24,
-                                    ),
-                                    dropdownStyleData: DropdownStyleData(
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(8),
-                                      ),
-                                    ),
-                                    menuItemStyleData: const MenuItemStyleData(
-                                      padding: EdgeInsets.symmetric(horizontal: 16),
-                                    ),
-                                  ),
-                                ),
-                                // Clear Button
-                                Container(
-                                  height: 5.h,
-                                  width: 25.w,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                                    border: Border.all(color: dropdownborder),
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      Icon(Icons.refresh, color: Colors.black, size: 20),
-                                      SizedBox(width: 2.w),
-                                      Text(
-                                        clear,
-                                        style: TextStyle(fontSize: 14, color: Colors.black),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          // Expanded Product List
-                          Expanded(
-                            child: productlistview()
-                          ),
-                        ],
+                      child:controller.orders!=[]? Expanded(
+                        child: productlistview()
                       ):const NoDataFound(message: no_data_found,),
                     ),
                   ),
@@ -497,7 +321,7 @@ class _MyordersscreenState extends State<Myordersscreen> {
   }
   Widget productlistview(){
     return ListView.builder(
-      // padding: EdgeInsets.only(bottom: 2.h),
+      padding: EdgeInsets.only(top: 2.h),
         itemCount: controller.orders.length,
         itemBuilder: (BuildContext context, int index) {
           return Column(

@@ -31,7 +31,8 @@ class Baseprovider extends GetConnect{
     );
 
     return response;
-  }  Future<Response>hitPost2(Map param,{required String url}) async{
+  }
+  Future<Response>hitPost2(Map param,{required String url}) async{
     var postAPI=await post(vhBaseUrl+url,param,headers: {
       "Content-Type" : "application/json; charset=UTF-8",
     });

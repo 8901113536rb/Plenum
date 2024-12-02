@@ -10,6 +10,7 @@ const String getProducts = "products";
 const String getFavouriteProducts = "wishlist";
 const String addToFavourite = "wishlist/add";
 const String removewishlist = "wishlist/remove/";
+const String removecartproduct = "cart/remove/";
 const String visualAids = "visualAids";
 const String getFeaturedProducts = "products/featured";
 const String getUpcomingProducts = "products/upcoming";
@@ -21,10 +22,15 @@ const String getProductDetails = "products/";
 const String orderplace_endpoint = "order/create";
 const String myorders_endpoint = "user/orders";
 const String getuser_orders_endpoint = "user/order/";
-const String addtocart = "cart/add";
+const String addtocart_endpoint = "cart/add";
+const String categories_endpoint = "categories";
+const String subcategories_endpoint = "subcategories";
+const String signup_endpoint = "signup";
 
 
 
+//call button
+const String phoneNumber = "7696319141";
 
 
 //api's params
@@ -37,6 +43,9 @@ const String key_state = "state";
 const String key_pincode = "pincode";
 const String key_landmark = "landmark";
 const String key_address_id = "address_id";
+const String key_firstname = "first_name";
+const String key_lastname = "last_name";
+const String key_phone = "phone";
 
 
 //api's status code

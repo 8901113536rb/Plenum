@@ -1,6 +1,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:plenum/views/UserSection/SigninScreen.dart';
+
+import '../../api/BaseProvider.dart';
+import '../../constants/Networkconstants.dart';
+import '../../utils/CommonToast.dart';
+import '../../utils/Progressdialog.dart';
 
 
 class SignupController extends GetxController {
@@ -15,4 +21,33 @@ class SignupController extends GetxController {
   void  yourPasswordVisibility() {
     yourpasswordObscured.value = !yourpasswordObscured.value;
   }
+  Future<void> signup_user() async {
+    showProgressDialog(Get.context!);
+    Map<String, dynamic> params = {
+      key_firstname: firstname_controller.text.trim(),
+      key_lastname: lastname_controller.text.trim(),
+      key_email: email_controller.text.trim(),
+      key_phone: phone_controller.text.trim(),
+      key_password: password_controller.text.trim(),
+    };
+    try {
+      Response response =
+      await Baseprovider().hitPost2(params, url: signup_endpoint);
+      hideprogressDialog(Get.context!);
+      print('Response: ${response.body}');
+      if (response.status.hasError) {
+        print('Error: ${response.statusText}');
+        failed_toast(response.body["message"].toString());
+      } else {
+        success_toast(response.body["message"].toString());
+        if (response.body["success"] == true) {
+          Get.to(SigninScreen());
+          success_toast(response.body["message"].toString());
+        }
+      }
+    } catch (e) {
+      print('Error: ${e.toString()}');
+    }
+  }
+
 }

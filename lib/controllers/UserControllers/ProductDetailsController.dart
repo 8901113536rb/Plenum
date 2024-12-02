@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:plenum/views/UserSection/Placeorderscreen.dart';
 
 import '../../api/BaseProvider.dart';
 import '../../constants/Networkconstants.dart';
@@ -14,13 +15,37 @@ class ProductDetailController extends GetxController{
   ].obs;
   Rx<Data?> products = Rx<Data?>(null);
   RxBool favouritestatus=false.obs;
-
+  RxInt quantity =1.obs;
   @override
   Future<void> onInit() async {
     // TODO: implement onInit
     super.onInit();
 
   }
+  addtocart(String productid) async {
+    Map<String,dynamic>param={
+      "product_id": productid.toString(),
+      "quantity": quantity.value,
+    };
+    showProgressDialog(Get.context!);
+    try{
+      Response response=await Baseprovider().hitPost(url: addtocart_endpoint,param);
+      hideprogressDialog(Get.context!);
+      print('Response: ${response.body}');
+      if (response.status.hasError) {
+        print('Error: ${response.statusText}');
+        failed_toast(response.body["message"].toString());
+      } else {
+        if(response.statusCode.toString()==success_statuscode){
+          success_toast("Product added to cart successfully!");
+          Get.to(Placeorderscreen());
+        }
+      }
+    }catch(e){
+      print('Error: ${e.toString()}');
+    }
+  }
+
   get_productdetail(int productid) async {
     showProgressDialog(Get.context!);
     try{
@@ -34,7 +59,8 @@ class ProductDetailController extends GetxController{
         if(response.statusCode.toString()==success_statuscode){
           GetProductDetailModel productdata=GetProductDetailModel.fromJson(response.body);
           products.value=productdata.data;
-          favouritestatus.value=productdata.data?.inWishlist??false;
+          favouritestatus.value=products.value?.inWishlist??false;
+          print("favourite status:---"+favouritestatus.value.toString());
           favouritestatus.refresh();
           products.refresh();
         }

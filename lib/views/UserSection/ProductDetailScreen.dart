@@ -47,7 +47,7 @@ class _Product_detail_screenState extends State<Productdetailscreen> {
               children: [
                 GestureDetector(
                   onTap: () {
-                    Get.to(Placeorderscreen());
+                  controller.addtocart(widget.productid.toString());
                   },
                   child: Container(
                     // margin: EdgeInsets.symmetric(horizontal: 15.w),
@@ -161,7 +161,7 @@ class _Product_detail_screenState extends State<Productdetailscreen> {
                               ))),
                       GestureDetector(
                           onTap: () {
-                            if (controller.favouritestatus.value==false) {
+                            if (controller.favouritestatus.value) {
                               controller.deletewishlist(
                                   controller.products.value?.id?.toInt() ?? 0);
                             } else {
@@ -169,7 +169,7 @@ class _Product_detail_screenState extends State<Productdetailscreen> {
                                   controller.products.value?.id?.toInt() ?? 0);
                             }
                           },
-                          child: controller.favouritestatus.value==true
+                          child: controller.favouritestatus.value
                               ? Container(
                                   margin: EdgeInsets.all(5),
                                   height: 3.h,
@@ -375,7 +375,68 @@ class _Product_detail_screenState extends State<Productdetailscreen> {
             ],
           ),
           const SizedBox(
-            height: 25,
+            height: 15,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                quantity,
+                style: Common_textstyles.productoptionstyle,
+              ),
+              Row(
+                children: [
+                  Container(
+                    width: 20.w,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        border: Border.all(color: itemqnty_brdr)),
+                    // width: 15.w,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              if (controller.quantity >= 2) {
+                                controller.quantity.value--;
+                              }
+                            });
+                          },
+                          child: Container(
+                            padding: EdgeInsets.all(6),
+                            child: Icon(
+                              Icons.remove,
+                              size: 12,
+                            ),
+                          ),
+                        ),
+                        Container(
+                            margin: EdgeInsets.only(left: 5, right: 5),
+                            child: Text(controller.quantity.value.toString(),style: TextStyle(fontWeight: FontWeight.w500),)),
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              controller.quantity.value++;
+                            });
+                          },
+                          child: Container(
+                            padding: EdgeInsets.all(6),
+                            child: Icon(
+                              Icons.add,
+                              size: 12,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 15,
           ),
           // totalAmount()
         ],

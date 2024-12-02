@@ -128,7 +128,7 @@ class _SignupScreenState extends State<SignupScreen> {
               ),
               CommonbtnWidget(title: sign_up,onTap: (){
                 if (controller.formKey.currentState!.validate()) {
-                  // controller.signup_user();
+                  controller.signup_user();
                 }
               }),
               SizedBox(

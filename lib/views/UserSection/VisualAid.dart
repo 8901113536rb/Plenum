@@ -7,6 +7,7 @@ import '../../constants/Appcolors.dart';
 import '../../constants/stringconstants.dart';
 import '../../controllers/UserControllers/VisualAidController.dart';
 import '../../utils/CommonImageWidget.dart';
+import '../../utils/CommonToast.dart';
 import '../../utils/Commonwidgets.dart';
 import '../../utils/NoDataFound.dart';
 import 'VisualAidDetailUi.dart';
@@ -28,239 +29,281 @@ class _VisualaidState extends State<Visualaid> {
     super.initState();
     // controller.searchcontroller.text=widget.searchdata!;
     Future.microtask(() {
-      controller.get_VisualAid();
+      if(controller.searchcontroller.text.isNotEmpty){
+        controller.get_VisualAid("","",controller.searchcontroller.value);
+      }else{
+        Future.microtask(() {
+          controller.get_VisualAid("","","");
+          controller.fetchCategoriesData();
+        });
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Obx((){
-      return Scaffold(
-        appBar: appBar(),
-        body: controller.products.isNotEmpty?productView():const NoDataFound(message: no_data_found,),
-      );
-    });
-  }
-  appBar(){
-    return AppBar(
-      toolbarHeight: controller.isSearchVisible.value?20.h:15.h,
-      automaticallyImplyLeading: false, // Disable default back button
-      title: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                visual_aid,
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-              GestureDetector(
-                  onTap: (){
-                    controller.toggleSearch();
-                  },
-                  child: Icon(Icons.search))
-            ],
-          ),
-          Container(
-            margin: EdgeInsets.only(top: 2.h),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      height: 5.h,
-                      width: 32.w,
-                      child: DropdownButtonFormField2<String>(
-                        isExpanded: true,
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: white,
-                          contentPadding: const EdgeInsets.symmetric(vertical: 0),
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(8.0),
-                              ),
-                              borderSide: BorderSide(color: white)
-                          ),
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                              borderSide: BorderSide(color: white)),
-                          enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                              borderSide: BorderSide(color: white)),
-                          errorBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                              borderSide: BorderSide(color: white)),
-                          // Add more decoration..
-                        ),
-                        hint: SizedBox(
-                          child: Text(
-                            divisions,
-                            style: TextStyle(fontSize: 14, color: black,fontWeight: FontWeight.w500),
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        items: controller.divisionItems
-                            .map((String item) => DropdownMenuItem<String>(
-                          value: item,
-                          child: Text(
-                            item,
-                            style: const TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500
-                            ),
-                          ),
-                        ))
-                            .toList(),
-                        // validator: (value) {
-                        //   if (value == null) {
-                        //     return select_box_type;
-                        //   }
-                        //   return null;
-                        // },
-                        onChanged: (newValue) {
-                          controller.selectedDivisionValue.value = newValue!;
-                        },
-                        onSaved: (value) {
-                          controller.selectedDivisionValue.value = value.toString();
-                        },
-                        buttonStyleData: const ButtonStyleData(
-                          padding: EdgeInsets.only(
-                            right: 8,
-                          ),
-                        ),
-                        iconStyleData: const IconStyleData(
-                          icon: Icon(
-                            Icons.arrow_drop_down,
-                            color: Colors.black45,
-                          ),
-                          iconSize: 24,
-                        ),
-                        dropdownStyleData: DropdownStyleData(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                        ),
-                        menuItemStyleData: const MenuItemStyleData(
-                          padding: EdgeInsets.symmetric(horizontal: 16),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      height: 5.h,
-                      width: 32.w,
-                      child: DropdownButtonFormField2<String>(
-                        isExpanded: true,
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: white,
-                          contentPadding: const EdgeInsets.symmetric(vertical: 0),
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(8.0),
-                              ),
-                              borderSide: BorderSide(color: white)
-                          ),
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                              borderSide: BorderSide(color: white)),
-                          enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                              borderSide: BorderSide(color: white)),
-                          errorBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                              borderSide: BorderSide(color: white)),
-                          // Add more decoration..
-                        ),
-                        hint: SizedBox(
-                          child: Text(
-                            category,
-                            style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, color: black),
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        items: controller.categoryItems
-                            .map((String item) => DropdownMenuItem<String>(
-                          value: item,
-                          child: Text(
-                            item,
-                            style: const TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500
-                            ),
-                          ),
-                        ))
-                            .toList(),
-                        // validator: (value) {
-                        //   if (value == null) {
-                        //     return select_box_type;
-                        //   }
-                        //   return null;
-                        // },
-                        onChanged: (newValue) {
-                          controller.selectedCategoryValue.value = newValue!;
-                        },
-                        onSaved: (value) {
-                          controller.selectedCategoryValue.value = value.toString();
-                        },
-                        buttonStyleData: const ButtonStyleData(
-                          padding: EdgeInsets.only(
-                            right: 8,
-                          ),
-                        ),
-                        iconStyleData: const IconStyleData(
-                          icon: Icon(
-                            Icons.arrow_drop_down,
-                            color: Colors.black45,
-                          ),
-                          iconSize: 24,
-                        ),
-                        dropdownStyleData: DropdownStyleData(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                        ),
-                        menuItemStyleData: const MenuItemStyleData(
-                          padding: EdgeInsets.symmetric(horizontal: 16),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      height: 5.h,
-                      width: 25.w,
-                      decoration: BoxDecoration(
-                        color: white,
-                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                        // borderSide: BorderSide(color: white)
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
+      return SafeArea(
+        child: Scaffold(
+          // appBar: appBar(),
+          body:Container(
+              color: themecolor,
+              child: Column(
+                children: [
+                  // Top Section with Title and Search Bar
+                  Expanded(
+                    flex:  0,
+                    child: Container(
+                      alignment: Alignment.centerLeft,
+                      padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Icon(Icons.refresh,color: black,size: 20,),
-                          SizedBox(width: 2.w,),
-                          Text(clear, style: TextStyle(fontSize: 14, color: black),)
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                visual_aid,
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: white,
+                                ),
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      controller.toggleSearch();
+                                    },
+                                    child: Icon(Icons.search, color: white),
+                                  ),
+                                  SizedBox(width: 2.w),
+                                  Icon(Icons.shopping_bag_outlined, color: white),
+                                ],
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: controller.isSearchVisible.value ? 1.h : 0),
+                          if (controller.isSearchVisible.value)
+                            searchbar(controller.searchcontroller, context, () {
+                              print("on tap search....");
+                              if(controller.searchcontroller.text==""){
+                                failed_toast(please_enter_text);
+                              }else{
+                                controller.get_VisualAid(
+                                  controller.selectedCategoryValue.value,
+                                  controller.selectedSubCategoryValue.value,
+                                  controller.searchcontroller.value.text,
+                                );
+                              }
+                            }),
                         ],
                       ),
-                    )
-                  ],
-                ),
-                controller.isSearchVisible.value?
-                SizedBox(height: 1.h,):const SizedBox(),
-                controller.isSearchVisible.value?
-                searchbar(controller.searchcontroller,context,(){}):const SizedBox()
-              ],
-            ),
+                    ),
+                  ),
+                  // Bottom Section with Dropdowns and Product List
+                  Expanded(
+                    flex: 2,
+                    child: Container(
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(25.0),
+                          topRight: Radius.circular(25.0),
+                        ),
+                      ),
+                      child: Column(
+                        children: [
+                          // Dropdown and Clear Button Row
+                          Container(
+                            margin: EdgeInsets.symmetric(horizontal: 4.5.w, vertical: 2.h),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                // Dropdown for Division
+                                SizedBox(
+                                  height: 5.h,
+                                  width: 32.w,
+                                  child: DropdownButtonFormField2<String>(
+                                    isExpanded: true,
+                                    decoration: InputDecoration(
+                                      filled: true,
+                                      fillColor: Colors.white,
+                                      contentPadding: const EdgeInsets.symmetric(vertical: 0),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                                        borderSide: BorderSide(color: dropdownborder),
+                                      ),
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                                        borderSide: BorderSide(color: dropdownborder),
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                                        borderSide: BorderSide(color: dropdownborder),
+                                      ),
+                                    ),
+                                    hint: Text(
+                                      category,
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    items:  controller.categories.map((category) {
+                                      return DropdownMenuItem<String>(
+                                        value: category['id'].toString(),
+                                        child: Text(category['name']),
+                                      );
+                                    }).toList(),
+                                    onChanged: (newValue) {
+                                      controller.selectedCategoryValue.value = newValue!;
+                                      controller.get_VisualAid(controller.selectedCategoryValue.value,controller.selectedSubCategoryValue.value , controller.searchcontroller.text);
+                                      controller.get_subcategory(controller.selectedCategoryValue.value);
+                                    },
+                                    onSaved: (value) {
+                                      controller.selectedCategoryValue.value = value.toString();
+                                    },
+                                    iconStyleData: const IconStyleData(
+                                      icon: Icon(
+                                        Icons.arrow_drop_down,
+                                        color: Colors.black45,
+                                      ),
+                                      iconSize: 24,
+                                    ),
+                                    dropdownStyleData: DropdownStyleData(
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                    ),
+                                    menuItemStyleData:  MenuItemStyleData(
+                                        padding: EdgeInsets.symmetric(horizontal: 16),
+                                        height: 9.h
+                                    ),
+                                  ),
+                                ),
+                                // Dropdown for Category
+                                SizedBox(
+                                  height: 5.h,
+                                  width: 32.w,
+                                  child: DropdownButtonFormField2<String>(
+                                    isExpanded: true,
+                                    decoration: InputDecoration(
+                                      filled: true,
+                                      fillColor: Colors.white,
+                                      contentPadding: const EdgeInsets.symmetric(vertical: 0),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                                        borderSide: BorderSide(color: dropdownborder),
+                                      ),
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                                        borderSide: BorderSide(color: dropdownborder),
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                                        borderSide: BorderSide(color: dropdownborder),
+                                      ),
+                                    ),
+                                    hint: Text(
+                                      subcategory,
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.black,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    items:  controller.subcategories.map((category) {
+                                      return DropdownMenuItem<String>(
+                                        value: category['id'].toString(),
+                                        child: Text(category['name']),
+                                      );
+                                    }).toList(),
+                                    onChanged: (newValue) {
+                                      controller.selectedSubCategoryValue.value = newValue!;
+                                      controller.get_VisualAid(controller.selectedCategoryValue.value,controller.selectedSubCategoryValue.value , controller.searchcontroller.text);
+                                    },
+                                    onSaved: (value) {
+                                      controller.selectedSubCategoryValue.value = value.toString();
+                                    },
+                                    iconStyleData: const IconStyleData(
+                                      icon: Icon(
+                                        Icons.arrow_drop_down,
+                                        color: Colors.black45,
+                                      ),
+                                      iconSize: 24,
+                                    ),
+                                    dropdownStyleData: DropdownStyleData(
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                    ),
+                                    menuItemStyleData: const MenuItemStyleData(
+                                      padding: EdgeInsets.symmetric(horizontal: 16),
+                                    ),
+                                  ),
+                                ),
+                                // Clear Button
+                                GestureDetector(
+                                  onTap: (){
+                                    controller.selectedCategoryValue.value="";
+                                    controller.selectedSubCategoryValue.value="";
+                                    controller.searchcontroller.clear();
+                                    controller.categories.clear();
+                                    controller.subcategories.clear();
+                                    controller.get_VisualAid(
+                                      "",
+                                      "",
+                                      "",
+                                    );
+                                  },
+                                  child: Container(
+                                    height: 5.h,
+                                    width: 25.w,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                                      border: Border.all(color: dropdownborder),
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        Icon(Icons.refresh, color: Colors.black, size: 20),
+                                        SizedBox(width: 2.w),
+                                        Text(
+                                          clear,
+                                          style: TextStyle(fontSize: 14, color: Colors.black),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          // Expanded Product List
+                          Expanded(
+                            child: controller.products.isNotEmpty?productView():const NoDataFound(message: no_data_found,),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              )
           ),
-        ],
-      ),
-      centerTitle: true,
-      backgroundColor: themecolor,
-      elevation: 0,
-    );
+        ),
+      );
+    });
   }
   productView(){
     return  GridView.builder(

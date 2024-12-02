@@ -6,12 +6,15 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:plenum/views/UserSection/AboutUsUi.dart';
 import 'package:sizer/sizer.dart';
+import 'package:url_launcher/url_launcher.dart';
+import '../../constants/Networkconstants.dart';
 import '../../constants/Textstyles.dart';
 import '../../constants/appcolors.dart';
 import '../../constants/stringconstants.dart';
 import '../../controllers/UserControllers/DashboardController.dart';
 import '../../utils/CommonAppBarWidget.dart';
 import '../../utils/CommonImageWidget.dart';
+import '../../utils/Commonwidgets.dart';
 import '../../utils/CustomBottomRadius.dart';
 import 'FavouriteProductsScreen.dart';
 import 'FeaturedProductScreen.dart';
@@ -374,7 +377,7 @@ class _DashboarduiState extends State<Dashboardui> {
     return ExpandableFab(
       openButtonBuilder: RotateFloatingActionButtonBuilder(
         child: Icon(
-          Icons.call,
+          Icons.menu,
           color: white,
         ),
         fabSize: ExpandableFabSize.regular,
@@ -384,7 +387,7 @@ class _DashboarduiState extends State<Dashboardui> {
       ),
       closeButtonBuilder: DefaultFloatingActionButtonBuilder(
         child: Icon(
-          Icons.call,
+          Icons.menu,
           color: white,
         ),
         fabSize: ExpandableFabSize.regular,
@@ -421,7 +424,9 @@ class _DashboarduiState extends State<Dashboardui> {
               foregroundColor: themecolor,
               backgroundColor: themecolor,
               heroTag: null,
-              onPressed: null,
+              onPressed: () async {
+                makeDirectCall(phoneNumber);
+              },
               child: Icon(Icons.phone, color: white),
             ),
           ],
@@ -447,7 +452,9 @@ class _DashboarduiState extends State<Dashboardui> {
               foregroundColor: themecolor,
               backgroundColor: themecolor,
               heroTag: null,
-              onPressed: null,
+              onPressed: () {
+                openWhatsApp(phoneNumber,"Hello, I would like to chat with you!");
+              },
               child: Icon(
                 Icons.chat_bubble,
                 color: white,

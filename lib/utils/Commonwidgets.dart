@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 import 'package:sizer/sizer.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../constants/Appcolors.dart';
 import '../constants/Stringconstants.dart';
 import 'CommonImageWidget.dart';
@@ -208,7 +209,7 @@ Widget searchbar(TextEditingController controller,BuildContext context,Callback 
         // for mobile
       ],
       autofocus: false,
-      textInputAction: TextInputAction.next,
+      textInputAction: TextInputAction.done,
       enableSuggestions: false,
       autocorrect: false,
       style: TextStyle(
@@ -236,9 +237,12 @@ Widget searchbar(TextEditingController controller,BuildContext context,Callback 
           contentPadding: EdgeInsets.only(
             left: (MediaQuery.of(context).size.width / 100) * 3,
           ),
-          prefixIcon: Icon(
-            Icons.search,
-            color: black,
+          suffixIcon:  GestureDetector(
+            onTap: suffixcall, // Trigger the callback when the suffix icon is tapped
+            child: Icon(
+              Icons.search,
+              color: black,
+            ),
           ),
           focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.all(
@@ -265,3 +269,32 @@ Widget searchbar(TextEditingController controller,BuildContext context,Callback 
   );
 }
 
+Future<void> makeDirectCall(String phoneNumber) async {
+  final Uri callUri = Uri(
+    scheme: 'tel',
+    path: phoneNumber,
+  );
+  if (await canLaunchUrl(callUri)) {
+    await launchUrl(
+      callUri,
+      mode: LaunchMode.externalApplication, // Ensures a direct call
+    );
+  } else {
+    print("Cannot make the call to $phoneNumber");
+  }
+}
+
+Future<void> openWhatsApp(phoneNumber,message) async {
+  final Uri whatsappUri = Uri(
+    scheme: 'https',
+    host: 'wa.me', // WhatsApp's URL for sending messages
+    path: phoneNumber.replaceAll('+', ''), // WhatsApp does not need '+'
+    queryParameters: message.isNotEmpty ? {'text': message} : null,
+  );
+
+  if (await canLaunchUrl(whatsappUri)) {
+    await launchUrl(whatsappUri, mode: LaunchMode.externalApplication);
+  } else {
+    print("WhatsApp is not installed or cannot open the number.");
+  }
+}

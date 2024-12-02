@@ -11,6 +11,8 @@ class SharedUtils {
   var useremail="email";
   var userphone="phone";
   var userimage="image";
+  var usercategories="categories_data";
+  var usersubcategories="sub_categories_data";
 
   save_user_data(String data) async {
     final prefs = await SharedPreferences.getInstance();
@@ -46,6 +48,24 @@ class SharedUtils {
   save_userimage(String data) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(userimage, data);
+  }
+  Future<void> saveCategoriesData(categories) async {
+    final prefs = await SharedPreferences.getInstance();
+    try {
+      String jsonData = jsonEncode(categories);
+      await prefs.setString(usercategories, jsonData);
+    } catch (e) {
+      print("Error saving categories data: $e");
+    }
+  }
+  Future<void> saveSubCategoriesData(subcategories) async {
+    final prefs = await SharedPreferences.getInstance();
+    try {
+      String jsonData = jsonEncode(subcategories);
+      await prefs.setString(usersubcategories, jsonData);
+    } catch (e) {
+      print("Error saving subcategories data: $e");
+    }
   }
   // save_logintype(String data) async {
   //   final prefs = await SharedPreferences.getInstance();
@@ -88,7 +108,26 @@ class SharedUtils {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString(userimage);
   }
-
+  Future<void> getCategoriesData(categories) async {
+    final prefs = await SharedPreferences.getInstance();
+    try {
+      String? jsonData = prefs.getString(usercategories);
+      List<dynamic> data = jsonDecode(jsonData.toString());
+      categories = data;
+    } catch (e) {
+      print("Error loading categories data: $e");
+    }
+  }
+  Future<void> getSubCategoriesData(categories) async {
+    final prefs = await SharedPreferences.getInstance();
+    try {
+      String? jsonData = prefs.getString(usersubcategories);
+      List<dynamic> data = jsonDecode(jsonData.toString());
+      categories = data;
+    } catch (e) {
+      print("Error loading subcategories data: $e");
+    }
+  }
   cleardata() async {
     final prefs = await SharedPreferences.getInstance();
     prefs.clear();

@@ -126,33 +126,33 @@ class _SigninScreenState extends State<SigninScreen> {
               SizedBox(
                 height: 15.h,
               ),
-              // GestureDetector(
-              //   onTap: () {
-              //     Get.to(const SignupScreen());
-              //   },
-              //   child: Row(
-              //     mainAxisAlignment: MainAxisAlignment.center,
-              //     children: [
-              //       const Text(
-              //         dont_have_an_account,
-              //         style: TextStyle(
-              //           fontSize: 14,
-              //           fontWeight: FontWeight.w500,
-              //         ),
-              //       ),
-              //       const SizedBox(
-              //         width: 5,
-              //       ),
-              //       Text(
-              //         sign_up,
-              //         style: TextStyle(
-              //             fontSize: 14,
-              //             fontWeight: FontWeight.w600,
-              //             color: singupcolor),
-              //       ),
-              //     ],
-              //   ),
-              // )
+              GestureDetector(
+                onTap: () {
+                  Get.to(const SignupScreen());
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      dont_have_an_account,
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    Text(
+                      sign_up,
+                      style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: singupcolor),
+                    ),
+                  ],
+                ),
+              )
             ],
           ),
         ),

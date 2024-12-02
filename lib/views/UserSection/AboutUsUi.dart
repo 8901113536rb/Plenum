@@ -85,7 +85,7 @@ class _AboutusuiState extends State<Aboutusui> {
                           topRight: Radius.circular(25.0),
                         ),
                       ),
-                      child: controller.products.value==[]?
+                      child: controller.products.value?.data?.id.toString()!=""?
                       aboutusview():
                       const NoDataFound(message: no_data_found,),
                     ),
