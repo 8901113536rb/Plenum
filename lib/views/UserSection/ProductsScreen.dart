@@ -12,6 +12,7 @@ import '../../utils/CommonImageWidget.dart';
 import '../../utils/CommonToast.dart';
 import '../../utils/Commonwidgets.dart';
 import '../../utils/NoDataFound.dart';
+import 'Placeorderscreen.dart';
 
 class Productsscreen extends StatefulWidget {
   const Productsscreen({super.key});
@@ -79,7 +80,11 @@ class _ProductsscreenState extends State<Productsscreen> {
                                     child: Icon(Icons.search, color: white),
                                   ),
                                   SizedBox(width: 2.w),
-                                  Icon(Icons.shopping_bag_outlined, color: white),
+                                  GestureDetector(
+                                      onTap: (){
+                                        Get.to(Placeorderscreen());
+                                      },
+                                      child: Icon(Icons.shopping_bag_outlined, color: white)),
                                 ],
                               ),
                             ],
@@ -156,14 +161,33 @@ class _ProductsscreenState extends State<Productsscreen> {
                                     items:  controller.categories.map((category) {
                                       return DropdownMenuItem<String>(
                                         value: category['id'].toString(),
-                                        child: Text(category['name']),
+                                        child: Text(category['name'],style: const TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w500,
+                                        )),
                                       );
                                     }).toList(),
+                                    selectedItemBuilder: (BuildContext context) {
+                                      return controller.categories.map((item) {
+                                        return Text(
+                                          item['name'].toString(),
+                                          overflow: TextOverflow.ellipsis, // Truncate the selected text
+                                          style: const TextStyle(fontSize: 14,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        );
+                                      }).toList();
+                                    },
                                     onChanged: (newValue) {
                                       controller.selectedCategoryValue.value = newValue!;
-                                      controller.get_product(controller.selectedCategoryValue.value,controller.selectedSubCategoryValue.value , controller.searchcontroller.text);
-                                      controller.get_subcategory(controller.selectedCategoryValue.value);
-                                    },
+                                      controller.selectedSubCategoryValue.value = ""; // Reset the subcategory value
+                                      controller.subcategories.clear(); // Clear the subcategories list
+                                      controller.get_product(controller.selectedCategoryValue.value, controller.selectedSubCategoryValue.value, controller.searchcontroller.text).then((success) {
+                                        controller.get_subcategory(controller.selectedCategoryValue.value);
+                                      });
+                                      },
                                     onSaved: (value) {
                                       controller.selectedCategoryValue.value = value.toString();
                                     },
@@ -192,6 +216,8 @@ class _ProductsscreenState extends State<Productsscreen> {
                                   width: 32.w,
                                   child: DropdownButtonFormField2<String>(
                                     isExpanded: true,
+                                    value: controller.selectedSubCategoryValue.value.isEmpty ? null
+                                        : controller.selectedSubCategoryValue.value, // Ensure the value is null if not set
                                     decoration: InputDecoration(
                                       filled: true,
                                       fillColor: Colors.white,
@@ -209,7 +235,7 @@ class _ProductsscreenState extends State<Productsscreen> {
                                         borderSide: BorderSide(color: dropdownborder),
                                       ),
                                     ),
-                                    hint: Text(
+                                    hint: const Text(
                                       subcategory,
                                       style: TextStyle(
                                         fontSize: 14,
@@ -221,9 +247,25 @@ class _ProductsscreenState extends State<Productsscreen> {
                                     items:  controller.subcategories.map((category) {
                                       return DropdownMenuItem<String>(
                                         value: category['id'].toString(),
-                                        child: Text(category['name']),
+                                        child: Text(category['name'],style: const TextStyle(
+                                          fontSize: 14,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w500,
+                                        )),
                                       );
                                     }).toList(),
+                                    selectedItemBuilder: (BuildContext context) {
+                                      return controller.subcategories.map((item) {
+                                        return Text(
+                                          item['name'].toString(),
+                                          overflow: TextOverflow.ellipsis, // Truncate the selected text
+                                          style: const TextStyle(fontSize: 14,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        );
+                                      }).toList();
+                                    },
                                     onChanged: (newValue) {
                                       controller.selectedSubCategoryValue.value = newValue!;
                                       controller.get_product(controller.selectedCategoryValue.value,controller.selectedSubCategoryValue.value , controller.searchcontroller.text);

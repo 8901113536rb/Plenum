@@ -85,7 +85,7 @@ class _Product_detail_screenState extends State<Productdetailscreen> {
               children: [
                 product_imageview(),
                 product_content(),
-                vistualAdsBtn()
+                //vistualAdsBtn()
               ],
             ),
           ):const Center(child: CircularProgressIndicator())

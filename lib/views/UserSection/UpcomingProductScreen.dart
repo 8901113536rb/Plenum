@@ -11,6 +11,7 @@ import '../../utils/CommonImageWidget.dart';
 import '../../utils/CommonToast.dart';
 import '../../utils/Commonwidgets.dart';
 import '../../utils/NoDataFound.dart';
+import 'Placeorderscreen.dart';
 import 'ProductDetailScreen.dart';
 
 class Upcomingproductscreen extends StatefulWidget {
@@ -24,25 +25,25 @@ class _UpcomingproductscreenState extends State<Upcomingproductscreen> {
   Upcomingproductscontroller controller = Get.put(Upcomingproductscontroller());
 
   @override
-
   void initState() {
     // TODO: implement initState
     super.initState();
     // controller.searchcontroller.text=widget.searchdata!;
     Future.microtask(() {
-      if(controller.searchcontroller.text.isNotEmpty){
-        controller.get_product("","",controller.searchcontroller.value);
-      }else{
+      if (controller.searchcontroller.text.isNotEmpty) {
+        controller.get_product("", "", controller.searchcontroller.value);
+      } else {
         Future.microtask(() {
-          controller.get_product("","","");
+          controller.get_product("", "", "");
           controller.fetchCategoriesData();
         });
       }
     });
   }
+
   @override
   Widget build(BuildContext context) {
-    return Obx((){
+    return Obx(() {
       return SafeArea(
         child: Scaffold(
           //appBar: appBar(),
@@ -52,10 +53,11 @@ class _UpcomingproductscreenState extends State<Upcomingproductscreen> {
                 children: [
                   // Top Section with Title and Search Bar
                   Expanded(
-                    flex:  0,
+                    flex: 0,
                     child: Container(
                       alignment: Alignment.centerLeft,
-                      padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
@@ -81,18 +83,26 @@ class _UpcomingproductscreenState extends State<Upcomingproductscreen> {
                                     child: Icon(Icons.search, color: white),
                                   ),
                                   SizedBox(width: 2.w),
-                                  Icon(Icons.shopping_bag_outlined, color: white),
+                                  GestureDetector(
+                                    onTap: (){
+                                      Get.to(Placeorderscreen());
+                                    },
+                                    child: Icon(Icons.shopping_bag_outlined,
+                                        color: white),
+                                  ),
                                 ],
                               ),
                             ],
                           ),
-                          SizedBox(height: controller.isSearchVisible.value ? 1.h : 0),
+                          SizedBox(
+                              height:
+                                  controller.isSearchVisible.value ? 1.h : 0),
                           if (controller.isSearchVisible.value)
                             searchbar(controller.searchcontroller, context, () {
                               print("on tap search....");
-                              if(controller.searchcontroller.text==""){
+                              if (controller.searchcontroller.text == "") {
                                 failed_toast(please_enter_text);
-                              }else{
+                              } else {
                                 controller.get_product(
                                   controller.selectedCategoryValue.value,
                                   controller.selectedSubCategoryValue.value,
@@ -108,207 +118,286 @@ class _UpcomingproductscreenState extends State<Upcomingproductscreen> {
                   Expanded(
                     flex: 2,
                     child: Container(
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(25.0),
-                          topRight: Radius.circular(25.0),
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(25.0),
+                            topRight: Radius.circular(25.0),
+                          ),
                         ),
-                      ),
-                      child:Column(
-                        children: [
-                          // Dropdown and Clear Button Row
-                          Container(
-                            margin: EdgeInsets.symmetric(horizontal: 4.5.w, vertical: 2.h),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                // Dropdown for Division
-                                SizedBox(
-                                  height: 5.h,
-                                  width: 32.w,
-                                  child: DropdownButtonFormField2<String>(
-                                    isExpanded: true,
-                                    decoration: InputDecoration(
-                                      filled: true,
-                                      fillColor: Colors.white,
-                                      contentPadding: const EdgeInsets.symmetric(vertical: 0),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                                        borderSide: BorderSide(color: dropdownborder),
-                                      ),
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                                        borderSide: BorderSide(color: dropdownborder),
-                                      ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                                        borderSide: BorderSide(color: dropdownborder),
-                                      ),
-                                    ),
-                                    hint: Text(
-                                      category,
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                    items:  controller.categories.map((category) {
-                                      return DropdownMenuItem<String>(
-                                        value: category['id'].toString(),
-                                        child: Text(category['name']),
-                                      );
-                                    }).toList(),
-                                    onChanged: (newValue) {
-                                      controller.selectedCategoryValue.value = newValue!;
-                                      controller.get_product(controller.selectedCategoryValue.value,controller.selectedSubCategoryValue.value , controller.searchcontroller.text);
-                                      controller.get_subcategory(controller.selectedCategoryValue.value);
-                                    },
-                                    onSaved: (value) {
-                                      controller.selectedCategoryValue.value = value.toString();
-                                    },
-                                    iconStyleData: const IconStyleData(
-                                      icon: Icon(
-                                        Icons.arrow_drop_down,
-                                        color: Colors.black45,
-                                      ),
-                                      iconSize: 24,
-                                    ),
-                                    dropdownStyleData: DropdownStyleData(
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(8),
-                                      ),
-                                    ),
-                                    menuItemStyleData:  MenuItemStyleData(
-                                        padding: EdgeInsets.symmetric(horizontal: 16),
-                                        height: 9.h
-                                    ),
-                                  ),
-                                ),
-                                // Dropdown for Category
-                                SizedBox(
-                                  height: 5.h,
-                                  width: 32.w,
-                                  child: DropdownButtonFormField2<String>(
-                                    isExpanded: true,
-                                    decoration: InputDecoration(
-                                      filled: true,
-                                      fillColor: Colors.white,
-                                      contentPadding: const EdgeInsets.symmetric(vertical: 0),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                                        borderSide: BorderSide(color: dropdownborder),
-                                      ),
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                                        borderSide: BorderSide(color: dropdownborder),
-                                      ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                                        borderSide: BorderSide(color: dropdownborder),
-                                      ),
-                                    ),
-                                    hint: Text(
-                                      subcategory,
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.black,
-                                      ),
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                    items:  controller.subcategories.map((category) {
-                                      return DropdownMenuItem<String>(
-                                        value: category['id'].toString(),
-                                        child: Text(category['name']),
-                                      );
-                                    }).toList(),
-                                    onChanged: (newValue) {
-                                      controller.selectedSubCategoryValue.value = newValue!;
-                                      controller.get_product(controller.selectedCategoryValue.value,controller.selectedSubCategoryValue.value , controller.searchcontroller.text);
-                                    },
-                                    onSaved: (value) {
-                                      controller.selectedSubCategoryValue.value = value.toString();
-                                    },
-                                    iconStyleData: const IconStyleData(
-                                      icon: Icon(
-                                        Icons.arrow_drop_down,
-                                        color: Colors.black45,
-                                      ),
-                                      iconSize: 24,
-                                    ),
-                                    dropdownStyleData: DropdownStyleData(
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(8),
-                                      ),
-                                    ),
-                                    menuItemStyleData: const MenuItemStyleData(
-                                      padding: EdgeInsets.symmetric(horizontal: 16),
-                                    ),
-                                  ),
-                                ),
-                                // Clear Button
-                                GestureDetector(
-                                  onTap: (){
-                                    controller.selectedCategoryValue.value="";
-                                    controller.selectedSubCategoryValue.value="";
-                                    controller.searchcontroller.clear();
-                                    controller.categories.clear();
-                                    controller.subcategories.clear();
-                                    controller.get_product(
-                                      "",
-                                      "",
-                                      "",
-                                    );
-                                  },
-                                  child: Container(
+                        child: Column(
+                          children: [
+                            // Dropdown and Clear Button Row
+                            Container(
+                              margin: EdgeInsets.symmetric(
+                                  horizontal: 4.5.w, vertical: 2.h),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  // Dropdown for Division
+                                  SizedBox(
                                     height: 5.h,
-                                    width: 25.w,
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                                      border: Border.all(color: dropdownborder),
-                                    ),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: [
-                                        Icon(Icons.refresh, color: Colors.black, size: 20),
-                                        SizedBox(width: 2.w),
-                                        Text(
-                                          clear,
-                                          style: TextStyle(fontSize: 14, color: Colors.black),
+                                    width: 32.w,
+                                    child: DropdownButtonFormField2<String>(
+                                      isExpanded: true,
+                                      decoration: InputDecoration(
+                                        filled: true,
+                                        fillColor: Colors.white,
+                                        contentPadding:
+                                            const EdgeInsets.symmetric(
+                                                vertical: 0),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(8.0)),
+                                          borderSide:
+                                              BorderSide(color: dropdownborder),
                                         ),
-                                      ],
+                                        border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(8.0)),
+                                          borderSide:
+                                              BorderSide(color: dropdownborder),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(8.0)),
+                                          borderSide:
+                                              BorderSide(color: dropdownborder),
+                                        ),
+                                      ),
+                                      hint: const Text(
+                                        category,
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      items:
+                                          controller.categories.map((category) {
+                                        return DropdownMenuItem<String>(
+                                          value: category['id'].toString(),
+                                          child: Text(category['name'],style: const TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w500,
+                                          )),
+                                        );
+                                      }).toList(),
+                                      onChanged: (newValue) {
+                                        controller.selectedCategoryValue.value = newValue!;
+                                        controller.selectedSubCategoryValue.value = ""; // Reset the subcategory value
+                                        controller.subcategories.clear(); // Clear the subcategories list
+                                        controller.get_product(controller.selectedCategoryValue.value, controller.selectedSubCategoryValue.value, controller.searchcontroller.text).then((success) {
+                                          controller.get_subcategory(controller.selectedCategoryValue.value);
+                                        });
+                                      },
+                                      onSaved: (value) {
+                                        controller.selectedCategoryValue.value =
+                                            value.toString();
+                                      },
+                                      selectedItemBuilder: (BuildContext context) {
+                                        return controller.categories.map((item) {
+                                          return Text(
+                                            item['name'].toString(),
+                                            overflow: TextOverflow.ellipsis, // Truncate the selected text
+                                            style: const TextStyle(fontSize: 14,
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          );
+                                        }).toList();
+                                      },
+                                      iconStyleData: const IconStyleData(
+                                        icon: Icon(
+                                          Icons.arrow_drop_down,
+                                          color: Colors.black45,
+                                        ),
+                                        iconSize: 24,
+                                      ),
+                                      dropdownStyleData: DropdownStyleData(
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                        ),
+                                      ),
+                                      menuItemStyleData: MenuItemStyleData(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 16),
+                                        height: 9.h,
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ],
+// Dropdown for Subcategory
+                                  SizedBox(
+                                    height: 5.h,
+                                    width: 32.w,
+                                    child: Obx(() =>
+                                        DropdownButtonFormField2<String>(
+                                          isExpanded: true,
+                                          value: controller.selectedSubCategoryValue.value.isEmpty ? null
+                                              : controller.selectedSubCategoryValue.value, // Ensure the value is null if not set
+                                          decoration: InputDecoration(
+                                            filled: true,
+                                            fillColor: Colors.white,
+                                            contentPadding:
+                                                const EdgeInsets.symmetric(
+                                                    vertical: 0),
+                                            focusedBorder: OutlineInputBorder(
+                                              borderRadius: const BorderRadius.all(
+                                                  Radius.circular(8.0)),
+                                              borderSide: BorderSide(
+                                                  color: dropdownborder),
+                                            ),
+                                            border: OutlineInputBorder(
+                                              borderRadius: const BorderRadius.all(
+                                                  Radius.circular(8.0)),
+                                              borderSide: BorderSide(
+                                                  color: dropdownborder),
+                                            ),
+                                            enabledBorder: OutlineInputBorder(
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(8.0)),
+                                              borderSide: BorderSide(
+                                                  color: dropdownborder),
+                                            ),
+                                          ),
+                                          hint: const Text(
+                                            subcategory,
+                                            style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w500,
+                                              color: Colors.black,
+                                            ),
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                          items: controller.subcategories.map((category) {
+                                            return DropdownMenuItem<String>(
+                                              value: category['id'].toString(),
+                                              child: Text(category['name'],style: const TextStyle(
+                                                fontSize: 14,
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w500,
+                                              )),
+                                            );
+                                          }).toList(),
+                                          selectedItemBuilder: (BuildContext context) {
+                                            return controller.subcategories.map((item) {
+                                              return Text(
+                                                item['name'].toString(),
+                                                overflow: TextOverflow.ellipsis, // Truncate the selected text
+                                                style: const TextStyle(fontSize: 14,
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              );
+                                            }).toList();
+                                          },
+                                          onChanged: (newValue) {
+                                            controller.selectedSubCategoryValue.value = newValue!;
+                                            controller.get_product(controller.selectedCategoryValue.value,
+                                                controller.selectedSubCategoryValue.value,
+                                                controller.searchcontroller.text);
+                                          },
+                                          onSaved: (value) {
+                                            controller.selectedSubCategoryValue
+                                                .value = value.toString();
+                                          },
+                                          iconStyleData: const IconStyleData(
+                                            icon: Icon(
+                                              Icons.arrow_drop_down,
+                                              color: Colors.black45,
+                                            ),
+                                            iconSize: 24,
+                                          ),
+                                          dropdownStyleData: DropdownStyleData(
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                            ),
+                                          ),
+                                          menuItemStyleData:
+                                              const MenuItemStyleData(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 16),
+                                          ),
+                                        )),
+                                  ),
+
+                                  // Clear Button
+                                  GestureDetector(
+                                    onTap: () {
+                                      controller.selectedCategoryValue.value =
+                                          "";
+                                      controller
+                                          .selectedSubCategoryValue.value = "";
+                                      controller.searchcontroller.clear();
+                                      controller.categories.clear();
+                                      controller.subcategories.clear();
+                                      controller.get_product(
+                                        "",
+                                        "",
+                                        "",
+                                      );
+                                    },
+                                    child: Container(
+                                      height: 5.h,
+                                      width: 25.w,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(8.0)),
+                                        border:
+                                            Border.all(color: dropdownborder),
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          const Icon(Icons.refresh,
+                                              color: Colors.black, size: 20),
+                                          SizedBox(width: 2.w),
+                                          const Text(
+                                            clear,
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                color: Colors.black),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                          // Expanded Product List
-                          Expanded(
-                            child: controller.products.isNotEmpty?productlistview():const NoDataFound(message: no_data_found,),
-                          ),
-                        ],
-                      )
-                    ),
+                            // Expanded Product List
+                            Expanded(
+                              child: controller.products.isNotEmpty
+                                  ? productlistview()
+                                  : const NoDataFound(
+                                      message: no_data_found,
+                                    ),
+                            ),
+                          ],
+                        )),
                   ),
                 ],
-              )
-          ),
+              )),
         ),
       );
     });
   }
-  Widget productlistview(){
+
+  Widget productlistview() {
     return ListView.builder(
-      // padding: EdgeInsets.only(bottom: 2.h),
-        itemCount:controller.products.length,
+        // padding: EdgeInsets.only(bottom: 2.h),
+        itemCount: controller.products.length,
         itemBuilder: (BuildContext context, int index) {
           return Column(
             children: [
@@ -318,8 +407,13 @@ class _UpcomingproductscreenState extends State<Upcomingproductscreen> {
                   // Main Container
                   Positioned(
                     child: GestureDetector(
-                      onTap: (){
-                        Get.to(Productdetailscreen(productid:controller.products.elementAt(index).id?.toInt()??0));
+                      onTap: () {
+                        Get.to(Productdetailscreen(
+                            productid: controller.products
+                                    .elementAt(index)
+                                    .id
+                                    ?.toInt() ??
+                                0));
                       },
                       child: Container(
                         width: double.infinity,
@@ -341,7 +435,8 @@ class _UpcomingproductscreenState extends State<Upcomingproductscreen> {
                           ],
                         ),
                         child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 1.5.h),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 3.w, vertical: 1.5.h),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -351,19 +446,26 @@ class _UpcomingproductscreenState extends State<Upcomingproductscreen> {
                                 height: 14.h,
                                 child: CommonImageWidget(
                                   imageSourceType: ImageSourceType.cached_image,
-                                  imageUrl: controller.products.elementAt(index).productImage.toString(),
+                                  imageUrl: controller.products
+                                      .elementAt(index)
+                                      .productImage
+                                      .toString(),
                                   fit: BoxFit.fill,
                                 ),
                               ),
                               //SizedBox(width: 1.w),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   SizedBox(
                                     width: 40.w,
                                     child: Text(
-                                      controller.products.elementAt(index).name.toString(),
+                                      controller.products
+                                          .elementAt(index)
+                                          .name
+                                          .toString(),
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
                                         fontSize: 17,
@@ -376,7 +478,10 @@ class _UpcomingproductscreenState extends State<Upcomingproductscreen> {
                                   SizedBox(
                                     width: 40.w,
                                     child: Text(
-                                      controller.products.elementAt(index).description.toString(),
+                                      controller.products
+                                          .elementAt(index)
+                                          .description
+                                          .toString(),
                                       maxLines: 4,
                                       style: TextStyle(
                                         fontSize: 12,
@@ -386,7 +491,9 @@ class _UpcomingproductscreenState extends State<Upcomingproductscreen> {
                                       ),
                                     ),
                                   ),
-                                  SizedBox(height: 1.5.h,),
+                                  SizedBox(
+                                    height: 1.5.h,
+                                  ),
                                   // Row(
                                   //   children: [
                                   //     Container(
@@ -419,7 +526,9 @@ class _UpcomingproductscreenState extends State<Upcomingproductscreen> {
                                   //     ),
                                   //   ],
                                   // ),
-                                  SizedBox(width:2.w,),
+                                  SizedBox(
+                                    width: 2.w,
+                                  ),
                                 ],
                               ),
                               // GestureDetector(
@@ -457,7 +566,8 @@ class _UpcomingproductscreenState extends State<Upcomingproductscreen> {
                         width: 42.w,
                         height: 4.h,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12), // Rounded corners
+                          borderRadius:
+                              BorderRadius.circular(12), // Rounded corners
                           gradient: LinearGradient(
                             colors: [
                               gradientcolor1, // Start color
@@ -482,7 +592,9 @@ class _UpcomingproductscreenState extends State<Upcomingproductscreen> {
                   ),
                 ],
               ),
-              SizedBox(height: 3.h,)
+              SizedBox(
+                height: 3.h,
+              )
             ],
           );
         });

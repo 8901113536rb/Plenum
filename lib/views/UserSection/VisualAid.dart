@@ -10,6 +10,7 @@ import '../../utils/CommonImageWidget.dart';
 import '../../utils/CommonToast.dart';
 import '../../utils/Commonwidgets.dart';
 import '../../utils/NoDataFound.dart';
+import 'Placeorderscreen.dart';
 import 'VisualAidDetailUi.dart';
 
 class Visualaid extends StatefulWidget {
@@ -81,7 +82,11 @@ class _VisualaidState extends State<Visualaid> {
                                     child: Icon(Icons.search, color: white),
                                   ),
                                   SizedBox(width: 2.w),
-                                  Icon(Icons.shopping_bag_outlined, color: white),
+                                  GestureDetector(
+                                      onTap: (){
+                                        Get.to(Placeorderscreen());
+                                      },
+                                      child:Icon(Icons.shopping_bag_outlined, color: white)),
                                 ],
                               ),
                             ],
@@ -129,6 +134,12 @@ class _VisualaidState extends State<Visualaid> {
                                   width: 32.w,
                                   child: DropdownButtonFormField2<String>(
                                     isExpanded: true,
+                                    // style: const TextStyle(
+                                    //   fontSize: 14,
+                                    //   color: Colors.black,
+                                    //   fontWeight: FontWeight.w500,
+                                    //   overflow: TextOverflow.ellipsis,
+                                    // ),
                                     decoration: InputDecoration(
                                       filled: true,
                                       fillColor: Colors.white,
@@ -146,25 +157,45 @@ class _VisualaidState extends State<Visualaid> {
                                         borderSide: BorderSide(color: dropdownborder),
                                       ),
                                     ),
-                                    hint: Text(
+                                    hint: const Text(
                                       category,
                                       style: TextStyle(
                                         fontSize: 14,
                                         color: Colors.black,
                                         fontWeight: FontWeight.w500,
+                                        overflow: TextOverflow.ellipsis,
                                       ),
-                                      overflow: TextOverflow.ellipsis,
+                                      // overflow: TextOverflow.ellipsis,
                                     ),
+                                    selectedItemBuilder: (BuildContext context) {
+                                      return controller.categories.map((item) {
+                                        return Text(
+                                          item['name'].toString(),
+                                          overflow: TextOverflow.ellipsis, // Truncate the selected text
+                                          style: const TextStyle(fontSize: 14,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        );
+                                      }).toList();
+                                    },
                                     items:  controller.categories.map((category) {
                                       return DropdownMenuItem<String>(
                                         value: category['id'].toString(),
-                                        child: Text(category['name']),
+                                        child: Text(category['name'],style: const TextStyle(
+                                          fontSize: 14,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w500,
+                                        ),),
                                       );
                                     }).toList(),
                                     onChanged: (newValue) {
                                       controller.selectedCategoryValue.value = newValue!;
-                                      controller.get_VisualAid(controller.selectedCategoryValue.value,controller.selectedSubCategoryValue.value , controller.searchcontroller.text);
-                                      controller.get_subcategory(controller.selectedCategoryValue.value);
+                                      controller.selectedSubCategoryValue.value = ""; // Reset the subcategory value
+                                      controller.subcategories.clear(); // Clear the subcategories list
+                                      controller.get_VisualAid(controller.selectedCategoryValue.value,controller.selectedSubCategoryValue.value , controller.searchcontroller.text).then((success) {
+                                        controller.get_subcategory(controller.selectedCategoryValue.value);
+                                      });
                                     },
                                     onSaved: (value) {
                                       controller.selectedCategoryValue.value = value.toString();
@@ -194,6 +225,8 @@ class _VisualaidState extends State<Visualaid> {
                                   width: 32.w,
                                   child: DropdownButtonFormField2<String>(
                                     isExpanded: true,
+                                    value: controller.selectedSubCategoryValue.value.isEmpty ? null
+                                        : controller.selectedSubCategoryValue.value,
                                     decoration: InputDecoration(
                                       filled: true,
                                       fillColor: Colors.white,
@@ -211,7 +244,7 @@ class _VisualaidState extends State<Visualaid> {
                                         borderSide: BorderSide(color: dropdownborder),
                                       ),
                                     ),
-                                    hint: Text(
+                                    hint: const Text(
                                       subcategory,
                                       style: TextStyle(
                                         fontSize: 14,
@@ -223,7 +256,11 @@ class _VisualaidState extends State<Visualaid> {
                                     items:  controller.subcategories.map((category) {
                                       return DropdownMenuItem<String>(
                                         value: category['id'].toString(),
-                                        child: Text(category['name']),
+                                        child: Text(category['name'],style: const TextStyle(
+                                          fontSize: 14,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w500,
+                                        )),
                                       );
                                     }).toList(),
                                     onChanged: (newValue) {
@@ -246,6 +283,18 @@ class _VisualaidState extends State<Visualaid> {
                                         borderRadius: BorderRadius.circular(8),
                                       ),
                                     ),
+                                    selectedItemBuilder: (BuildContext context) {
+                                      return controller.subcategories.map((item) {
+                                        return Text(
+                                          item['name'].toString(),
+                                          overflow: TextOverflow.ellipsis, // Truncate the selected text
+                                          style: const TextStyle(fontSize: 14,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        );
+                                      }).toList();
+                                    },
                                     menuItemStyleData: const MenuItemStyleData(
                                       padding: EdgeInsets.symmetric(horizontal: 16),
                                     ),

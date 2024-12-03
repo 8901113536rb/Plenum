@@ -145,6 +145,7 @@ class Upcomingproductscontroller extends GetxController{
               'name': item['name'],
             };
           }).toList();
+          subcategories.refresh();
           print("All subcategories --> $subcategories");
         } else {
           print('Failed to fetch subcategories: ${response.body["message"]}');

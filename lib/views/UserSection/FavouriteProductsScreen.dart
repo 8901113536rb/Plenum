@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:plenum/views/UserSection/Placeorderscreen.dart';
 import 'package:sizer/sizer.dart';
 import '../../constants/appcolors.dart';
 import '../../constants/stringconstants.dart';
@@ -78,7 +79,11 @@ class _FavouriteproductsscreenState extends State<Favouriteproductsscreen> {
                                   //   child: Icon(Icons.search, color: white),
                                   // ),
                                   SizedBox(width: 2.w),
-                                  Icon(Icons.shopping_bag_outlined, color: white),
+                                  GestureDetector(
+                                    onTap: (){
+                                      Get.to(Placeorderscreen());
+                                    },
+                                      child: Icon(Icons.shopping_bag_outlined, color: white)),
                                 ],
                               ),
                             ],
@@ -346,7 +351,7 @@ class _FavouriteproductsscreenState extends State<Favouriteproductsscreen> {
                   Positioned(
                     child:GestureDetector(
                       onTap: (){
-                        Get.to(Productdetailscreen(productid:controller.products.elementAt(index).id?.toInt()??0));
+                        Get.to(Productdetailscreen(productid:controller.products.elementAt(index).productId?.toInt()??0));
                       },
                       child: Container(
                         width: double.infinity,
@@ -388,7 +393,7 @@ class _FavouriteproductsscreenState extends State<Favouriteproductsscreen> {
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   SizedBox(
-                                    width: 35.w,
+                                    width: 40.w,
                                     child: Text(
                                       controller.products.elementAt(index).product?.name.toString()??"",
                                       overflow: TextOverflow.ellipsis,
@@ -401,7 +406,7 @@ class _FavouriteproductsscreenState extends State<Favouriteproductsscreen> {
                                   ),
                                   SizedBox(height: 1.h),
                                   SizedBox(
-                                    width: 35.w,
+                                    width: 40.w,
                                     child: Text(
                                       controller.products.elementAt(index).product?.description.toString()??"",
                                       maxLines: 4,
@@ -417,36 +422,36 @@ class _FavouriteproductsscreenState extends State<Favouriteproductsscreen> {
                                   // SizedBox(width:2.w,),
                                 ],
                               ),
-                              GestureDetector(
-                                  onTap: () {
-                                    if (controller.favouritestatus.value==true) {
-                                      controller.deletewishlist(
-                                          controller.products.elementAt(index).productId?.toInt() ?? 0);
-                                    }
-                                  },
-                                  child: controller.favouritestatus.value==true
-                                      ? Container(
-                                   // margin: EdgeInsets.all(5),
-                                   // height: 3.h,
-                                    alignment: Alignment.centerRight,
-                                   // width: 20.w,
-                                    child: Icon(
-                                      Icons.favorite,
-                                      color: ordercncl_color,
-                                      size: 30,
-                                    ),
-                                  )
-                                      : Container(
-                                   // margin: EdgeInsets.all(5),
-                                   // height: 3.h,
-                                    alignment: Alignment.centerRight,
-                                   // width: 20.w,
-                                    child: Icon(
-                                      Icons.favorite_border,
-                                      color: ordercncl_color,
-                                      size: 30,
-                                    ),
-                                  )),
+                              // GestureDetector(
+                              //     onTap: () {
+                              //       if (controller.favouritestatus.value==true) {
+                              //         controller.deletewishlist(
+                              //             controller.products.elementAt(index).productId?.toInt() ?? 0);
+                              //       }
+                              //     },
+                              //     child: controller.favouritestatus.value==true
+                              //         ? Container(
+                              //      // margin: EdgeInsets.all(5),
+                              //      // height: 3.h,
+                              //       alignment: Alignment.centerRight,
+                              //      // width: 20.w,
+                              //       child: Icon(
+                              //         Icons.favorite,
+                              //         color: ordercncl_color,
+                              //         size: 30,
+                              //       ),
+                              //     )
+                              //         : Container(
+                              //      // margin: EdgeInsets.all(5),
+                              //      // height: 3.h,
+                              //       alignment: Alignment.centerRight,
+                              //      // width: 20.w,
+                              //       child: Icon(
+                              //         Icons.favorite_border,
+                              //         color: ordercncl_color,
+                              //         size: 30,
+                              //       ),
+                              //     )),
                               Icon(Icons.share_outlined, color: black),
                             ],
                           ),
