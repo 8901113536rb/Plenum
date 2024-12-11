@@ -4,6 +4,7 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:plenum/utils/CommonToast.dart';
 import 'package:sizer/sizer.dart';
 import '../../constants/Appcolors.dart';
 import '../../constants/Textstyles.dart';
@@ -11,6 +12,7 @@ import '../../constants/stringconstants.dart';
 import '../../controllers/UserControllers/ProductDetailsController.dart';
 import '../../utils/CommonImageWidget.dart';
 import 'Placeorderscreen.dart';
+import 'VisualAidDetailUi.dart';
 
 class Productdetailscreen extends StatefulWidget {
   int productid;
@@ -85,7 +87,7 @@ class _Product_detail_screenState extends State<Productdetailscreen> {
               children: [
                 product_imageview(),
                 product_content(),
-                //vistualAdsBtn()
+                vistualAdsBtn()
               ],
             ),
           ):const Center(child: CircularProgressIndicator())
@@ -96,17 +98,22 @@ class _Product_detail_screenState extends State<Productdetailscreen> {
   Widget vistualAdsBtn(){
     return   GestureDetector(
       onTap: () {
-        // controller.addtocart(widget.productid.toString());
+        if(controller.products.value!.visualAids!.isNotEmpty){
+          Get.to(Visualaiddetailui(productsimage: controller.products.value!.visualAids!));
+        }else{
+          failed_toast("No Visual Aids Available");
+        }
       },
       child: Container(
         // margin: EdgeInsets.symmetric(horizontal: 15.w),
         alignment: Alignment.center,
         decoration: BoxDecoration(
+          border: Border.all(color: themecolor),
           borderRadius: BorderRadius.circular(8),
-          color: themecolor,
+          color: Colors.transparent,
         ),
         height: 6.h,
-        width: 35.w,
+        width: 95.w,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -118,7 +125,7 @@ class _Product_detail_screenState extends State<Productdetailscreen> {
               style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w600,
-                  color: white),
+                  color: themecolor),
             ),
           ],
         ),

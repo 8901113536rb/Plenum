@@ -1,60 +1,215 @@
-/// status : true
-/// message : "Orders retrieved successfully!"
-/// data : [{"id":8,"user_id":7,"address":"{\"id\":3,\"user_id\":7,\"house_number\":\"1469\",\"street\":\"nada sahib\",\"city\":\"Panchkula\",\"state\":\"Haryana\",\"pincode\":\"134109\",\"landmark\":null,\"created_at\":\"2024-11-26T05:06:55.000000Z\",\"updated_at\":\"2024-11-26T05:06:55.000000Z\"}","status":"Pending","created_at":"2024-12-01T11:35:25.000000Z","updated_at":"2024-12-01T11:35:25.000000Z","products":[{"id":8,"order_id":8,"product_id":1,"quantity":2,"price":"150.00","created_at":"2024-12-01T11:35:25.000000Z","updated_at":"2024-12-01T11:35:25.000000Z","product":{"id":1,"name":"High-Performance Lubricant X500","price":"150.00","category_id":1,"subcategory_id":1,"packing_size":"5 Liters","packing_type":"Plastic Drum","use_in_segment":"Automotive, Heavy Machinery, Aerospace","description":"A premium-grade lubricant engineered for high-performance and durability. Ideal for reducing friction, preventing corrosion, and ensuring smooth machinery operations in extreme environments. Certified for industrial use.","product_image":"https://adminapp.plenumbiotech.com/storage/app/public/products/1519374525product_image.jfif","visual_aids":["https://adminapp.plenumbiotech.com/storage/app/public/products/aids/1413552132visual_aid.jfif","https://adminapp.plenumbiotech.com/storage/app/public/products/aids/1592886192visual_aid.png"],"created_at":"2024-11-24T04:53:48.000000Z","updated_at":"2024-11-24T05:24:09.000000Z","product_status":"featured"}}]}]
-
 class MyOrdersModel {
   MyOrdersModel({
       bool? status, 
       String? message, 
-      List<Data>? data,}){
+      ProductData? productData,}){
     _status = status;
     _message = message;
-    _data = data;
+    _productData = productData;
 }
 
   MyOrdersModel.fromJson(dynamic json) {
     _status = json['status'];
     _message = json['message'];
-    if (json['data'] != null) {
-      _data = [];
-      json['data'].forEach((v) {
-        _data?.add(Data.fromJson(v));
-      });
-    }
+    _productData = json['productData'] != null ? ProductData.fromJson(json['productData']) : null;
   }
   bool? _status;
   String? _message;
-  List<Data>? _data;
+  ProductData? _productData;
 MyOrdersModel copyWith({  bool? status,
   String? message,
-  List<Data>? data,
+  ProductData? productData,
 }) => MyOrdersModel(  status: status ?? _status,
   message: message ?? _message,
-  data: data ?? _data,
+  productData: productData ?? _productData,
 );
   bool? get status => _status;
   String? get message => _message;
-  List<Data>? get data => _data;
+  ProductData? get productData => _productData;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['status'] = _status;
     map['message'] = _message;
-    if (_data != null) {
-      map['data'] = _data?.map((v) => v.toJson()).toList();
+    if (_productData != null) {
+      map['productData'] = _productData?.toJson();
     }
     return map;
   }
 
 }
 
-/// id : 8
-/// user_id : 7
-/// address : "{\"id\":3,\"user_id\":7,\"house_number\":\"1469\",\"street\":\"nada sahib\",\"city\":\"Panchkula\",\"state\":\"Haryana\",\"pincode\":\"134109\",\"landmark\":null,\"created_at\":\"2024-11-26T05:06:55.000000Z\",\"updated_at\":\"2024-11-26T05:06:55.000000Z\"}"
-/// status : "Pending"
-/// created_at : "2024-12-01T11:35:25.000000Z"
-/// updated_at : "2024-12-01T11:35:25.000000Z"
-/// products : [{"id":8,"order_id":8,"product_id":1,"quantity":2,"price":"150.00","created_at":"2024-12-01T11:35:25.000000Z","updated_at":"2024-12-01T11:35:25.000000Z","product":{"id":1,"name":"High-Performance Lubricant X500","price":"150.00","category_id":1,"subcategory_id":1,"packing_size":"5 Liters","packing_type":"Plastic Drum","use_in_segment":"Automotive, Heavy Machinery, Aerospace","description":"A premium-grade lubricant engineered for high-performance and durability. Ideal for reducing friction, preventing corrosion, and ensuring smooth machinery operations in extreme environments. Certified for industrial use.","product_image":"https://adminapp.plenumbiotech.com/storage/app/public/products/1519374525product_image.jfif","visual_aids":["https://adminapp.plenumbiotech.com/storage/app/public/products/aids/1413552132visual_aid.jfif","https://adminapp.plenumbiotech.com/storage/app/public/products/aids/1592886192visual_aid.png"],"created_at":"2024-11-24T04:53:48.000000Z","updated_at":"2024-11-24T05:24:09.000000Z","product_status":"featured"}}]
+class ProductData {
+  ProductData({
+      num? currentPage, 
+      List<Data>? data, 
+      String? firstPageUrl, 
+      num? from, 
+      num? lastPage, 
+      String? lastPageUrl, 
+      List<Links>? links, 
+      dynamic nextPageUrl, 
+      String? path, 
+      num? perPage, 
+      dynamic prevPageUrl, 
+      num? to, 
+      num? total,}){
+    _currentPage = currentPage;
+    _data = data;
+    _firstPageUrl = firstPageUrl;
+    _from = from;
+    _lastPage = lastPage;
+    _lastPageUrl = lastPageUrl;
+    _links = links;
+    _nextPageUrl = nextPageUrl;
+    _path = path;
+    _perPage = perPage;
+    _prevPageUrl = prevPageUrl;
+    _to = to;
+    _total = total;
+}
+
+  ProductData.fromJson(dynamic json) {
+    _currentPage = json['current_page'];
+    if (json['data'] != null) {
+      _data = [];
+      json['data'].forEach((v) {
+        _data?.add(Data.fromJson(v));
+      });
+    }
+    _firstPageUrl = json['first_page_url'];
+    _from = json['from'];
+    _lastPage = json['last_page'];
+    _lastPageUrl = json['last_page_url'];
+    if (json['links'] != null) {
+      _links = [];
+      json['links'].forEach((v) {
+        _links?.add(Links.fromJson(v));
+      });
+    }
+    _nextPageUrl = json['next_page_url'];
+    _path = json['path'];
+    _perPage = json['per_page'];
+    _prevPageUrl = json['prev_page_url'];
+    _to = json['to'];
+    _total = json['total'];
+  }
+  num? _currentPage;
+  List<Data>? _data;
+  String? _firstPageUrl;
+  num? _from;
+  num? _lastPage;
+  String? _lastPageUrl;
+  List<Links>? _links;
+  dynamic _nextPageUrl;
+  String? _path;
+  num? _perPage;
+  dynamic _prevPageUrl;
+  num? _to;
+  num? _total;
+ProductData copyWith({  num? currentPage,
+  List<Data>? data,
+  String? firstPageUrl,
+  num? from,
+  num? lastPage,
+  String? lastPageUrl,
+  List<Links>? links,
+  dynamic nextPageUrl,
+  String? path,
+  num? perPage,
+  dynamic prevPageUrl,
+  num? to,
+  num? total,
+}) => ProductData(  currentPage: currentPage ?? _currentPage,
+  data: data ?? _data,
+  firstPageUrl: firstPageUrl ?? _firstPageUrl,
+  from: from ?? _from,
+  lastPage: lastPage ?? _lastPage,
+  lastPageUrl: lastPageUrl ?? _lastPageUrl,
+  links: links ?? _links,
+  nextPageUrl: nextPageUrl ?? _nextPageUrl,
+  path: path ?? _path,
+  perPage: perPage ?? _perPage,
+  prevPageUrl: prevPageUrl ?? _prevPageUrl,
+  to: to ?? _to,
+  total: total ?? _total,
+);
+  num? get currentPage => _currentPage;
+  List<Data>? get data => _data;
+  String? get firstPageUrl => _firstPageUrl;
+  num? get from => _from;
+  num? get lastPage => _lastPage;
+  String? get lastPageUrl => _lastPageUrl;
+  List<Links>? get links => _links;
+  dynamic get nextPageUrl => _nextPageUrl;
+  String? get path => _path;
+  num? get perPage => _perPage;
+  dynamic get prevPageUrl => _prevPageUrl;
+  num? get to => _to;
+  num? get total => _total;
+
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{};
+    map['current_page'] = _currentPage;
+    if (_data != null) {
+      map['data'] = _data?.map((v) => v.toJson()).toList();
+    }
+    map['first_page_url'] = _firstPageUrl;
+    map['from'] = _from;
+    map['last_page'] = _lastPage;
+    map['last_page_url'] = _lastPageUrl;
+    if (_links != null) {
+      map['links'] = _links?.map((v) => v.toJson()).toList();
+    }
+    map['next_page_url'] = _nextPageUrl;
+    map['path'] = _path;
+    map['per_page'] = _perPage;
+    map['prev_page_url'] = _prevPageUrl;
+    map['to'] = _to;
+    map['total'] = _total;
+    return map;
+  }
+
+}
+
+class Links {
+  Links({
+      dynamic url, 
+      String? label, 
+      bool? active,}){
+    _url = url;
+    _label = label;
+    _active = active;
+}
+
+  Links.fromJson(dynamic json) {
+    _url = json['url'];
+    _label = json['label'];
+    _active = json['active'];
+  }
+  dynamic _url;
+  String? _label;
+  bool? _active;
+Links copyWith({  dynamic url,
+  String? label,
+  bool? active,
+}) => Links(  url: url ?? _url,
+  label: label ?? _label,
+  active: active ?? _active,
+);
+  dynamic get url => _url;
+  String? get label => _label;
+  bool? get active => _active;
+
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{};
+    map['url'] = _url;
+    map['label'] = _label;
+    map['active'] = _active;
+    return map;
+  }
+
+}
 
 class Data {
   Data({
@@ -133,15 +288,6 @@ Data copyWith({  num? id,
   }
 
 }
-
-/// id : 8
-/// order_id : 8
-/// product_id : 1
-/// quantity : 2
-/// price : "150.00"
-/// created_at : "2024-12-01T11:35:25.000000Z"
-/// updated_at : "2024-12-01T11:35:25.000000Z"
-/// product : {"id":1,"name":"High-Performance Lubricant X500","price":"150.00","category_id":1,"subcategory_id":1,"packing_size":"5 Liters","packing_type":"Plastic Drum","use_in_segment":"Automotive, Heavy Machinery, Aerospace","description":"A premium-grade lubricant engineered for high-performance and durability. Ideal for reducing friction, preventing corrosion, and ensuring smooth machinery operations in extreme environments. Certified for industrial use.","product_image":"https://adminapp.plenumbiotech.com/storage/app/public/products/1519374525product_image.jfif","visual_aids":["https://adminapp.plenumbiotech.com/storage/app/public/products/aids/1413552132visual_aid.jfif","https://adminapp.plenumbiotech.com/storage/app/public/products/aids/1592886192visual_aid.png"],"created_at":"2024-11-24T04:53:48.000000Z","updated_at":"2024-11-24T05:24:09.000000Z","product_status":"featured"}
 
 class Products {
   Products({
@@ -224,21 +370,6 @@ Products copyWith({  num? id,
 
 }
 
-/// id : 1
-/// name : "High-Performance Lubricant X500"
-/// price : "150.00"
-/// category_id : 1
-/// subcategory_id : 1
-/// packing_size : "5 Liters"
-/// packing_type : "Plastic Drum"
-/// use_in_segment : "Automotive, Heavy Machinery, Aerospace"
-/// description : "A premium-grade lubricant engineered for high-performance and durability. Ideal for reducing friction, preventing corrosion, and ensuring smooth machinery operations in extreme environments. Certified for industrial use."
-/// product_image : "https://adminapp.plenumbiotech.com/storage/app/public/products/1519374525product_image.jfif"
-/// visual_aids : ["https://adminapp.plenumbiotech.com/storage/app/public/products/aids/1413552132visual_aid.jfif","https://adminapp.plenumbiotech.com/storage/app/public/products/aids/1592886192visual_aid.png"]
-/// created_at : "2024-11-24T04:53:48.000000Z"
-/// updated_at : "2024-11-24T05:24:09.000000Z"
-/// product_status : "featured"
-
 class Product {
   Product({
       num? id, 
@@ -248,13 +379,13 @@ class Product {
       num? subcategoryId, 
       String? packingSize, 
       String? packingType, 
-      String? useInSegment, 
+      dynamic useInSegment, 
       String? description, 
       String? productImage, 
-      List<String>? visualAids, 
+      dynamic visualAids, 
       String? createdAt, 
       String? updatedAt, 
-      String? productStatus,}){
+      dynamic productStatus,}){
     _id = id;
     _name = name;
     _price = price;
@@ -282,7 +413,7 @@ class Product {
     _useInSegment = json['use_in_segment'];
     _description = json['description'];
     _productImage = json['product_image'];
-    _visualAids = json['visual_aids'] != null ? json['visual_aids'].cast<String>() : [];
+    _visualAids = json['visual_aids'];
     _createdAt = json['created_at'];
     _updatedAt = json['updated_at'];
     _productStatus = json['product_status'];
@@ -294,13 +425,13 @@ class Product {
   num? _subcategoryId;
   String? _packingSize;
   String? _packingType;
-  String? _useInSegment;
+  dynamic _useInSegment;
   String? _description;
   String? _productImage;
-  List<String>? _visualAids;
+  dynamic _visualAids;
   String? _createdAt;
   String? _updatedAt;
-  String? _productStatus;
+  dynamic _productStatus;
 Product copyWith({  num? id,
   String? name,
   String? price,
@@ -308,13 +439,13 @@ Product copyWith({  num? id,
   num? subcategoryId,
   String? packingSize,
   String? packingType,
-  String? useInSegment,
+  dynamic useInSegment,
   String? description,
   String? productImage,
-  List<String>? visualAids,
+  dynamic visualAids,
   String? createdAt,
   String? updatedAt,
-  String? productStatus,
+  dynamic productStatus,
 }) => Product(  id: id ?? _id,
   name: name ?? _name,
   price: price ?? _price,
@@ -337,13 +468,13 @@ Product copyWith({  num? id,
   num? get subcategoryId => _subcategoryId;
   String? get packingSize => _packingSize;
   String? get packingType => _packingType;
-  String? get useInSegment => _useInSegment;
+  dynamic get useInSegment => _useInSegment;
   String? get description => _description;
   String? get productImage => _productImage;
-  List<String>? get visualAids => _visualAids;
+  dynamic get visualAids => _visualAids;
   String? get createdAt => _createdAt;
   String? get updatedAt => _updatedAt;
-  String? get productStatus => _productStatus;
+  dynamic get productStatus => _productStatus;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};

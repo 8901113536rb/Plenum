@@ -45,7 +45,7 @@ class Featuredproductcontroller extends GetxController{
       } else {
         if(response.statusCode.toString()==success_statuscode){
           GetFeaturedProducts productdata=GetFeaturedProducts.fromJson(response.body);
-          products.value=productdata.data!;
+          products.value=productdata.productData!.data!;
         }
       }
     }catch(e){

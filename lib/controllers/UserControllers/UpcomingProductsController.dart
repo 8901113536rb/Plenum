@@ -58,7 +58,7 @@ class Upcomingproductscontroller extends GetxController{
       } else {
         if(response.statusCode.toString()==success_statuscode){
           GetUpcomingProducts productdata=GetUpcomingProducts.fromJson(response.body);
-          products.value=productdata.data!;
+          products.value=productdata.productData!.data!;
         }
       }
     }catch(e){

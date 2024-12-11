@@ -366,7 +366,7 @@ class _VisualaidState extends State<Visualaid> {
       itemCount: controller.products.length, // <-- required
       itemBuilder: (context, index) => GestureDetector(
         onTap: (){
-          Get.to(Visualaiddetailui(productsimage: controller.products));
+          Get.to(Visualaiddetailui(productsimage: controller.products,initialPage: index,));
         },
         child: Card(
           // color: themecolor,

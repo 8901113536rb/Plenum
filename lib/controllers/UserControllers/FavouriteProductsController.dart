@@ -49,7 +49,7 @@ class Favouriteproductscontroller extends GetxController{
       } else {
         if(response.statusCode.toString()==success_statuscode){
           GetFavouriteModel productdata=GetFavouriteModel.fromJson(response.body);
-          products.value=productdata.data!;
+          products.value=productdata.productData!.data!;
           favouritestatus.value=true;
           print("favourite status:---"+favouritestatus.value.toString());
           favouritestatus.refresh();

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:plenum/views/SplashScreen.dart';
 import 'package:sizer/sizer.dart';
@@ -7,6 +8,10 @@ import 'constants/stringconstants.dart';
 
 void main() {
   runApp( MyApp());
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    systemNavigationBarColor: themecolor, // navigation bar color
+    statusBarColor: themecolor, // status bar color
+  ));
 }
 
 class MyApp extends StatelessWidget {

@@ -184,6 +184,7 @@ class _SetupProfileScreenState extends State<Profileui> {
                 height: 2.h,
               ),
               Commonformfield(
+                readonly_status: true,
                 hinttext: email_address,
                 fieldcontroller: controller.emailController,
                 validator: (value) {
@@ -194,6 +195,7 @@ class _SetupProfileScreenState extends State<Profileui> {
                 height: 2.h,
               ),
               Commonformfield(
+                readonly_status: true,
                 keyboardtype: TextInputType.number,
                 hinttext: phonenumber,
                 fieldcontroller: controller.phonenumberController,

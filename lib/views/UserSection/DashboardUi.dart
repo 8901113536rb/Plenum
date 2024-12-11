@@ -5,6 +5,7 @@ import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:plenum/views/UserSection/AboutUsUi.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:sizer/sizer.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../constants/Networkconstants.dart';
@@ -304,7 +305,7 @@ class _DashboarduiState extends State<Dashboardui> {
       itemCount: images.length,
       itemBuilder: (context, index) {
         return GestureDetector(
-          onTap: () {
+          onTap: () async {
             if (index == 0) {
               Get.to(const Aboutusui());
             }
@@ -322,6 +323,10 @@ class _DashboarduiState extends State<Dashboardui> {
               Get.to(const Visualaid());
             } else if (index == 7) {
               Get.to(const Notificationui());
+            }else if (index == 8) {
+              String sharelink="https://play.google.com/store/apps/details?id="+appPackageName;
+              print("https://play.google.com/store/apps/details?id=$appPackageName");
+              Share.share('Check out this amazing app!\n $sharelink',);
             }
             // Get.to();
           },

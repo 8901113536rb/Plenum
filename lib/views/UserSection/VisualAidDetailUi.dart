@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,8 +13,9 @@ import 'VisualAidViewUi.dart';
 
 class Visualaiddetailui extends StatefulWidget {
   final List<String> productsimage;
+  int? initialPage=0;
 
-  Visualaiddetailui({required this.productsimage});
+  Visualaiddetailui({required this.productsimage,this.initialPage});
   @override
   _VisualaiddetailuiState createState() => _VisualaiddetailuiState();
 }
@@ -20,6 +23,12 @@ class Visualaiddetailui extends StatefulWidget {
 class _VisualaiddetailuiState extends State<Visualaiddetailui> {
   Visualaiddetailcontrollelr controller=Get.put(Visualaiddetailcontrollelr());
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+      controller.currentIndex.value=widget.initialPage??0;
+  }
   @override
   Widget build(BuildContext context) {
     return Obx((){
@@ -46,17 +55,18 @@ class _VisualaiddetailuiState extends State<Visualaiddetailui> {
         ),
         SizedBox(height: 6.h,),
         Padding(
-          padding:  EdgeInsets.only(left: 4.0.w,right: 4.w),
+          padding:  EdgeInsets.only(left: 1.0.w,right: 1.w),
           child: CarouselSlider.builder(
             itemCount: widget.productsimage.length,
             itemBuilder: (context, index, realIndex) {
               return CommonImageWidget(
                 imageSourceType: ImageSourceType.cached_image,
                 imageUrl: widget.productsimage[index],
-                fit: BoxFit.cover,
+                fit: BoxFit.fill,
               );
             },
             options: CarouselOptions(
+              initialPage: widget.initialPage??0,
               height: 65.h,
               enlargeCenterPage: true,
               autoPlay: false,

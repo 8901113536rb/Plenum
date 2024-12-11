@@ -49,7 +49,7 @@ class Myorderscontroller extends GetxController{
       } else {
         if(response.statusCode.toString()==success_statuscode){
           MyOrdersModel productdata=MyOrdersModel.fromJson(response.body);
-          orders.value=productdata.data!;
+          orders.value=productdata.productData!.data!;
         }
       }
     }catch(e){

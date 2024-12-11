@@ -86,9 +86,7 @@ class _MyordersscreenState extends State<Myordersscreen> {
                           topRight: Radius.circular(25.0),
                         ),
                       ),
-                      child:controller.orders!=[]? Expanded(
-                        child: productlistview()
-                      ):const NoDataFound(message: no_data_found,),
+                      child:controller.orders.isNotEmpty? productlistview():const NoDataFound(message: no_data_found,),
                     ),
                   ),
                 ],
@@ -107,7 +105,7 @@ class _MyordersscreenState extends State<Myordersscreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
+              const Text(
                 products,
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
@@ -115,7 +113,7 @@ class _MyordersscreenState extends State<Myordersscreen> {
                   onTap: (){
                     controller.toggleSearch();
                   },
-                  child: Icon(Icons.search))
+                  child: const Icon(Icons.search))
             ],
           ),
           Container(
@@ -135,19 +133,19 @@ class _MyordersscreenState extends State<Myordersscreen> {
                           fillColor: white,
                           contentPadding: const EdgeInsets.symmetric(vertical: 0),
                           focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
+                              borderRadius: const BorderRadius.all(
                                 Radius.circular(8.0),
                               ),
                               borderSide: BorderSide(color: white)
                           ),
                           border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                              borderRadius: const BorderRadius.all(Radius.circular(8.0)),
                               borderSide: BorderSide(color: white)),
                           enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                              borderRadius: const BorderRadius.all(Radius.circular(8.0)),
                               borderSide: BorderSide(color: white)),
                           errorBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                              borderRadius: const BorderRadius.all(Radius.circular(8.0)),
                               borderSide: BorderSide(color: white)),
                           // Add more decoration..
                         ),
@@ -215,19 +213,19 @@ class _MyordersscreenState extends State<Myordersscreen> {
                           fillColor: white,
                           contentPadding: const EdgeInsets.symmetric(vertical: 0),
                           focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
+                              borderRadius: const BorderRadius.all(
                                 Radius.circular(8.0),
                               ),
                               borderSide: BorderSide(color: white)
                           ),
                           border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                              borderRadius: const BorderRadius.all(Radius.circular(8.0)),
                               borderSide: BorderSide(color: white)),
                           enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                              borderRadius: const BorderRadius.all(Radius.circular(8.0)),
                               borderSide: BorderSide(color: white)),
                           errorBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                              borderRadius: const BorderRadius.all(Radius.circular(8.0)),
                               borderSide: BorderSide(color: white)),
                           // Add more decoration..
                         ),
@@ -290,7 +288,7 @@ class _MyordersscreenState extends State<Myordersscreen> {
                       width: 25.w,
                       decoration: BoxDecoration(
                         color: white,
-                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                        borderRadius: const BorderRadius.all(Radius.circular(8.0)),
                         // borderSide: BorderSide(color: white)
                       ),
                       child: Row(
@@ -347,7 +345,7 @@ class _MyordersscreenState extends State<Myordersscreen> {
                               color: Colors.grey.withOpacity(.2),
                               blurRadius: 20.0, // Soften the shadow
                               spreadRadius: 0.0, // Extend the shadow
-                              offset: Offset(
+                              offset: const Offset(
                                 5.0, // Move right 5 horizontally
                                 5.0, // Move down 5 vertically
                               ),

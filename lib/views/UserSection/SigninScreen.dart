@@ -99,22 +99,6 @@ class _SigninScreenState extends State<SigninScreen> {
                 );
               }),
               SizedBox(height: 2.h),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.end,
-              //   children: [
-              //     GestureDetector(
-              //         onTap: () {
-              //           Get.to(const Forgot_screen());
-              //         },
-              //         child: const Text(
-              //           forgot_password,
-              //           style: TextStyle(
-              //             fontSize: 14,
-              //             fontWeight: FontWeight.w500,
-              //           ),
-              //         ))
-              //   ],
-              // ),
               SizedBox(height: 2.h),
               CommonbtnWidget(
                 title: signin,

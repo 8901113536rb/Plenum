@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:plenum/views/UserSection/SigninScreen.dart';
 
@@ -41,8 +42,16 @@ class SignupController extends GetxController {
       } else {
         success_toast(response.body["message"].toString());
         if (response.body["success"] == true) {
-          Get.to(SigninScreen());
-          success_toast(response.body["message"].toString());
+          Fluttertoast.showToast(
+              msg: response.body["message"].toString(),
+              toastLength: Toast.LENGTH_LONG,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.green,
+              textColor: Colors.white,
+              fontSize: 16.0
+          );
+          Get.to(const SigninScreen());
         }
       }
     } catch (e) {

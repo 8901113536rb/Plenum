@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:plenum/views/UserSection/ProductDetailScreen.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:sizer/sizer.dart';
 import '../../constants/appcolors.dart';
 import '../../constants/stringconstants.dart';
@@ -36,6 +37,11 @@ class _ProductsscreenState extends State<Productsscreen> {
           controller.get_product("","","");
           controller.fetchCategoriesData();
         });
+      }
+    });
+    controller.scrollController?.addListener(() {
+      if (controller.scrollController?.position.pixels == controller.scrollController?.position.maxScrollExtent) {
+        controller.get_product("","","");
       }
     });
   }
@@ -482,7 +488,12 @@ class _ProductsscreenState extends State<Productsscreen> {
                               //       color: ordercncl_color,
                               //     )
                               // ),
-                              Icon(Icons.share_outlined, color: black),
+                              GestureDetector(
+                                  onTap: (){
+                                    String message="${controller.products.elementAt(index).name??""}\n${controller.products.elementAt(index).description??""}\nMRP Rs.${controller.products.elementAt(index).price??""}\n${controller.products.elementAt(index).productImage??""}";
+                                    Share.share(message);
+                                  },
+                                  child: Icon(Icons.share_outlined, color: black)),
                             ],
                           ),
                         ),

@@ -16,6 +16,7 @@ import '../../utils/Sharedutils.dart';
 class Productscontroller extends GetxController{
   TextEditingController searchcontroller=TextEditingController();
   RxBool isSearchVisible = false.obs;
+  ScrollController? scrollController;
 
   void toggleSearch() {
       isSearchVisible.value = !isSearchVisible.value;
@@ -43,6 +44,7 @@ class Productscontroller extends GetxController{
   @override
   void onInit() {
     super.onInit();
+
   }
   get_product(String categoryId,String subcategoryId,search) async {
     Map<String,dynamic>param={
@@ -61,7 +63,8 @@ class Productscontroller extends GetxController{
       } else {
         if(response.statusCode.toString()==success_statuscode){
           GetProductsModel productdata=GetProductsModel.fromJson(response.body);
-          products.value=productdata.data!;
+          products.value=productdata.productData!.data!;
+          print("Products length:-${products.value.length}");
         }
       }
     }catch(e){

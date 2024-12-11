@@ -13,7 +13,7 @@ import '../../views/UserSection/PlaceOrderSuccess_screen.dart';
 class Placeordercontroller extends GetxController{
   Rx<Data?> addressdata = Rx<Data?>(null);
  // RxDouble totalAmount=0.0.obs;
-  var products=<cartdata.Data>[].obs;
+  var products=<cartdata.ProductData>[].obs;
 
   get_orders() async {
     showProgressDialog(Get.context!);
@@ -27,7 +27,7 @@ class Placeordercontroller extends GetxController{
       } else {
         if(response.statusCode.toString()==success_statuscode){
           cartdata.GetCartModel productdata=cartdata.GetCartModel.fromJson(response.body);
-          products.value=productdata.data!;
+          products.value=productdata.productData!;
         }
       }
     }catch(e){

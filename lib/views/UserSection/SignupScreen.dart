@@ -29,7 +29,7 @@ class _SignupScreenState extends State<SignupScreen> {
             onTap: (){
               Get.back();
             },
-            child: Icon(Icons.arrow_back_sharp,color:Colors.black,)),
+            child: const Icon(Icons.arrow_back_sharp,color:Colors.black,)),
         backgroundColor: white,
       ),
       body:body(),
@@ -47,9 +47,9 @@ class _SignupScreenState extends State<SignupScreen> {
               SizedBox(
                 height: 1.h,
               ),
-              Center(child: CommonImageWidget(imageSourceType: ImageSourceType.asset, imageUrl: images_baseurl+'app_logo.png',height: 6.h,fit: BoxFit.fitHeight,)),
+              Center(child: CommonImageWidget(imageSourceType: ImageSourceType.asset, imageUrl: '${images_baseurl}app_logo.png',height: 6.h,fit: BoxFit.fitHeight,)),
               SizedBox(height: 5.h,),
-              Text(sign_up,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16,),),
+              const Text(sign_up,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16,),),
               SizedBox(
                 height: 2.h,
               ),
@@ -136,7 +136,7 @@ class _SignupScreenState extends State<SignupScreen> {
               ),
               GestureDetector(
                 onTap: (){
-                  Get.to(SigninScreen());
+                  Get.to(const SigninScreen());
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,

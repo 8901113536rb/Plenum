@@ -1,6 +1,7 @@
 
 const String images_baseurl = "assets/images/";
 const String appname = "Plenum Biotech";
+const String appPackageName = "com.plenum.plenum";
 const String login = "Login";
 
 const String vendor = "vendor";
@@ -61,6 +62,7 @@ const String  yourprofile = "Your Profile";
 const String  myorders = "My Orders";
 const String  settings = "Settings";
 const String  logout = "Logout";
+const String  quit = "Quit";
 const String  Earnings = "My Earnings";
 const String  Total_Sale = "Total Sale";
 const String  Pending_Sale = "Pending Sale";
