@@ -28,6 +28,7 @@ class _PlaceorderscreenState extends State<Placeorderscreen> {
     super.initState();
     Future.microtask(() {
       controller.get_orders();
+      controller.get_default_address();
     });
   }
   @override
@@ -114,13 +115,15 @@ class _PlaceorderscreenState extends State<Placeorderscreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
-                    width: 10.h,
-                    height: 9.h,
-                    child: CommonImageWidget(
-                      imageSourceType: ImageSourceType.cached_image,
-                      imageUrl: controller.products.elementAt(index).product?.productImage.toString()??"",
-                      fit: BoxFit.fill,
+                  Center(
+                    child: SizedBox(
+                      width: 10.h,
+                      height: 12.h,
+                      child: CommonImageWidget(
+                        imageSourceType: ImageSourceType.cached_image,
+                        imageUrl: controller.products.elementAt(index).product?.productImage.toString()??"",
+                        fit: BoxFit.fill,
+                      ),
                     ),
                   ),
                   Column(
@@ -157,6 +160,16 @@ class _PlaceorderscreenState extends State<Placeorderscreen> {
                       ),
                       Text(
                           "$currency ${controller.products.elementAt(index).product?.price.toString()??""}" ??
+                              '',
+                          style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                              color: blackcolor)),
+                      SizedBox(
+                        height: 1.h,
+                      ),
+                      Text(
+                          "$quantity: ${controller.products.elementAt(index).quantity??"1"}" ??
                               '',
                           style: TextStyle(
                               fontSize: 12,
@@ -275,8 +288,9 @@ class _PlaceorderscreenState extends State<Placeorderscreen> {
                               fontSize: 13,
                               color: Colors.red)):
                       Container(
-                        width: 70.w,
+                        width: 50.w,
                         child: Text("${controller.addressdata.value?.houseNumber},${controller.addressdata.value!.city},${controller.addressdata.value!.state}",
+                            maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                                 overflow: TextOverflow.ellipsis,
@@ -284,25 +298,27 @@ class _PlaceorderscreenState extends State<Placeorderscreen> {
                                 fontSize: 13,
                                 color: blackcolor)),
                       ),
-                      GestureDetector(
-                        onTap: () async {
+                      InkWell(
+                        onTap: (){
                           try{
                             setState(() async {
-                              controller.addressdata.value = await Get.to(Addresslistingscreen(comesfrom: "Placeorder"));
+                              await Get.to(Addresslistingscreen(comesfrom: "Placeorder"))!.then((value){
+                                if(value!=null){
+                                  controller.addressdata.value=value;
+                                }
+                              });
                             });
-                            if (controller.addressdata.value != null) {
-                              print('Received reversed data:'+controller.addressdata.value!.id.toString());
-                            }else{
-                              print("back...");
-                            }
                           }catch(e){
                             print(e.toString());
                           }
-
                         },
-                        child: Icon(
-                          Icons.edit,
-                          color: itemdesccolor,
+                        child: Container(
+                          padding: EdgeInsets.symmetric(vertical: 5,horizontal: 7),
+                          decoration: BoxDecoration(
+                            color: themecolor,
+                            borderRadius: BorderRadius.circular(5)
+                          ),
+                          child: Text(default_address,style: TextStyle(color: white,fontSize: 12),),
                         ),
                       )
                     ],

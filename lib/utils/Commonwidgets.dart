@@ -200,14 +200,14 @@ Widget appbar_with_search(TextEditingController controller,BuildContext context,
 Widget searchbar(TextEditingController controller,BuildContext context,Callback suffixcall) {
   return Container(
     width: double.infinity,
-    child: TextFormField(
+    child: TextField(
       cursorColor: Colors.black,
       inputFormatters: [
-        new LengthLimitingTextInputFormatter(35),
+        LengthLimitingTextInputFormatter(35),
         // for mobile
       ],
       autofocus: false,
-      textInputAction: TextInputAction.done,
+      textInputAction: TextInputAction.search,
       enableSuggestions: false,
       autocorrect: false,
       style: TextStyle(
@@ -220,13 +220,16 @@ Widget searchbar(TextEditingController controller,BuildContext context,Callback 
       ),
       // onChanged: (v) =>
       //     _formKey.currentState?.validate(),
-      validator: (value) {
-        String pattern = r'\S+@\S+\.\S+';
-        RegExp regex = RegExp(pattern);
-        if (value == null || value.isEmpty || !regex.hasMatch(value)) {
-          return 'Please enter search data!';
-        }
-        return null;
+      // validator: (value) {
+      //   String pattern = r'\S+@\S+\.\S+';
+      //   RegExp regex = RegExp(pattern);
+      //   if (value == null || value.isEmpty || !regex.hasMatch(value)) {
+      //     return 'Please enter search data!';
+      //   }
+      //   return null;
+      // },
+      onSubmitted: (value){
+        suffixcall();
       },
       controller: controller,
       decoration: InputDecoration(

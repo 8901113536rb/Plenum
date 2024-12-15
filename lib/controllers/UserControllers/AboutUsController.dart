@@ -17,23 +17,5 @@ class Aboutuscontroller extends GetxController{
   void onInit() {
     super.onInit();
   }
-  get_aboutdata() async {
-    showProgressDialog(Get.context!);
-    try{
-      Response response=await Baseprovider().hitget2(url: aboutus);
-      hideprogressDialog(Get.context!);
-      print('Response: ${response.body}');
-      if (response.status.hasError) {
-        print('Error: ${response.statusText}');
-        failed_toast(response.body["message"].toString());
-      } else {
-        if(response.statusCode.toString()==success_statuscode){
-          GetAboutUs productdata=GetAboutUs.fromJson(response.body);
-          products.value=productdata;
-        }
-      }
-    }catch(e){
-      print('Error: ${e.toString()}');
-    }
-  }
+
 }

@@ -38,9 +38,12 @@ class _AddresslistingscreenState extends State<Addresslistingscreen> {
           child: Icon(Icons.add),
           backgroundColor: themecolor,
         ),
-        appBar: const Commonappbarwidget(
+        appBar: Commonappbarwidget(
           leftText: address,
           showBackArrow: true,
+          onBackPressed: (){
+            Get.back(result: null);
+          },
         ),
         body: controller.addressdata.isNotEmpty?addresslistview():const NoDataFound(message: no_data_found,),
       );

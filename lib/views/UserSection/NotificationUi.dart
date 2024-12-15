@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:plenum/views/UserSection/ProductDetailScreen.dart';
 import 'package:sizer/sizer.dart';
 import '../../constants/Stringconstants.dart';
 import '../../constants/appcolors.dart';
@@ -46,41 +47,46 @@ class _NotificationuiState extends State<Notificationui> {
         padding: EdgeInsets.only(bottom: 2.h),
         itemCount: controller.notificationdata.length,
         itemBuilder: (BuildContext context, int index) {
-          return Container(
-            width: double.infinity,
-            // height: 21.5.h,
-            margin: EdgeInsets.only(left: 3.w,right: 3.w,top: 2.h),
-            decoration: new BoxDecoration(
-              color: boxcolor,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(.4),
-                  blurRadius: 20.0, // Soften the shadow
-                  spreadRadius: 0.0, // Extend the shadow
-                  offset: Offset(
-                    5.0, // Move right 5 horizontally
-                    5.0, // Move down 5 vertically
-                  ),
-                )
-              ],
-            ),
-            child: Padding(
-              padding: EdgeInsets.only(left: 3.w,right: 3.w,top: 1.5.h,bottom: 1.5.h),
-              child:Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(controller.notificationdata[index].title.toString(),style: TextStyle(fontSize: 15,fontWeight: FontWeight.w600,color: black),),
-                  SizedBox(height: 0.6.h,),
-                  Text(controller.notificationdata[index].description.toString(),maxLines: 2,style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500,color: black,overflow: TextOverflow.ellipsis)),
-                  SizedBox(height: 0.6.h,),
-                  Row(
-                    children: [
-                      Text("Create: ",style: TextStyle(fontSize: 12,fontWeight: FontWeight.w500,color: black)),
-                      Text(controller.formatDateTime(controller.notificationdata[index].createdAt.toString()),style: TextStyle(fontSize: 12,fontWeight: FontWeight.w500,color: black)),
-                    ],
-                  ),
+          return GestureDetector(
+            onTap: (){
+              Get.to(Productdetailscreen(productid: controller.notificationdata.elementAt(index).productId?.toInt()??0,));
+            },
+            child: Container(
+              width: double.infinity,
+              // height: 21.5.h,
+              margin: EdgeInsets.only(left: 3.w,right: 3.w,top: 2.h),
+              decoration: new BoxDecoration(
+                color: boxcolor,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(.4),
+                    blurRadius: 20.0, // Soften the shadow
+                    spreadRadius: 0.0, // Extend the shadow
+                    offset: Offset(
+                      5.0, // Move right 5 horizontally
+                      5.0, // Move down 5 vertically
+                    ),
+                  )
                 ],
+              ),
+              child: Padding(
+                padding: EdgeInsets.only(left: 3.w,right: 3.w,top: 1.5.h,bottom: 1.5.h),
+                child:Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(controller.notificationdata[index].title.toString(),style: TextStyle(fontSize: 15,fontWeight: FontWeight.w600,color: black),),
+                    SizedBox(height: 0.6.h,),
+                    Text(controller.notificationdata[index].description.toString(),maxLines: 2,style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500,color: black,overflow: TextOverflow.ellipsis)),
+                    SizedBox(height: 0.6.h,),
+                    Row(
+                      children: [
+                        Text("Create: ",style: TextStyle(fontSize: 12,fontWeight: FontWeight.w500,color: black)),
+                        Text(controller.formatDateTime(controller.notificationdata[index].createdAt.toString()),style: TextStyle(fontSize: 12,fontWeight: FontWeight.w500,color: black)),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           );

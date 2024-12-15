@@ -32,15 +32,17 @@ class Favouriteproductscontroller extends GetxController{
   RxString selectedCategoryValue = "".obs;
   var products=<Data>[].obs;
   RxBool favouritestatus=false.obs;
+  RxInt currentPage=1.obs;
+  RxBool hasMoreData=true.obs;
   @override
   void onInit() {
     super.onInit();
   }
 
-  get_favouriteproduct() async {
+  get_favouriteproduct({int page=1}) async {
     showProgressDialog(Get.context!);
     try{
-      Response response=await Baseprovider().hitget2(url: getFavouriteProducts);
+      Response response=await Baseprovider().hitget2(url: "$getFavouriteProducts?page=$page");
       hideprogressDialog(Get.context!);
       print('Response: ${response.body}');
       if (response.status.hasError) {
@@ -48,10 +50,15 @@ class Favouriteproductscontroller extends GetxController{
         failed_toast(response.body["message"].toString());
       } else {
         if(response.statusCode.toString()==success_statuscode){
-          GetFavouriteModel productdata=GetFavouriteModel.fromJson(response.body);
-          products.value=productdata.productData!.data!;
+          GetFavouriteModel productData = GetFavouriteModel.fromJson(response.body);
+          if (productData.productData!.data!.isNotEmpty) {
+            products.addAll(productData.productData!.data!);
+            currentPage++;
+          } else {
+            hasMoreData.value = false;
+          }
           favouritestatus.value=true;
-          print("favourite status:---"+favouritestatus.value.toString());
+          print("favourite status:---${favouritestatus.value}");
           favouritestatus.refresh();
         }
       }
@@ -60,29 +67,8 @@ class Favouriteproductscontroller extends GetxController{
     }
   }
 
-  addtowishlist(int productid) async {
-    Map<String,dynamic>param={"product_id":productid};
-    showProgressDialog(Get.context!);
-    try{
-      Response response=await Baseprovider().hitPost(url: addToFavourite,param);
-      hideprogressDialog(Get.context!);
-      print('Response: ${response.body}');
-      if (response.status.hasError) {
-        print('Error: ${response.statusText}');
-        failed_toast(response.body["message"].toString());
-      } else {
-        if(response.body["status"]==true){
-          success_toast(response.body["message"].toString());
-          favouritestatus.value=true;
-          favouritestatus.refresh();
-        }
-      }
-    }catch(e){
-      print('Error: ${e.toString()}');
-    }
-  }
 
-  deletewishlist(int productid) async {
+  deletewishlist(int productid,int position) async {
     showProgressDialog(Get.context!);
     try{
       Response response=await Baseprovider().hitdelete(url: removewishlist+productid.toString(),);
@@ -95,6 +81,8 @@ class Favouriteproductscontroller extends GetxController{
         if(response.body["status"]==true){
           success_toast(response.body["message"].toString());
           favouritestatus.value=false;
+          // products.removeAt(position);
+          products.clear();
           get_favouriteproduct();
           favouritestatus.refresh();
         }

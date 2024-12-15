@@ -27,7 +27,14 @@ class _MyordersscreenState extends State<Myordersscreen> {
     super.initState();
     // controller.searchcontroller.text=widget.searchdata!;
     Future.microtask(() {
+      controller.orders.clear();
       controller.get_orders();
+      controller.scrollController?.addListener(() {
+        if (controller.scrollController!.position.pixels ==
+            controller.scrollController!.position.maxScrollExtent && controller.hasMoreData.value) {
+          controller.get_orders(page: controller.currentPage.value);
+        }
+      });
     });
   }
   @override
@@ -319,6 +326,7 @@ class _MyordersscreenState extends State<Myordersscreen> {
   }
   Widget productlistview(){
     return ListView.builder(
+      controller: controller.scrollController,
       padding: EdgeInsets.only(top: 2.h),
         itemCount: controller.orders.length,
         itemBuilder: (BuildContext context, int index) {
@@ -331,7 +339,7 @@ class _MyordersscreenState extends State<Myordersscreen> {
                   Positioned(
                     child: GestureDetector(
                       onTap: (){
-                        Get.to(Myorderdetailui(productid:   controller.orders.elementAt(index).products?[0].id?.toInt()??0,));
+                        Get.to(Myorderdetailui(productid:   controller.orders.elementAt(index).id!.toInt()??0,));
                       },
                       child: Container(
                         width: double.infinity,
@@ -356,7 +364,7 @@ class _MyordersscreenState extends State<Myordersscreen> {
                           padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 1.5.h),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               SizedBox(
                                 width: 30.w,
@@ -367,7 +375,7 @@ class _MyordersscreenState extends State<Myordersscreen> {
                                   fit: BoxFit.fill,
                                 ),
                               ),
-                              //SizedBox(width: 1.w),
+                              SizedBox(width: 3.5.w),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -402,7 +410,7 @@ class _MyordersscreenState extends State<Myordersscreen> {
                                 ],
                               ),
                               // Icon(Icons.favorite, color: ordercncl_color),
-                              Icon(Icons.share_outlined, color: black),
+                              // Icon(Icons.share_outlined, color: black),
                             ],
                           ),
                         ),

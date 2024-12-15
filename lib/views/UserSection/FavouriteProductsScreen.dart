@@ -1,4 +1,5 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -22,19 +23,22 @@ class Favouriteproductsscreen extends StatefulWidget {
 
 class _FavouriteproductsscreenState extends State<Favouriteproductsscreen> {
   Favouriteproductscontroller controller = Get.put(Favouriteproductscontroller());
+  ScrollController scrollController = ScrollController();
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    // controller.searchcontroller.text=widget.searchdata!;
     Future.microtask(() {
-      if(controller.searchcontroller.text.isNotEmpty){
-        // controller.search_product();
-      }else{
-        Future.microtask(() {
-          controller.get_favouriteproduct();
-        });
-      }
+      controller.products.clear();
+      controller.get_favouriteproduct();
+
+      scrollController?.addListener(() {
+        if (scrollController!.position.pixels ==
+            scrollController!.position.maxScrollExtent && controller.hasMoreData.value) {
+          controller.get_favouriteproduct(page: controller.currentPage.value);
+        }
+      });
     });
   }
 
@@ -339,6 +343,7 @@ class _FavouriteproductsscreenState extends State<Favouriteproductsscreen> {
   }
   Widget productlistview(){
     return ListView.builder(
+      controller: scrollController,
       padding: EdgeInsets.only(top: 2.h),
         itemCount: controller.products.length,
         itemBuilder: (BuildContext context, int index) {
@@ -422,36 +427,18 @@ class _FavouriteproductsscreenState extends State<Favouriteproductsscreen> {
                                   // SizedBox(width:2.w,),
                                 ],
                               ),
-                              // GestureDetector(
-                              //     onTap: () {
-                              //       if (controller.favouritestatus.value==true) {
-                              //         controller.deletewishlist(
-                              //             controller.products.elementAt(index).productId?.toInt() ?? 0);
-                              //       }
-                              //     },
-                              //     child: controller.favouritestatus.value==true
-                              //         ? Container(
-                              //      // margin: EdgeInsets.all(5),
-                              //      // height: 3.h,
-                              //       alignment: Alignment.centerRight,
-                              //      // width: 20.w,
-                              //       child: Icon(
-                              //         Icons.favorite,
-                              //         color: ordercncl_color,
-                              //         size: 30,
-                              //       ),
-                              //     )
-                              //         : Container(
-                              //      // margin: EdgeInsets.all(5),
-                              //      // height: 3.h,
-                              //       alignment: Alignment.centerRight,
-                              //      // width: 20.w,
-                              //       child: Icon(
-                              //         Icons.favorite_border,
-                              //         color: ordercncl_color,
-                              //         size: 30,
-                              //       ),
-                              //     )),
+                              FavoriteButton(
+                                isFavorite: true,
+                                iconSize: 40,
+                                valueChanged: (status) {
+                                    controller.deletewishlist(controller
+                                        .products
+                                        .elementAt(index)
+                                        .productId
+                                        ?.toInt() ??
+                                        0,index);
+                                },
+                              ),
                               Icon(Icons.share_outlined, color: black),
                             ],
                           ),

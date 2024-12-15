@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:get/get.dart';
 import 'package:get/get_rx/get_rx.dart';
+import 'package:plenum/utils/Sharedutils.dart';
 
 import '../../api/BaseProvider.dart';
 import '../../constants/Networkconstants.dart';
@@ -12,8 +15,10 @@ import '../../views/UserSection/PlaceOrderSuccess_screen.dart';
 
 class Placeordercontroller extends GetxController{
   Rx<Data?> addressdata = Rx<Data?>(null);
+  // Rx<Data?> default_address = Rx<Data?>(null);
  // RxDouble totalAmount=0.0.obs;
   var products=<cartdata.ProductData>[].obs;
+
 
   get_orders() async {
     showProgressDialog(Get.context!);
@@ -32,6 +37,20 @@ class Placeordercontroller extends GetxController{
       }
     }catch(e){
       print('Error: ${e.toString()}');
+    }
+  }
+
+  get_default_address() async {
+    String? jsonResponse = await SharedUtils().get_address_data();
+    print("address: ${jsonResponse}");
+
+    if (jsonResponse != null) {
+      Map<String, dynamic> userData = jsonDecode(jsonResponse);
+      addressdata.value = Data.fromJson(userData);
+      // int positioon=addressdata.indexOf(addressdetailsModel);
+      // print("selected:-"+positioon.toString());
+    } else {
+      print("No user data found.");
     }
   }
 

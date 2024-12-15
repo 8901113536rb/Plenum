@@ -8,34 +8,34 @@ import 'package:sizer/sizer.dart';
 import '../../constants/appcolors.dart';
 import '../../constants/stringconstants.dart';
 import '../../controllers/UserControllers/AboutUsController.dart';
+import '../../models/GetAboutUs.dart';
 import '../../utils/CommonImageWidget.dart';
-import '../../utils/Commonwidgets.dart';
 import '../../utils/NoDataFound.dart';
 
 class Aboutusui extends StatefulWidget {
-  const Aboutusui({super.key});
+  GetAboutUs productdata;
+  Aboutusui({super.key,required this.productdata});
 
   @override
   State<Aboutusui> createState() => _AboutusuiState();
 }
 
 class _AboutusuiState extends State<Aboutusui> {
-  Aboutuscontroller controller = Get.put(Aboutuscontroller());
+  // Aboutuscontroller controller = Get.put(Aboutuscontroller());
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    Future.microtask(() {
-      controller.get_aboutdata();
-    });
+    // Future.microtask(() {
+    //   controller.get_aboutdata();
+    // });
   }
   @override
   Widget build(BuildContext context) {
-    return Obx((){
-      return SafeArea(
-        child: Scaffold(
-          //appBar: appBar(),
+    return SafeArea(
+      child: Scaffold(
+        //appBar: appBar(),
           body:
           Container(
               color: themecolor,
@@ -54,9 +54,9 @@ class _AboutusuiState extends State<Aboutusui> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               GestureDetector(
-                                onTap: (){
-                                  Get.back();
-                                },
+                                  onTap: (){
+                                    Get.back();
+                                  },
                                   child: Icon(Icons.arrow_back,color: white,)),
                               SizedBox(width: 2.w,),
                               Text(
@@ -85,7 +85,7 @@ class _AboutusuiState extends State<Aboutusui> {
                           topRight: Radius.circular(25.0),
                         ),
                       ),
-                      child: controller.products.value?.data?.id.toString()!=""?
+                      child: widget.productdata.data!.id.toString()!=""?
                       aboutusview():
                       const NoDataFound(message: no_data_found,),
                     ),
@@ -94,9 +94,8 @@ class _AboutusuiState extends State<Aboutusui> {
               )
           )
 
-        ),
-      );
-    });
+      ),
+    );
   }
   Widget aboutusview(){
     return Padding(
@@ -112,7 +111,7 @@ class _AboutusuiState extends State<Aboutusui> {
               height: 10.h,
               child: CommonImageWidget(
                 imageSourceType: ImageSourceType.cached_image,
-                imageUrl: controller.products.value?.data?.icon.toString()??"",
+                imageUrl: widget.productdata.data!.icon.toString()??"",
                 fit: BoxFit.cover,
               ),
             ),
@@ -130,7 +129,7 @@ class _AboutusuiState extends State<Aboutusui> {
               // ),
               // SizedBox(width: 2.w,),
               Text(
-                controller.products.value?.data?.title.toString()??'',
+                widget.productdata.data!.title.toString()??'',
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   fontSize: 15,
@@ -151,7 +150,7 @@ class _AboutusuiState extends State<Aboutusui> {
           ),
           SizedBox(height: 1.5.h,),
           Text(
-            controller.products.value?.data?.about.toString()??'',
+            widget.productdata.data!.about.toString()??'',
             overflow: TextOverflow.ellipsis,
             maxLines: 10,
             style: TextStyle(
@@ -171,7 +170,7 @@ class _AboutusuiState extends State<Aboutusui> {
           ),
           SizedBox(height: 1.5.h,),
           Text(
-            controller.products.value?.data?.description.toString()??'',
+            widget.productdata.data!.description.toString()??'',
             overflow: TextOverflow.ellipsis,
             maxLines: 10,
             style: TextStyle(

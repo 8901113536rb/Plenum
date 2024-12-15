@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/get_rx.dart';
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../api/BaseProvider.dart';
@@ -16,8 +17,6 @@ import '../../utils/Sharedutils.dart';
 class Productscontroller extends GetxController{
   TextEditingController searchcontroller=TextEditingController();
   RxBool isSearchVisible = false.obs;
-  ScrollController? scrollController;
-
   void toggleSearch() {
       isSearchVisible.value = !isSearchVisible.value;
   }
@@ -39,14 +38,15 @@ class Productscontroller extends GetxController{
   RxBool favouritestatus=false.obs;
   var categories = <Map<String, dynamic>>[].obs;
   var subcategories = <Map<String, dynamic>>[].obs;
-
+  RxInt currentPage=1.obs;
+  RxBool hasMoreData=true.obs;
 
   @override
   void onInit() {
     super.onInit();
 
   }
-  get_product(String categoryId,String subcategoryId,search) async {
+  get_product(String categoryId,String subcategoryId,search,{int page=1}) async {
     Map<String,dynamic>param={
       "category_id":categoryId.toString(),
       "subcategory_id":subcategoryId.toString(),
@@ -54,7 +54,7 @@ class Productscontroller extends GetxController{
     };
     showProgressDialog(Get.context!);
     try{
-      Response response=await Baseprovider().hitPost(url: getProducts,param);
+      Response response=await Baseprovider().hitPost(url: "$getProducts?page=$page",param);
       hideprogressDialog(Get.context!);
       print('Response: ${response.body}');
       if (response.status.hasError) {
@@ -62,8 +62,13 @@ class Productscontroller extends GetxController{
         failed_toast(response.body["message"].toString());
       } else {
         if(response.statusCode.toString()==success_statuscode){
-          GetProductsModel productdata=GetProductsModel.fromJson(response.body);
-          products.value=productdata.productData!.data!;
+          GetProductsModel productData = GetProductsModel.fromJson(response.body);
+          if (productData.productData!.data!.isNotEmpty) {
+            products.addAll(productData.productData!.data!);
+            currentPage++;
+          } else {
+            hasMoreData.value = false;
+          }
           print("Products length:-${products.value.length}");
         }
       }

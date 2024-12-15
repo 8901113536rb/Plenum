@@ -1,7 +1,3 @@
-/// message : "Listing Successful!"
-/// status : true
-/// data : {"id":1,"icon":"https://adminapp.plenumbiotech.com/storage/app/public/backendimage/73696101icon.jpeg","title":"Plenum App Admin","bannerImg":"https://adminapp.plenumbiotech.com/storage/app/public/backendimage/1968039845bannerImg.jpeg","created_at":"2023-04-06T09:24:23.000000Z","updated_at":"2024-11-26T04:53:10.000000Z","description":"Plenum Biotech is one of the leading PCD Pharma Franchise and Third party Manufacturing Company in India. PCD stands for Propaganda-Cum-Distribution that is used in the pharmaceutical sector to help in marketing, distribution of products in a specified territory. We are also known to be one of India’s best PCD product franchise providers.","about":"Plenum Biotech is one of the leading PCD Pharma Franchise and Third party Manufacturing Company in India. PCD stands for Propaganda-Cum-Distribution that is used in the pharmaceutical sector to help in marketing, distribution of products in a specified territory. We are also known to be one of India’s best PCD product franchise providers."}
-
 class GetAboutUs {
   GetAboutUs({
       String? message, 
@@ -43,15 +39,6 @@ GetAboutUs copyWith({  String? message,
 
 }
 
-/// id : 1
-/// icon : "https://adminapp.plenumbiotech.com/storage/app/public/backendimage/73696101icon.jpeg"
-/// title : "Plenum App Admin"
-/// bannerImg : "https://adminapp.plenumbiotech.com/storage/app/public/backendimage/1968039845bannerImg.jpeg"
-/// created_at : "2023-04-06T09:24:23.000000Z"
-/// updated_at : "2024-11-26T04:53:10.000000Z"
-/// description : "Plenum Biotech is one of the leading PCD Pharma Franchise and Third party Manufacturing Company in India. PCD stands for Propaganda-Cum-Distribution that is used in the pharmaceutical sector to help in marketing, distribution of products in a specified territory. We are also known to be one of India’s best PCD product franchise providers."
-/// about : "Plenum Biotech is one of the leading PCD Pharma Franchise and Third party Manufacturing Company in India. PCD stands for Propaganda-Cum-Distribution that is used in the pharmaceutical sector to help in marketing, distribution of products in a specified territory. We are also known to be one of India’s best PCD product franchise providers."
-
 class Data {
   Data({
       num? id, 
@@ -61,6 +48,7 @@ class Data {
       String? createdAt, 
       String? updatedAt, 
       String? description, 
+      String? driveUrl, 
       String? about,}){
     _id = id;
     _icon = icon;
@@ -69,6 +57,7 @@ class Data {
     _createdAt = createdAt;
     _updatedAt = updatedAt;
     _description = description;
+    _driveUrl = driveUrl;
     _about = about;
 }
 
@@ -80,6 +69,7 @@ class Data {
     _createdAt = json['created_at'];
     _updatedAt = json['updated_at'];
     _description = json['description'];
+    _driveUrl = json['drive_url'];
     _about = json['about'];
   }
   num? _id;
@@ -89,6 +79,7 @@ class Data {
   String? _createdAt;
   String? _updatedAt;
   String? _description;
+  String? _driveUrl;
   String? _about;
 Data copyWith({  num? id,
   String? icon,
@@ -97,6 +88,7 @@ Data copyWith({  num? id,
   String? createdAt,
   String? updatedAt,
   String? description,
+  String? driveUrl,
   String? about,
 }) => Data(  id: id ?? _id,
   icon: icon ?? _icon,
@@ -105,6 +97,7 @@ Data copyWith({  num? id,
   createdAt: createdAt ?? _createdAt,
   updatedAt: updatedAt ?? _updatedAt,
   description: description ?? _description,
+  driveUrl: driveUrl ?? _driveUrl,
   about: about ?? _about,
 );
   num? get id => _id;
@@ -114,6 +107,7 @@ Data copyWith({  num? id,
   String? get createdAt => _createdAt;
   String? get updatedAt => _updatedAt;
   String? get description => _description;
+  String? get driveUrl => _driveUrl;
   String? get about => _about;
 
   Map<String, dynamic> toJson() {
@@ -125,6 +119,7 @@ Data copyWith({  num? id,
     map['created_at'] = _createdAt;
     map['updated_at'] = _updatedAt;
     map['description'] = _description;
+    map['drive_url'] = _driveUrl;
     map['about'] = _about;
     return map;
   }

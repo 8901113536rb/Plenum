@@ -95,14 +95,6 @@ class _Profile_screenState extends State<Myprofilescreen> {
                               Get.to(Addresslistingscreen(comesfrom: "address",));
                             },
                             child: profile_items(delivery_address,"deliveryaddress.svg",)),
-                        InkWell(
-                            highlightColor: screenbgcolor,
-                            splashColor: screenbgcolor,
-                            onTap: ()  async {
-                              await SharedUtils().cleardata();
-                              Get.offAll(const SigninScreen());
-                            },
-                            child: profile_items(logout,"setting_icon.svg",divider: false)),
 
                       ],
                     ),

@@ -12,6 +12,8 @@ import '../../utils/CommonImageWidget.dart';
 import '../../utils/CommonValidations.dart';
 import '../../utils/CommonbtnWidget.dart';
 import '../../utils/Commonformfield.dart';
+import '../../utils/Sharedutils.dart';
+import 'SigninScreen.dart';
 
 class Profileui extends StatefulWidget {
   const Profileui({Key? key}) : super(key: key);
@@ -66,6 +68,7 @@ class _SetupProfileScreenState extends State<Profileui> {
                     alignment: Alignment.centerLeft,
                     padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 2.h),
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         GestureDetector(
                           onTap: (){
@@ -81,6 +84,10 @@ class _SetupProfileScreenState extends State<Profileui> {
                             color: white,
                           ),
                         ),
+                        TextButton(onPressed: () async {
+                          await SharedUtils().cleardata();
+                          Get.offAll(const SigninScreen());
+                        }, child: const Text(logout,style: TextStyle(color: Colors.white),))
                       ],
                     ),
                   ),

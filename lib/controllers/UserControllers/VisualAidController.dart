@@ -15,6 +15,8 @@ import '../../utils/Progressdialog.dart';
 class Visualaidcontroller extends GetxController{
   TextEditingController searchcontroller=TextEditingController();
   RxBool isSearchVisible = false.obs;
+  RxInt currentPage=1.obs;
+  RxBool hasMoreData=true.obs;
 
   void toggleSearch() {
     isSearchVisible.value = !isSearchVisible.value;
@@ -24,11 +26,8 @@ class Visualaidcontroller extends GetxController{
   var products=<String>[].obs;
   var categories = <Map<String, dynamic>>[].obs;
   var subcategories = <Map<String, dynamic>>[].obs;
-  @override
-  void onInit() {
-    super.onInit();
-  }
-  get_VisualAid(String categoryId,String subcategoryId,search) async {
+
+  get_VisualAid(String categoryId,String subcategoryId,search,{int page=1}) async {
     Map<String,dynamic>param={
       "category_id":categoryId.toString(),
       "subcategory_id":subcategoryId.toString(),
@@ -36,7 +35,7 @@ class Visualaidcontroller extends GetxController{
     };
     showProgressDialog(Get.context!);
     try{
-      Response response=await Baseprovider().hitPost(url: visualAids,param);
+      Response response=await Baseprovider().hitPost(url: "$visualAids?page=$page",param);
       hideprogressDialog(Get.context!);
       print('Response: ${response.body}');
       if (response.status.hasError) {
@@ -44,14 +43,20 @@ class Visualaidcontroller extends GetxController{
         failed_toast(response.body["message"].toString());
       } else {
         if(response.statusCode.toString()==success_statuscode){
-          GetVisualAids productdata=GetVisualAids.fromJson(response.body);
-          products.value=productdata.visualAids!;
+          GetVisualAids productData = GetVisualAids.fromJson(response.body);
+          if (productData.visualAids!.isNotEmpty) {
+            products.addAll(productData.visualAids!);
+            currentPage++;
+          } else {
+            hasMoreData.value = false;
+          }
         }
       }
     }catch(e){
       print('Error: ${e.toString()}');
     }
   }
+
   Future<void> fetchCategoriesData() async {
     final prefs = await SharedPreferences.getInstance();
     try {

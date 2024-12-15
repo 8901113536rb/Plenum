@@ -47,6 +47,7 @@ class _DashboarduiState extends State<Dashboardui> {
     visual_ads,
     notifications,
     share_app,
+    download_product_list,
   ];
   List<String> images = [
     "aboutus.svg",
@@ -58,6 +59,7 @@ class _DashboarduiState extends State<Dashboardui> {
     "visualaids.svg",
     "messageicon.svg",
     "share.svg",
+    "download_icon.svg",
   ];
   @override
   Widget build(BuildContext context) {
@@ -307,7 +309,7 @@ class _DashboarduiState extends State<Dashboardui> {
         return GestureDetector(
           onTap: () async {
             if (index == 0) {
-              Get.to(const Aboutusui());
+              Get.to(Aboutusui(productdata: controller.aboutUs.value!,));
             }
             else if (index == 1) {
               Get.to(const Myordersscreen());
@@ -327,6 +329,8 @@ class _DashboarduiState extends State<Dashboardui> {
               String sharelink="https://play.google.com/store/apps/details?id="+appPackageName;
               print("https://play.google.com/store/apps/details?id=$appPackageName");
               Share.share('Check out this amazing app!\n $sharelink',);
+            }else if(index==9){
+              launchURL(controller.aboutUs.value?.data?.driveUrl??"");
             }
             // Get.to();
           },
@@ -339,6 +343,13 @@ class _DashboarduiState extends State<Dashboardui> {
         );
       },
     );
+  }
+  launchURL(String urlAddress) async {
+    if (await canLaunch(urlAddress)) {
+      await launch(urlAddress);
+    } else {
+      throw 'Could not launch $urlAddress';
+    }
   }
 
   listDataView(List<String> name, int index, List<String> imagepath) {

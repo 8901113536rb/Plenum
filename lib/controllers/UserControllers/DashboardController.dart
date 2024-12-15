@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/get_rx.dart';
+import 'package:plenum/models/GetAboutUs.dart';
+import 'package:plenum/utils/Progressdialog.dart';
 
 import '../../api/BaseProvider.dart';
 import '../../constants/Networkconstants.dart';
@@ -18,6 +20,8 @@ class Dashboardcontroller extends GetxController{
   var categories = <Map<String, dynamic>>[].obs;
   var subcategories = <Map<String, dynamic>>[].obs;
   int selected_banner = 0;
+  Rx<GetAboutUs?> aboutUs = Rx<GetAboutUs?>(null);
+
   Future<void> onInit() async {
     // TODO: implement onInit
     super.onInit();
@@ -25,6 +29,7 @@ class Dashboardcontroller extends GetxController{
       // get_product();
       get_category();
       get_banners();
+      get_aboutdata();
     });
   }
   get_banners() async {
@@ -39,6 +44,26 @@ class Dashboardcontroller extends GetxController{
           GetBannerModel bannerdata=GetBannerModel.fromJson(response.body);
           bannerimages.value = bannerdata.data!.map((banner) => banner.image).toList();
           print("all images --> $bannerimages");
+        }
+      }
+    }catch(e){
+      print('Error: ${e.toString()}');
+    }
+  }
+
+  get_aboutdata() async {
+    showProgressDialog(Get.context!);
+    try{
+      Response response=await Baseprovider().hitget2(url: aboutus);
+      hideprogressDialog(Get.context!);
+      print('Response: ${response.body}');
+      if (response.status.hasError) {
+        print('Error: ${response.statusText}');
+        failed_toast(response.body["message"].toString());
+      } else {
+        if(response.statusCode.toString()==success_statuscode){
+          GetAboutUs productdata=GetAboutUs.fromJson(response.body);
+          aboutUs.value=productdata;
         }
       }
     }catch(e){

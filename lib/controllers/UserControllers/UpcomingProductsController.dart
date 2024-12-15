@@ -37,11 +37,15 @@ class Upcomingproductscontroller extends GetxController{
   var products=<Data>[].obs;
   var categories = <Map<String, dynamic>>[].obs;
   var subcategories = <Map<String, dynamic>>[].obs;
+  RxInt currentPage=1.obs;
+  RxBool hasMoreData=true.obs;
+
+
   @override
   void onInit() {
     super.onInit();
   }
-  get_product(String categoryId,String subcategoryId,search) async {
+  get_product(String categoryId,String subcategoryId,search,{int page=1}) async {
     Map<String,dynamic>param={
       "category_id":categoryId.toString(),
       "subcategory_id":subcategoryId.toString(),
@@ -49,7 +53,7 @@ class Upcomingproductscontroller extends GetxController{
     };
     showProgressDialog(Get.context!);
     try{
-      Response response=await Baseprovider().hitPost(url: getUpcomingProducts,param);
+      Response response=await Baseprovider().hitPost(url: "$getUpcomingProducts?page=$page",param);
       hideprogressDialog(Get.context!);
       print('Response: ${response.body}');
       if (response.status.hasError) {
@@ -57,8 +61,13 @@ class Upcomingproductscontroller extends GetxController{
         failed_toast(response.body["message"].toString());
       } else {
         if(response.statusCode.toString()==success_statuscode){
-          GetUpcomingProducts productdata=GetUpcomingProducts.fromJson(response.body);
-          products.value=productdata.productData!.data!;
+          GetUpcomingProducts productData = GetUpcomingProducts.fromJson(response.body);
+          if (productData.productData!.data!.isNotEmpty) {
+            products.addAll(productData.productData!.data!);
+            currentPage++;
+          } else {
+            hasMoreData.value = false;
+          }
         }
       }
     }catch(e){

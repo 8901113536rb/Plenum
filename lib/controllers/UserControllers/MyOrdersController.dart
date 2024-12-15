@@ -31,16 +31,15 @@ class Myorderscontroller extends GetxController{
   RxString selectedDivisionValue = "".obs;
   RxString selectedCategoryValue = "".obs;
   var orders=<Data>[].obs;
+  RxInt currentPage=1.obs;
+  RxBool hasMoreData=true.obs;
+  ScrollController scrollController = ScrollController();
 
-  @override
-  void onInit() {
-    super.onInit();
-  }
 
-  get_orders() async {
+  get_orders({int page=1}) async {
     showProgressDialog(Get.context!);
     try{
-      Response response=await Baseprovider().hitget2(url: myorders_endpoint);
+      Response response=await Baseprovider().hitget2(url: "$myorders_endpoint?page=$page");
       hideprogressDialog(Get.context!);
       print('Response: ${response.body}');
       if (response.status.hasError) {
@@ -48,8 +47,15 @@ class Myorderscontroller extends GetxController{
         failed_toast(response.body["message"].toString());
       } else {
         if(response.statusCode.toString()==success_statuscode){
-          MyOrdersModel productdata=MyOrdersModel.fromJson(response.body);
-          orders.value=productdata.productData!.data!;
+          MyOrdersModel productData = MyOrdersModel.fromJson(response.body);
+          if (productData.productData!.data!.isNotEmpty) {
+            orders.addAll(productData.productData!.data!);
+            currentPage++;
+          } else {
+            hasMoreData.value = false;
+          }
+
+
         }
       }
     }catch(e){

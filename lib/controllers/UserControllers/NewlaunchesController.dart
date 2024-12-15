@@ -37,11 +37,13 @@ class Newlaunchescontroller extends GetxController{
   var products=<Data>[].obs;
   var categories = <Map<String, dynamic>>[].obs;
   var subcategories = <Map<String, dynamic>>[].obs;
+  RxInt currentPage=1.obs;
+  RxBool hasMoreData=true.obs;
   @override
   void onInit() {
     super.onInit();
   }
-  get_product(String categoryId,String subcategoryId,search) async {
+  get_product(String categoryId,String subcategoryId,search,{int page=1}) async {
     Map<String,dynamic>param={
       "category_id":categoryId.toString(),
       "subcategory_id":subcategoryId.toString(),
@@ -49,7 +51,7 @@ class Newlaunchescontroller extends GetxController{
     };
     showProgressDialog(Get.context!);
     try{
-      Response response=await Baseprovider().hitPost(url: getnewLaunchesProducts,param);
+      Response response=await Baseprovider().hitPost(url: "$getnewLaunchesProducts?page=$page",param);
       hideprogressDialog(Get.context!);
       print('Response: ${response.body}');
       if (response.status.hasError) {
@@ -58,7 +60,13 @@ class Newlaunchescontroller extends GetxController{
       } else {
         if(response.statusCode.toString()==success_statuscode){
           GetNewLaunchingModel productdata=GetNewLaunchingModel.fromJson(response.body);
-          products.value=productdata.productData!.data!;
+          if (productdata.productData!.data!.isNotEmpty) {
+            products.addAll(productdata.productData!.data!);
+            currentPage++;
+          } else {
+            hasMoreData.value = false;
+          }
+
         }
       }
     }catch(e){
