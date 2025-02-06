@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:plenum/views/UserSection/FavouriteProductsScreen.dart';
 import 'package:plenum/views/UserSection/ProductDetailScreen.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:sizer/sizer.dart';
@@ -95,6 +96,13 @@ class _ProductsscreenState extends State<Productsscreen> {
                                         Get.to(const Placeorderscreen());
                                       },
                                       child: Icon(Icons.shopping_bag_outlined,
+                                          color: white)),
+                                  SizedBox(width: 2.w),
+                                  GestureDetector(
+                                      onTap: () {
+                                        Get.to(const Favouriteproductsscreen());
+                                      },
+                                      child: Icon(Icons.favorite,
                                           color: white)),
                                 ],
                               ),

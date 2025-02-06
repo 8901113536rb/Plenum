@@ -13,6 +13,7 @@ import '../../utils/CommonImageWidget.dart';
 import '../../utils/CommonToast.dart';
 import '../../utils/Commonwidgets.dart';
 import '../../utils/NoDataFound.dart';
+import 'FavouriteProductsScreen.dart';
 import 'Placeorderscreen.dart';
 import 'ProductDetailScreen.dart';
 
@@ -95,6 +96,13 @@ class _FeaturedproductscreenState extends State<Featuredproductscreen> {
                                         Get.to(const Placeorderscreen());
                                       },
                                       child: Icon(Icons.shopping_bag_outlined,
+                                          color: white)),
+                                  SizedBox(width: 2.w),
+                                  GestureDetector(
+                                      onTap: () {
+                                        Get.to(const Favouriteproductsscreen());
+                                      },
+                                      child: Icon(Icons.favorite,
                                           color: white)),
                                 ],
                               ),

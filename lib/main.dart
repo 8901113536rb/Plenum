@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:plenum/views/SplashScreen.dart';
+import 'package:plenum/views/UserSection/BottomNavUi.dart';
+import 'package:plenum/views/UserSection/DashboardUi.dart';
 import 'package:sizer/sizer.dart';
 import 'constants/Appcolors.dart';
 import 'constants/stringconstants.dart';
@@ -30,6 +32,7 @@ class MyApp extends StatelessWidget {
                 fontFamily: "Montserrat",
                 primarySwatch: Colors.red,
               ),
+              // home: BottomNavScreen()
               home: SplashScreen()
           );
         },

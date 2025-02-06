@@ -381,6 +381,36 @@ class _MyordersscreenState extends State<Myordersscreen> {
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   SizedBox(
+                                    width: 50.w,
+                                    child: Row(
+                                      children: [
+                                        Text('Order Id: ',
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w500,
+                                            color: themecolor,
+                                          ),
+                                        ),
+                                        Text(controller.orders
+                                                        .elementAt(index)
+                                                        .products?[0]
+                                                        .id.toString() ??
+                                                    "",
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w500,
+                                            color: themecolor,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  SizedBox(
                                     width: 40.w,
                                     child: Text(
                                       controller.orders.elementAt(index).products?[0].product?.name.toString()??"",

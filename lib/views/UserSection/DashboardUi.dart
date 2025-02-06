@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:plenum/views/CalculatorScreen.dart';
 import 'package:plenum/views/UserSection/AboutUsUi.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:sizer/sizer.dart';
@@ -48,18 +49,20 @@ class _DashboarduiState extends State<Dashboardui> {
     notifications,
     share_app,
     download_product_list,
+    pts_ptr,
   ];
   List<String> images = [
-    "aboutus.svg",
-    "orders.svg",
-    "products.svg",
-    "products.svg",
-    "products.svg",
-    "products.svg",
-    "visualaids.svg",
-    "messageicon.svg",
-    "share.svg",
-    "download_icon.svg",
+    "aboutus.png",
+    "orders.png",
+    "my-products.png",
+    "new-launches.png",
+    "todayOffer.png",
+    "upcoming-products.png",
+    "visual-aid.png",
+    "notification.png",
+    "share-app.png",
+    "download.png",
+    "calculator.png",
   ];
   @override
   Widget build(BuildContext context) {
@@ -331,6 +334,8 @@ class _DashboarduiState extends State<Dashboardui> {
               Share.share('Check out this amazing app!\n $sharelink',);
             }else if(index==9){
               launchURL(controller.aboutUs.value?.data?.driveUrl??"");
+            }else if(index==10){
+              Get.to(CalculatorScreen());
             }
             // Get.to();
           },
@@ -376,7 +381,7 @@ class _DashboarduiState extends State<Dashboardui> {
                 child: CircleAvatar(
                   radius: 4.w,
                   backgroundColor: white,
-                  child: SvgPicture.asset(
+                  child: Image.asset(
                     images_baseurl + imagepath[index],
                     color: black,
                     fit: BoxFit.cover,

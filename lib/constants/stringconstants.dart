@@ -128,9 +128,9 @@ const String  subscription = "Subscription";
 const String  premium = "Premium";
 const String  choose = "Choose";
 const String  add_to_cart = "Add to cart";
-const String  placeorder = "Place order";
+const String  placeorder = "Add to cart";
 const String  description = "Description";
-const String  price = "Selling Price";
+const String  price = "MRP";
 const String  share = "Share";
 const String  box_size = "Box Size";
 const String  add = "+ Add";
@@ -208,9 +208,10 @@ const String  upload_pan_card = "Upload PAN Card";
 
 
 const String  about_us = "About Us";
+const String  pts_ptr = "PTS & PTR";
 const String  new_launches = "New Launches";
-const String  featured = "Featured";
-const String  featured_products = "Featured Products";
+const String  featured = "Today Offer";
+const String  featured_products = "Today Offer";
 const String  upcoming_products = "Upcoming Products";
 const String  upcoming = "Upcoming";
 const String  visual_ads = "Visual Aids";
