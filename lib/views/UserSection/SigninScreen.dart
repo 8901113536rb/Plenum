@@ -21,6 +21,8 @@ class SigninScreen extends StatefulWidget {
 
 class _SigninScreenState extends State<SigninScreen> {
   SigninController controller = Get.put(SigninController());
+  final formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,7 +39,7 @@ class _SigninScreenState extends State<SigninScreen> {
       width: double.infinity,
       child: SingleChildScrollView(
         child: Form(
-          key: controller.formKey,
+          key: formKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -65,14 +67,20 @@ class _SigninScreenState extends State<SigninScreen> {
                 height: 2.h,
               ),
               Commonformfield(
-                  hinttext: enter_email,
+                keyboardtype: TextInputType.number,
+                  hinttext: enter_phonenumber,
                   fieldcontroller: controller.emailcontroller,
                   prefix: CommonImageWidget(
                     imageSourceType: ImageSourceType.svg,
-                    imageUrl: '${images_baseurl}messageicon.svg',
+                    imageUrl: '${images_baseurl}phoneicon.svg',
                   ),
                   validator: (value) {
-                    return emailValidator(value);
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter phone number';
+                    } else if (!RegExp(r'^(?:\+91|91|0)?[6-9]\d{9}$').hasMatch(value)) {
+                      return 'Enter valid phone number';
+                    }
+                    return null;
                   }),
               SizedBox(height: 2.h),
               Obx(() {
@@ -103,7 +111,7 @@ class _SigninScreenState extends State<SigninScreen> {
               CommonbtnWidget(
                 title: signin,
                 onTap: () {
-                  if (controller.formKey.currentState!.validate()) {
+                  if (formKey.currentState!.validate()) {
                     controller.signin_user();
                   }
                 },

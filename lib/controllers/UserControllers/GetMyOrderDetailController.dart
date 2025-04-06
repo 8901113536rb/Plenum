@@ -14,7 +14,7 @@ class Getmyorderdetailcontroller extends GetxController{
   ].obs;
   Rx<Data?> products = Rx<Data?>(null);
   RxBool favouritestatus=false.obs;
-
+  var addressData="".obs;
   @override
   Future<void> onInit() async {
     // TODO: implement onInit

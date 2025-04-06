@@ -273,7 +273,7 @@ class _Product_detail_screenState extends State<Productdetailscreen> {
           ),
           Text(
             controller.products.value?.description.toString() ?? "",
-            style: Common_textstyles.productdescstyle,
+            // style: Common_textstyles.productdescstyle,
             maxLines: 6,
             overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.start,

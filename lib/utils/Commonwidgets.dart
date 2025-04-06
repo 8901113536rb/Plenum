@@ -198,7 +198,7 @@ Widget appbar_with_search(TextEditingController controller,BuildContext context,
   );
 }
 Widget searchbar(TextEditingController controller,BuildContext context,Callback suffixcall) {
-  return Container(
+  return SizedBox(
     width: double.infinity,
     child: TextField(
       cursorColor: Colors.black,

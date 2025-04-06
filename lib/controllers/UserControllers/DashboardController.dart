@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/get_rx.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:plenum/models/GetAboutUs.dart';
 import 'package:plenum/utils/Progressdialog.dart';
 
@@ -27,10 +28,29 @@ class Dashboardcontroller extends GetxController{
     super.onInit();
     Future.microtask(() {
       // get_product();
+      requestAndroidNotificationPermission();
       get_category();
       get_banners();
       get_aboutdata();
     });
+  }
+
+  Future<void> requestAndroidNotificationPermission() async {
+    // Check if we already have permission
+    PermissionStatus status = await Permission.notification.status;
+
+    if (status.isDenied || status.isRestricted) {
+      // Request permission if it's denied or restricted
+      PermissionStatus newStatus = await Permission.notification.request();
+
+      if (newStatus.isGranted) {
+        print("Notification permission granted");
+      } else {
+        print("Notification permission denied");
+      }
+    } else {
+      print("Notification permission already granted");
+    }
   }
   get_banners() async {
     try{

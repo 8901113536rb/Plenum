@@ -8,6 +8,7 @@ import '../../api/BaseProvider.dart';
 import '../../constants/Networkconstants.dart';
 import '../../utils/CommonToast.dart';
 import '../../utils/Progressdialog.dart';
+import '../../views/UserSection/SignupSuccess.dart';
 
 
 class SignupController extends GetxController {
@@ -16,7 +17,6 @@ class SignupController extends GetxController {
   var email_controller = TextEditingController();
   var phone_controller = TextEditingController();
   var password_controller = TextEditingController();
-  final formKey = GlobalKey<FormState>();
   RxBool yourpasswordObscured = true.obs;
 
   void  yourPasswordVisibility() {
@@ -40,19 +40,24 @@ class SignupController extends GetxController {
         print('Error: ${response.statusText}');
         failed_toast(response.body["message"].toString());
       } else {
-        success_toast(response.body["message"].toString());
-        if (response.body["success"] == true) {
-          Fluttertoast.showToast(
-              msg: response.body["message"].toString(),
-              toastLength: Toast.LENGTH_LONG,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-              backgroundColor: Colors.green,
-              textColor: Colors.white,
-              fontSize: 16.0
-          );
-          Get.to(const SigninScreen());
-        }
+        // success_toast(response.body["message"].toString());
+        firstname_controller.clear();
+        lastname_controller.clear();
+        email_controller.clear();
+        phone_controller.clear();
+        password_controller.clear();
+        Get.off(const SignupSuccess());
+        // if (response.body["success"] == true) {
+        //   Fluttertoast.showToast(
+        //       msg: response.body["message"].toString(),
+        //       toastLength: Toast.LENGTH_LONG,
+        //       gravity: ToastGravity.BOTTOM,
+        //       timeInSecForIosWeb: 1,
+        //       backgroundColor: Colors.green,
+        //       textColor: Colors.white,
+        //       fontSize: 16.0
+        //   );
+        // }
       }
     } catch (e) {
       print('Error: ${e.toString()}');

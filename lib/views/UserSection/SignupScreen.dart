@@ -19,6 +19,7 @@ class SignupScreen extends StatefulWidget {
 
 class _SignupScreenState extends State<SignupScreen> {
   SignupController controller=Get.put(SignupController());
+  final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +41,7 @@ class _SignupScreenState extends State<SignupScreen> {
       margin: EdgeInsets.symmetric(horizontal: 3.w),
       child: SingleChildScrollView(
         child: Form(
-          key: controller.formKey,
+          key: formKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -127,7 +128,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 height: 5.h,
               ),
               CommonbtnWidget(title: sign_up,onTap: (){
-                if (controller.formKey.currentState!.validate()) {
+                if (formKey.currentState!.validate()) {
                   controller.signup_user();
                 }
               }),

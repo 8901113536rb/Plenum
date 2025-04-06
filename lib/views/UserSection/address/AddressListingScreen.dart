@@ -29,13 +29,13 @@ class _AddresslistingscreenState extends State<Addresslistingscreen> {
       return Scaffold(
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
-            final result = await Get.to(Addaddressscreen());
+            final result = await Get.to(const Addaddressscreen());
             print("Message "+result.toString());
             if (result == 'addressAdded') {
               controller.get_all_address();
             }
           },
-          child: Icon(Icons.add),
+          child: const Icon(Icons.add),
           backgroundColor: themecolor,
         ),
         appBar: Commonappbarwidget(
@@ -54,114 +54,156 @@ class _AddresslistingscreenState extends State<Addresslistingscreen> {
         padding: EdgeInsets.only(bottom: 2.h),
         itemCount: controller.addressdata.length,
         itemBuilder: (BuildContext context, int index) {
-          return Container(
-            width: double.infinity,
-            // height: 21.5.h,
-            margin: EdgeInsets.only(left: 3.w,right: 3.w,top: 2.h),
-            decoration: new BoxDecoration(
-              color: boxcolor,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(.2),
-                  blurRadius: 20.0, // Soften the shadow
-                  spreadRadius: 0.0, // Extend the shadow
-                  offset: Offset(
-                    5.0, // Move right 5 horizontally
-                    5.0, // Move down 5 vertically
-                  ),
-                )
-              ],
-            ),
-            child: Padding(
-              padding: EdgeInsets.only(left: 4.w,right: 4.w,top: 2.h,bottom: 2.h),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(controller.addressdata[index].houseNumber.toString(),style: TextStyle(fontSize: 14,fontWeight: FontWeight.w600,color: blackcolor),),
-                      Row(
-                        children: [
-                          GestureDetector(
-                              onTap: () async{
-                                final result =  await Get.to(Updateadressscreen(
-                                  houseno:controller.addressdata[index].houseNumber.toString(),
-                                  city:controller.addressdata[index].city.toString(),
-                                  state:controller.addressdata[index].state.toString(),
-                                  street:controller.addressdata[index].street.toString(),
-                                  postalcode:controller.addressdata[index].pincode.toString(),
-                                  landmark:controller.addressdata[index].landmark.toString(),
-                                  id:controller.addressdata[index].id.toString(),
-                                ));
-                                if (result == 'addressUpdated') {
-                                  controller.get_all_address(); // Fetch the address list again
-                                }
-                              },
-                              child: Icon(Icons.edit_outlined,color:Colors.black ,)),
-                          SizedBox(width: 3.w,),
-                          GestureDetector(
-                              onTap: (){
-                                controller.delete_address(controller.addressdata[index].id!.toInt());
-                              },
-                              child: Icon(Icons.delete_outline_outlined,color:ordercncl_color ,)),
-                        ],
-                      )
-                    ],
-                  ),
-                  SizedBox(height: 1.h,),
-                  SizedBox(width:50.w,child: Text(controller.addressdata[index].street.toString(),style: TextStyle(fontSize: 12,fontWeight: FontWeight.w500,color: blackcolor,overflow: TextOverflow.ellipsis))),
-                  SizedBox(height: 1.h,),
-                  SizedBox(width:50.w,child: Text(controller.addressdata[index].city.toString(),style: TextStyle(fontSize: 12,fontWeight: FontWeight.w500,color: blackcolor,overflow: TextOverflow.ellipsis))),
-                  SizedBox(height: 1.h,),
-                  widget.comesfrom=="Placeorder"?
-                  InkWell(
-                    onTap: () {
-                      setState(() async {
-                        controller.selectedAddressIndex.value = index;
-                      });
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
+          return GestureDetector(
+            onTap: (){
+              setState(() {
+                controller.selectedAddressIndex.value = index;
+                print(controller.selectedAddressIndex.value.toString());
+                if(widget.comesfrom=="Placeorder"){
+                  String userdetails=jsonEncode(controller.addressdata.elementAt(index));
+                  SharedUtils().save_address_data(userdetails);
+                  Get.back(result: controller.addressdata[index]);
+                }else{
+                  String userdetails=jsonEncode(controller.addressdata.elementAt(index));
+                  SharedUtils().save_address_data(userdetails);
+                }
+              });
+            },
+            child: Container(
+              width: double.infinity,
+              // height: 21.5.h,
+              margin: EdgeInsets.only(left: 3.w,right: 3.w,top: 2.h),
+              decoration: new BoxDecoration(
+                color: boxcolor,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(.2),
+                    blurRadius: 20.0, // Soften the shadow
+                    spreadRadius: 0.0, // Extend the shadow
+                    offset: const Offset(
+                      5.0, // Move right 5 horizontally
+                      5.0, // Move down 5 vertically
+                    ),
+                  )
+                ],
+              ),
+              child: Padding(
+                padding: EdgeInsets.only(left: 4.w,right: 4.w,top: 2.h,bottom: 2.h),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Radio<int>(
-                          visualDensity: const VisualDensity(
-                            horizontal: VisualDensity.minimumDensity,
-                            vertical: VisualDensity.minimumDensity,
-                          ),
-                          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                          value: index,
-                          groupValue: controller.selectedAddressIndex.value, // Selected value
-                          onChanged: (int? value) {
-                            setState(() {
-                              controller.selectedAddressIndex.value = value!;
-                              print(controller.selectedAddressIndex.value.toString());
-                              if(widget.comesfrom=="Placeorder"){
-                                String userdetails=jsonEncode(controller.addressdata.elementAt(index));
-                                SharedUtils().save_address_data(userdetails);
-                                Get.back(result: controller.addressdata[index]);
-                              }else{
-                                String userdetails=jsonEncode(controller.addressdata.elementAt(index));
-                                SharedUtils().save_address_data(userdetails);
-                              }
-                            });
-                          },
-                          activeColor: themecolor,
-                        ),
-                        SizedBox(width: 2.w),
-                        Text(
-                          default_address,
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600,
-                            color: blackcolor,
-                          ),
-                        ),
+                        Text(controller.addressdata[index].houseNumber.toString(),style: TextStyle(fontSize: 14,fontWeight: FontWeight.w600,color: blackcolor),),
+                        Row(
+                          children: [
+                            GestureDetector(
+                                onTap: () async{
+                                  final result =  await Get.to(Updateadressscreen(
+                                    houseno:controller.addressdata[index].houseNumber.toString(),
+                                    city:controller.addressdata[index].city.toString(),
+                                    state:controller.addressdata[index].state.toString(),
+                                    street:controller.addressdata[index].street.toString(),
+                                    postalcode:controller.addressdata[index].pincode.toString(),
+                                    landmark:controller.addressdata[index].landmark.toString(),
+                                    id:controller.addressdata[index].id.toString(),
+                                  ));
+                                  if (result == 'addressUpdated') {
+                                    controller.get_all_address(); // Fetch the address list again
+                                  }
+                                },
+                                child: const Icon(Icons.edit_outlined,color:Colors.black ,)),
+                            SizedBox(width: 3.w,),
+                            GestureDetector(
+                                onTap: (){
+                                  controller.delete_address(controller.addressdata[index].id!.toInt());
+                                },
+                                child: Icon(Icons.delete_outline_outlined,color:ordercncl_color ,)),
+                          ],
+                        )
                       ],
                     ),
-                  ):SizedBox()
-                ],
+                    SizedBox(height: 1.h,),
+                    SizedBox(width:50.w,child: Text(controller.addressdata[index].street.toString(),style: TextStyle(fontSize: 12,fontWeight: FontWeight.w500,color: blackcolor,overflow: TextOverflow.ellipsis))),
+                    SizedBox(height: 1.h,),
+                    SizedBox(width:50.w,child: Text(controller.addressdata[index].city.toString(),style: TextStyle(fontSize: 12,fontWeight: FontWeight.w500,color: blackcolor,overflow: TextOverflow.ellipsis))),
+                    SizedBox(height: 1.h,),
+                    widget.comesfrom=="Placeorder"?
+                    GestureDetector(
+                      onTap: (){
+                        setState(() {
+                          controller.selectedAddressIndex.value = index!;
+                          print(controller.selectedAddressIndex.value.toString());
+                          if(widget.comesfrom=="Placeorder"){
+                            String userdetails=jsonEncode(controller.addressdata.elementAt(index));
+                            SharedUtils().save_address_data(userdetails);
+                            Get.back(result: controller.addressdata[index]);
+                          }else{
+                            String userdetails=jsonEncode(controller.addressdata.elementAt(index));
+                            SharedUtils().save_address_data(userdetails);
+                          }
+                        });
+                      },
+                      child: Container(
+                        padding: EdgeInsets.symmetric(vertical: 5,horizontal: 7),
+                        decoration: BoxDecoration(
+                            color: white,
+                            borderRadius: BorderRadius.circular(5),
+                          border: Border.all(color: themecolor)
+                        ),
+                        child: Text(default_address,style: TextStyle(color: themecolor,fontSize: 12),),
+                      ),
+                    )
+                    // InkWell(
+                    //   onTap: () {
+                    //     setState(() async {
+                    //       controller.selectedAddressIndex.value = index;
+                    //     });
+                    //   },
+                    //   child: Row(
+                    //     mainAxisAlignment: MainAxisAlignment.start,
+                    //     children: [
+                    //       Radio<int>(
+                    //         visualDensity: const VisualDensity(
+                    //           horizontal: VisualDensity.minimumDensity,
+                    //           vertical: VisualDensity.minimumDensity,
+                    //         ),
+                    //         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    //         value: index,
+                    //         groupValue: controller.selectedAddressIndex.value, // Selected value
+                    //         onChanged: (int? value) {
+                    //           setState(() {
+                    //             controller.selectedAddressIndex.value = value!;
+                    //             print(controller.selectedAddressIndex.value.toString());
+                    //             if(widget.comesfrom=="Placeorder"){
+                    //               String userdetails=jsonEncode(controller.addressdata.elementAt(index));
+                    //               SharedUtils().save_address_data(userdetails);
+                    //               Get.back(result: controller.addressdata[index]);
+                    //             }else{
+                    //               String userdetails=jsonEncode(controller.addressdata.elementAt(index));
+                    //               SharedUtils().save_address_data(userdetails);
+                    //             }
+                    //           });
+                    //         },
+                    //         activeColor: themecolor,
+                    //       ),
+                    //       SizedBox(width: 2.w),
+                    //       Text(
+                    //         default_address,
+                    //         style: TextStyle(
+                    //           fontSize: 12,
+                    //           fontWeight: FontWeight.w600,
+                    //           color: blackcolor,
+                    //         ),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // )
+                        :const SizedBox()
+                  ],
+                ),
               ),
             ),
           );

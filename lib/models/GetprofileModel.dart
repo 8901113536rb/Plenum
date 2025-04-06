@@ -1,5 +1,3 @@
-/// success : true
-/// data : {"id":7,"first_name":"Rohit","last_name":"Bukkel","email":"poojaodd2001@gmail.com","phone":"7696319141","image":"https://adminapp.plenumbiotech.com/storage/app/profile_images/kDaz511m1nRlvyHUXMG0pQYfzIrQnanksaEzXbc0.png","user_type":null,"otp":null,"is_verified":1,"created_at":"2024-11-26T05:06:55.000000Z","updated_at":"2024-12-01T14:42:50.000000Z","addresses":[{"id":3,"user_id":7,"house_number":"1469","street":"nada sahib","city":"Panchkula","state":"Haryana","pincode":"134109","landmark":null,"created_at":"2024-11-26T05:06:55.000000Z","updated_at":"2024-11-26T05:06:55.000000Z"},{"id":7,"user_id":7,"house_number":"1344","street":"school","city":"Ambala","state":"haryana","pincode":"136118","landmark":"nope","created_at":"2024-11-27T06:10:23.000000Z","updated_at":"2024-11-27T06:10:23.000000Z"},{"id":8,"user_id":7,"house_number":"4444","street":"nopes","city":"Mohali","state":"Punjab","pincode":"118235","landmark":"temple","created_at":"2024-11-27T06:12:11.000000Z","updated_at":"2024-11-27T06:15:48.000000Z"}]}
 
 class GetprofileModel {
   GetprofileModel({
@@ -33,19 +31,6 @@ GetprofileModel copyWith({  bool? success,
   }
 
 }
-
-/// id : 7
-/// first_name : "Rohit"
-/// last_name : "Bukkel"
-/// email : "poojaodd2001@gmail.com"
-/// phone : "7696319141"
-/// image : "https://adminapp.plenumbiotech.com/storage/app/profile_images/kDaz511m1nRlvyHUXMG0pQYfzIrQnanksaEzXbc0.png"
-/// user_type : null
-/// otp : null
-/// is_verified : 1
-/// created_at : "2024-11-26T05:06:55.000000Z"
-/// updated_at : "2024-12-01T14:42:50.000000Z"
-/// addresses : [{"id":3,"user_id":7,"house_number":"1469","street":"nada sahib","city":"Panchkula","state":"Haryana","pincode":"134109","landmark":null,"created_at":"2024-11-26T05:06:55.000000Z","updated_at":"2024-11-26T05:06:55.000000Z"},{"id":7,"user_id":7,"house_number":"1344","street":"school","city":"Ambala","state":"haryana","pincode":"136118","landmark":"nope","created_at":"2024-11-27T06:10:23.000000Z","updated_at":"2024-11-27T06:10:23.000000Z"},{"id":8,"user_id":7,"house_number":"4444","street":"nopes","city":"Mohali","state":"Punjab","pincode":"118235","landmark":"temple","created_at":"2024-11-27T06:12:11.000000Z","updated_at":"2024-11-27T06:15:48.000000Z"}]
 
 class Data {
   Data({

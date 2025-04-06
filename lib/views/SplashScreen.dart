@@ -21,16 +21,16 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    gettoken();
+    getToken();
   }
-  Future<void> gettoken() async {
+  Future<void> getToken() async {
     token=await SharedUtils().get_token();
     print("User token:-$token");
     Future.delayed(const Duration(seconds: 3),(){
       if(token==null){
-        Get.offAll(SigninScreen());
+        Get.offAll(const SigninScreen());
       }else{
-          Get.offAll(BottomNavScreen());
+          Get.offAll(const BottomNavScreen());
       }
     });
   }

@@ -2,30 +2,37 @@ class MyOrdersModel {
   MyOrdersModel({
       bool? status, 
       String? message, 
-      ProductData? productData,}){
+      ProductData? productData, 
+      num? overallTotal,}){
     _status = status;
     _message = message;
     _productData = productData;
+    _overallTotal = overallTotal;
 }
 
   MyOrdersModel.fromJson(dynamic json) {
     _status = json['status'];
     _message = json['message'];
     _productData = json['productData'] != null ? ProductData.fromJson(json['productData']) : null;
+    _overallTotal = json['overallTotal'];
   }
   bool? _status;
   String? _message;
   ProductData? _productData;
+  num? _overallTotal;
 MyOrdersModel copyWith({  bool? status,
   String? message,
   ProductData? productData,
+  num? overallTotal,
 }) => MyOrdersModel(  status: status ?? _status,
   message: message ?? _message,
   productData: productData ?? _productData,
+  overallTotal: overallTotal ?? _overallTotal,
 );
   bool? get status => _status;
   String? get message => _message;
   ProductData? get productData => _productData;
+  num? get overallTotal => _overallTotal;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -34,6 +41,7 @@ MyOrdersModel copyWith({  bool? status,
     if (_productData != null) {
       map['productData'] = _productData?.toJson();
     }
+    map['overallTotal'] = _overallTotal;
     return map;
   }
 
@@ -219,6 +227,9 @@ class Data {
       String? status, 
       String? createdAt, 
       String? updatedAt, 
+      dynamic trackingId, 
+      dynamic company, 
+      num? orderTotal, 
       List<Products>? products,}){
     _id = id;
     _userId = userId;
@@ -226,6 +237,9 @@ class Data {
     _status = status;
     _createdAt = createdAt;
     _updatedAt = updatedAt;
+    _trackingId = trackingId;
+    _company = company;
+    _orderTotal = orderTotal;
     _products = products;
 }
 
@@ -236,6 +250,9 @@ class Data {
     _status = json['status'];
     _createdAt = json['created_at'];
     _updatedAt = json['updated_at'];
+    _trackingId = json['tracking_id'];
+    _company = json['company'];
+    _orderTotal = json['order_total'];
     if (json['products'] != null) {
       _products = [];
       json['products'].forEach((v) {
@@ -249,6 +266,9 @@ class Data {
   String? _status;
   String? _createdAt;
   String? _updatedAt;
+  dynamic _trackingId;
+  dynamic _company;
+  num? _orderTotal;
   List<Products>? _products;
 Data copyWith({  num? id,
   num? userId,
@@ -256,6 +276,9 @@ Data copyWith({  num? id,
   String? status,
   String? createdAt,
   String? updatedAt,
+  dynamic trackingId,
+  dynamic company,
+  num? orderTotal,
   List<Products>? products,
 }) => Data(  id: id ?? _id,
   userId: userId ?? _userId,
@@ -263,6 +286,9 @@ Data copyWith({  num? id,
   status: status ?? _status,
   createdAt: createdAt ?? _createdAt,
   updatedAt: updatedAt ?? _updatedAt,
+  trackingId: trackingId ?? _trackingId,
+  company: company ?? _company,
+  orderTotal: orderTotal ?? _orderTotal,
   products: products ?? _products,
 );
   num? get id => _id;
@@ -271,6 +297,9 @@ Data copyWith({  num? id,
   String? get status => _status;
   String? get createdAt => _createdAt;
   String? get updatedAt => _updatedAt;
+  dynamic get trackingId => _trackingId;
+  dynamic get company => _company;
+  num? get orderTotal => _orderTotal;
   List<Products>? get products => _products;
 
   Map<String, dynamic> toJson() {
@@ -281,6 +310,9 @@ Data copyWith({  num? id,
     map['status'] = _status;
     map['created_at'] = _createdAt;
     map['updated_at'] = _updatedAt;
+    map['tracking_id'] = _trackingId;
+    map['company'] = _company;
+    map['order_total'] = _orderTotal;
     if (_products != null) {
       map['products'] = _products?.map((v) => v.toJson()).toList();
     }
@@ -298,6 +330,7 @@ class Products {
       String? price, 
       String? createdAt, 
       String? updatedAt, 
+      num? productTotal, 
       Product? product,}){
     _id = id;
     _orderId = orderId;
@@ -306,6 +339,7 @@ class Products {
     _price = price;
     _createdAt = createdAt;
     _updatedAt = updatedAt;
+    _productTotal = productTotal;
     _product = product;
 }
 
@@ -317,6 +351,7 @@ class Products {
     _price = json['price'];
     _createdAt = json['created_at'];
     _updatedAt = json['updated_at'];
+    _productTotal = json['product_total'];
     _product = json['product'] != null ? Product.fromJson(json['product']) : null;
   }
   num? _id;
@@ -326,6 +361,7 @@ class Products {
   String? _price;
   String? _createdAt;
   String? _updatedAt;
+  num? _productTotal;
   Product? _product;
 Products copyWith({  num? id,
   num? orderId,
@@ -334,6 +370,7 @@ Products copyWith({  num? id,
   String? price,
   String? createdAt,
   String? updatedAt,
+  num? productTotal,
   Product? product,
 }) => Products(  id: id ?? _id,
   orderId: orderId ?? _orderId,
@@ -342,6 +379,7 @@ Products copyWith({  num? id,
   price: price ?? _price,
   createdAt: createdAt ?? _createdAt,
   updatedAt: updatedAt ?? _updatedAt,
+  productTotal: productTotal ?? _productTotal,
   product: product ?? _product,
 );
   num? get id => _id;
@@ -351,6 +389,7 @@ Products copyWith({  num? id,
   String? get price => _price;
   String? get createdAt => _createdAt;
   String? get updatedAt => _updatedAt;
+  num? get productTotal => _productTotal;
   Product? get product => _product;
 
   Map<String, dynamic> toJson() {
@@ -362,6 +401,7 @@ Products copyWith({  num? id,
     map['price'] = _price;
     map['created_at'] = _createdAt;
     map['updated_at'] = _updatedAt;
+    map['product_total'] = _productTotal;
     if (_product != null) {
       map['product'] = _product?.toJson();
     }
@@ -382,10 +422,11 @@ class Product {
       dynamic useInSegment, 
       String? description, 
       String? productImage, 
-      dynamic visualAids, 
+      List<String>? visualAids, 
       String? createdAt, 
       String? updatedAt, 
-      dynamic productStatus,}){
+      String? productStatus, 
+      String? deleted,}){
     _id = id;
     _name = name;
     _price = price;
@@ -400,6 +441,7 @@ class Product {
     _createdAt = createdAt;
     _updatedAt = updatedAt;
     _productStatus = productStatus;
+    _deleted = deleted;
 }
 
   Product.fromJson(dynamic json) {
@@ -413,10 +455,11 @@ class Product {
     _useInSegment = json['use_in_segment'];
     _description = json['description'];
     _productImage = json['product_image'];
-    _visualAids = json['visual_aids'];
+    _visualAids = json['visual_aids'] != null ? json['visual_aids'].cast<String>() : [];
     _createdAt = json['created_at'];
     _updatedAt = json['updated_at'];
     _productStatus = json['product_status'];
+    _deleted = json['deleted'];
   }
   num? _id;
   String? _name;
@@ -428,10 +471,11 @@ class Product {
   dynamic _useInSegment;
   String? _description;
   String? _productImage;
-  dynamic _visualAids;
+  List<String>? _visualAids;
   String? _createdAt;
   String? _updatedAt;
-  dynamic _productStatus;
+  String? _productStatus;
+  String? _deleted;
 Product copyWith({  num? id,
   String? name,
   String? price,
@@ -442,10 +486,11 @@ Product copyWith({  num? id,
   dynamic useInSegment,
   String? description,
   String? productImage,
-  dynamic visualAids,
+  List<String>? visualAids,
   String? createdAt,
   String? updatedAt,
-  dynamic productStatus,
+  String? productStatus,
+  String? deleted,
 }) => Product(  id: id ?? _id,
   name: name ?? _name,
   price: price ?? _price,
@@ -460,6 +505,7 @@ Product copyWith({  num? id,
   createdAt: createdAt ?? _createdAt,
   updatedAt: updatedAt ?? _updatedAt,
   productStatus: productStatus ?? _productStatus,
+  deleted: deleted ?? _deleted,
 );
   num? get id => _id;
   String? get name => _name;
@@ -471,10 +517,11 @@ Product copyWith({  num? id,
   dynamic get useInSegment => _useInSegment;
   String? get description => _description;
   String? get productImage => _productImage;
-  dynamic get visualAids => _visualAids;
+  List<String>? get visualAids => _visualAids;
   String? get createdAt => _createdAt;
   String? get updatedAt => _updatedAt;
-  dynamic get productStatus => _productStatus;
+  String? get productStatus => _productStatus;
+  String? get deleted => _deleted;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -492,6 +539,7 @@ Product copyWith({  num? id,
     map['created_at'] = _createdAt;
     map['updated_at'] = _updatedAt;
     map['product_status'] = _productStatus;
+    map['deleted'] = _deleted;
     return map;
   }
 

@@ -1,18 +1,23 @@
+import 'dart:convert';
+import 'dart:ffi';
+
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:plenum/utils/CommonFunctions.dart';
 import 'package:sizer/sizer.dart';
 import '../../constants/Appcolors.dart';
 import '../../constants/Textstyles.dart';
 import '../../constants/stringconstants.dart';
 import '../../utils/CommonImageWidget.dart';
 import '../controllers/UserControllers/GetMyOrderDetailController.dart';
-import 'UserSection/Placeorderscreen.dart';
-
+import '../../models/MyOrdersModel.dart';
 class Myorderdetailui extends StatefulWidget {
-  int productid;
-  Myorderdetailui({Key? key, required this.productid}) : super(key: key);
+  Data? orderData;
+  // int productid;
+  Myorderdetailui({Key? key, required this.orderData}) : super(key: key);
 
   @override
   State<Myorderdetailui> createState() => _Myorderdetailui_screenState();
@@ -21,7 +26,7 @@ class Myorderdetailui extends StatefulWidget {
 class _Myorderdetailui_screenState extends State<Myorderdetailui> {
   int selected_image = 0;
   Getmyorderdetailcontroller controller = Get.put(Getmyorderdetailcontroller());
-
+  var addressData;
   int sizeindex = 0;
   String selectedValue = "";
   @override
@@ -29,7 +34,8 @@ class _Myorderdetailui_screenState extends State<Myorderdetailui> {
     // TODO: implement initState
     super.initState();
     Future.microtask(() {
-      controller.get_orderdetail(widget.productid);
+      controller.get_orderdetail(widget.orderData!.id!.toInt());
+      addressData=json.decode(widget.orderData?.address??"");
     });
   }
 
@@ -37,6 +43,26 @@ class _Myorderdetailui_screenState extends State<Myorderdetailui> {
   Widget build(BuildContext context) {
     return Obx((){
       return Scaffold(
+        appBar: AppBar(
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          leading:  Center(
+            child: InkWell(
+                onTap: () {
+                  Get.back();
+                },
+                child: CircleAvatar(
+                    backgroundColor: themecolor.withOpacity(0.5),
+                    radius: 16,
+                    child: Icon(
+                      Icons.arrow_back_rounded,
+                      color: white,
+                      size: 18,
+                    ))),
+          ),
+          centerTitle: true,
+          title: Text("Order Details",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18,color: themecolor),),
+        ),
           // bottomNavigationBar: Container(
           //   padding: EdgeInsets.symmetric(horizontal: 2.5.w, vertical: 0.5.h),
           //   height: 7.h, // Adjust height to fit both buttons
@@ -78,13 +104,118 @@ class _Myorderdetailui_screenState extends State<Myorderdetailui> {
           // ),
           body:
           controller.products.value!=null?
-          Column(
-            children: [
-              product_imageview(),
-              product_content(),
-            ],
+          SingleChildScrollView(
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 3.w),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+
+                  orderView(),
+                  SizedBox(
+                    height: 3.h,
+                  ),
+                  shipDetail(),
+
+                  shippingDetail(),
+                  SizedBox(
+                    height: 3.h,
+                  ),
+                  addressView(),
+                  SizedBox(
+                    height: 3.h,
+                  ),
+                  totalAmount(),
+                  SizedBox(
+                    height: 2.h,
+                  ),
+                  // product_imageview(),
+                  // product_content(),
+                ],
+              ),
+            ),
           ):const Center(child: CircularProgressIndicator(),));
     });
+  }
+  Widget orderView(){
+    return Container(
+      // margin: EdgeInsets.symmetric(horizontal: 3.w),
+      child: ListView.builder(physics: const ClampingScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: widget.orderData!.products!.length,
+          padding: EdgeInsets.zero,itemBuilder: (BuildContext context,int index){
+        return Row(
+          children: [
+            Expanded(
+              flex: 1,
+              child: Card(
+                elevation: 7,
+                child: SizedBox(
+                  height: 25.w,
+                  width: 25.w,
+                  child: CommonImageWidget(imageSourceType: ImageSourceType.cached_image,imageUrl: widget.orderData!.products!.elementAt(index).product!.productImage??"",fit: BoxFit.fill,
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              width: 2.w,
+            ),
+            Expanded(
+              flex: 2,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(widget.orderData?.products?.elementAt(index).product?.name??"",style: TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Colors.black),maxLines: 2,overflow: TextOverflow.ellipsis,),
+                  SizedBox(
+                    height: 1.h,
+                  ),
+                  Text(convertTimeDateFormat(widget.orderData?.createdAt??"00000-00-00"),style: TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Colors.grey),maxLines: 2,overflow: TextOverflow.ellipsis,),
+                  SizedBox(
+                    height: 1.h,
+                  ),
+                  Row(
+                    children: [
+                      Text("$currency${widget.orderData?.products?.elementAt(index).product?.price??"0"} ",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600,color: themecolor),maxLines: 2,overflow: TextOverflow.ellipsis,),
+                      Text("x ${widget.orderData?.products?.elementAt(index).quantity??0}",style: TextStyle(fontSize: 18,fontWeight: FontWeight.w500,color: Colors.black),maxLines: 2,overflow: TextOverflow.ellipsis,),
+                    ],
+                  )
+                ],
+              ),
+            )
+          ],
+        );
+      }),
+    );
+  }
+
+  Widget shipDetail(){
+    return Container(
+      // padding: EdgeInsets.symmetric(horizontal: 3.w),
+      child: Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text("Order id: ${widget.orderData?.id!.toInt()}",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: blackcolor),),
+            Text(widget.orderData?.status??"",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: themecolor),),
+          ],
+        ),
+      ],
+    ),);
+  }
+  Widget addressView(){
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text("Address",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18,color: black)),
+        SizedBox(
+          height: 1.h,
+        ),
+        Text(
+            '${addressData['house_number']??""}  ${addressData['street']??""}  ${addressData['city']??""}  ${addressData['state']??""}  ${addressData['pincode']??""}  ${addressData['landmark']??""}',style: TextStyle(fontWeight: FontWeight.w400,fontSize: 16,color: Colors.grey)),
+      ],
+    );
   }
 
   Widget product_content() {
@@ -379,6 +510,28 @@ class _Myorderdetailui_screenState extends State<Myorderdetailui> {
       ),
     );
   }
+  Widget shippingDetail(){
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // if(widget.orderData?.trackingId!=null)
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: 3.h,
+            ),
+            Text('Tracking Id: ${widget.orderData?.trackingId??"Coming Soon"}',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: blackcolor),),
+            SizedBox(
+              height: 3.h,
+            ),
+          ],
+        ),
+        // if(widget.orderData?.company!=null)
+          Text('Delivery Company: ${widget.orderData?.company??"Coming Soon"}',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: blackcolor),)
+      ],
+    );
+  }
 
   Widget option_btn(String title) {
     return Container(
@@ -410,7 +563,7 @@ class _Myorderdetailui_screenState extends State<Myorderdetailui> {
                 width: 20,
               ),
               Text(
-                currency +  controller.products.value!.products![0].price.toString()??"",
+                '$currency${widget.orderData?.orderTotal?.toInt()??0}',
                 style: Common_textstyles.totalamountstyle,
               ),
             ],

@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:plenum/models/MyOrdersModel.dart';
+import 'package:plenum/utils/CommonFunctions.dart';
 import 'package:plenum/views/MyOrderDetailUi.dart';
 import 'package:sizer/sizer.dart';
 import '../../constants/appcolors.dart';
@@ -31,15 +33,17 @@ class _MyordersscreenState extends State<Myordersscreen> {
       controller.get_orders();
       controller.scrollController?.addListener(() {
         if (controller.scrollController!.position.pixels ==
-            controller.scrollController!.position.maxScrollExtent && controller.hasMoreData.value) {
+                controller.scrollController!.position.maxScrollExtent &&
+            controller.hasMoreData.value) {
           controller.get_orders(page: controller.currentPage.value);
         }
       });
     });
   }
+
   @override
   Widget build(BuildContext context) {
-    return Obx((){
+    return Obx(() {
       return SafeArea(
         child: Scaffold(
           //appBar: appBar(),
@@ -49,10 +53,11 @@ class _MyordersscreenState extends State<Myordersscreen> {
                 children: [
                   // Top Section with Title and Search Bar
                   Expanded(
-                    flex:  0,
+                    flex: 0,
                     child: Container(
                       alignment: Alignment.centerLeft,
-                      padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
@@ -60,11 +65,16 @@ class _MyordersscreenState extends State<Myordersscreen> {
                             // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               GestureDetector(
-                                onTap: (){
-                                  Get.back();
-                                },
-                                  child: Icon(Icons.arrow_back,color: white,)),
-                              SizedBox(width: 2.w,),
+                                  onTap: () {
+                                    Get.back();
+                                  },
+                                  child: Icon(
+                                    Icons.arrow_back,
+                                    color: white,
+                                  )),
+                              SizedBox(
+                                width: 2.w,
+                              ),
                               Text(
                                 my_orders,
                                 style: TextStyle(
@@ -75,9 +85,12 @@ class _MyordersscreenState extends State<Myordersscreen> {
                               ),
                             ],
                           ),
-                          SizedBox(height: controller.isSearchVisible.value ? 1.h : 0),
+                          SizedBox(
+                              height:
+                                  controller.isSearchVisible.value ? 1.h : 0),
                           if (controller.isSearchVisible.value)
-                            searchbar(controller.searchcontroller, context, () {}),
+                            searchbar(
+                                controller.searchcontroller, context, () {}),
                         ],
                       ),
                     ),
@@ -93,19 +106,23 @@ class _MyordersscreenState extends State<Myordersscreen> {
                           topRight: Radius.circular(25.0),
                         ),
                       ),
-                      child:controller.orders.isNotEmpty? productlistview():const NoDataFound(message: no_data_found,),
+                      child: controller.orders.isNotEmpty
+                          ? productListView()
+                          : const NoDataFound(
+                              message: no_data_found,
+                            ),
                     ),
                   ),
                 ],
-              )
-          ),
+              )),
         ),
       );
     });
   }
-  appBar(){
+
+  appBar() {
     return AppBar(
-      toolbarHeight: controller.isSearchVisible.value?20.h:15.h,
+      toolbarHeight: controller.isSearchVisible.value ? 20.h : 15.h,
       automaticallyImplyLeading: false, // Disable default back button
       title: Column(
         children: [
@@ -117,7 +134,7 @@ class _MyordersscreenState extends State<Myordersscreen> {
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               GestureDetector(
-                  onTap: (){
+                  onTap: () {
                     controller.toggleSearch();
                   },
                   child: const Icon(Icons.search))
@@ -130,7 +147,7 @@ class _MyordersscreenState extends State<Myordersscreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
+                    SizedBox(
                       height: 5.h,
                       width: 32.w,
                       child: DropdownButtonFormField2<String>(
@@ -138,42 +155,47 @@ class _MyordersscreenState extends State<Myordersscreen> {
                         decoration: InputDecoration(
                           filled: true,
                           fillColor: white,
-                          contentPadding: const EdgeInsets.symmetric(vertical: 0),
+                          contentPadding:
+                              const EdgeInsets.symmetric(vertical: 0),
                           focusedBorder: OutlineInputBorder(
                               borderRadius: const BorderRadius.all(
                                 Radius.circular(8.0),
                               ),
-                              borderSide: BorderSide(color: white)
-                          ),
+                              borderSide: BorderSide(color: white)),
                           border: OutlineInputBorder(
-                              borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(8.0)),
                               borderSide: BorderSide(color: white)),
                           enabledBorder: OutlineInputBorder(
-                              borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(8.0)),
                               borderSide: BorderSide(color: white)),
                           errorBorder: OutlineInputBorder(
-                              borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(8.0)),
                               borderSide: BorderSide(color: white)),
                           // Add more decoration..
                         ),
                         hint: SizedBox(
                           child: Text(
                             divisions,
-                            style: TextStyle(fontSize: 14, color: black,fontWeight: FontWeight.w500),
+                            style: TextStyle(
+                                fontSize: 14,
+                                color: black,
+                                fontWeight: FontWeight.w500),
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
                         items: controller.divisionItems
                             .map((String item) => DropdownMenuItem<String>(
-                          value: item,
-                          child: Text(
-                            item,
-                            style: const TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500
-                            ),
-                          ),
-                        ))
+                                  value: item,
+                                  child: Text(
+                                    item,
+                                    style: const TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                ))
                             .toList(),
                         // validator: (value) {
                         //   if (value == null) {
@@ -185,7 +207,8 @@ class _MyordersscreenState extends State<Myordersscreen> {
                           controller.selectedDivisionValue.value = newValue!;
                         },
                         onSaved: (value) {
-                          controller.selectedDivisionValue.value = value.toString();
+                          controller.selectedDivisionValue.value =
+                              value.toString();
                         },
                         buttonStyleData: const ButtonStyleData(
                           padding: EdgeInsets.only(
@@ -210,7 +233,7 @@ class _MyordersscreenState extends State<Myordersscreen> {
                         ),
                       ),
                     ),
-                    Container(
+                    SizedBox(
                       height: 5.h,
                       width: 32.w,
                       child: DropdownButtonFormField2<String>(
@@ -218,42 +241,47 @@ class _MyordersscreenState extends State<Myordersscreen> {
                         decoration: InputDecoration(
                           filled: true,
                           fillColor: white,
-                          contentPadding: const EdgeInsets.symmetric(vertical: 0),
+                          contentPadding:
+                              const EdgeInsets.symmetric(vertical: 0),
                           focusedBorder: OutlineInputBorder(
                               borderRadius: const BorderRadius.all(
                                 Radius.circular(8.0),
                               ),
-                              borderSide: BorderSide(color: white)
-                          ),
+                              borderSide: BorderSide(color: white)),
                           border: OutlineInputBorder(
-                              borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(8.0)),
                               borderSide: BorderSide(color: white)),
                           enabledBorder: OutlineInputBorder(
-                              borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(8.0)),
                               borderSide: BorderSide(color: white)),
                           errorBorder: OutlineInputBorder(
-                              borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(8.0)),
                               borderSide: BorderSide(color: white)),
                           // Add more decoration..
                         ),
                         hint: SizedBox(
                           child: Text(
                             category,
-                            style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, color: black),
+                            style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                                color: black),
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
                         items: controller.categoryItems
                             .map((String item) => DropdownMenuItem<String>(
-                          value: item,
-                          child: Text(
-                            item,
-                            style: const TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500
-                            ),
-                          ),
-                        ))
+                                  value: item,
+                                  child: Text(
+                                    item,
+                                    style: const TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                ))
                             .toList(),
                         // validator: (value) {
                         //   if (value == null) {
@@ -265,7 +293,8 @@ class _MyordersscreenState extends State<Myordersscreen> {
                           controller.selectedCategoryValue.value = newValue!;
                         },
                         onSaved: (value) {
-                          controller.selectedCategoryValue.value = value.toString();
+                          controller.selectedCategoryValue.value =
+                              value.toString();
                         },
                         buttonStyleData: const ButtonStyleData(
                           padding: EdgeInsets.only(
@@ -295,25 +324,39 @@ class _MyordersscreenState extends State<Myordersscreen> {
                       width: 25.w,
                       decoration: BoxDecoration(
                         color: white,
-                        borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(8.0)),
                         // borderSide: BorderSide(color: white)
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Icon(Icons.refresh,color: black,size: 20,),
-                          SizedBox(width: 2.w,),
-                          Text(clear, style: TextStyle(fontSize: 14, color: black),)
+                          Icon(
+                            Icons.refresh,
+                            color: black,
+                            size: 20,
+                          ),
+                          SizedBox(
+                            width: 2.w,
+                          ),
+                          Text(
+                            clear,
+                            style: TextStyle(fontSize: 14, color: black),
+                          )
                         ],
                       ),
                     )
                   ],
                 ),
-                controller.isSearchVisible.value?
-                SizedBox(height: 1.h,):const SizedBox(),
-                controller.isSearchVisible.value?
-                searchbar(controller.searchcontroller,context,(){}):const SizedBox()
+                controller.isSearchVisible.value
+                    ? SizedBox(
+                        height: 1.h,
+                      )
+                    : const SizedBox(),
+                controller.isSearchVisible.value
+                    ? searchbar(controller.searchcontroller, context, () {})
+                    : const SizedBox()
               ],
             ),
           ),
@@ -324,167 +367,284 @@ class _MyordersscreenState extends State<Myordersscreen> {
       elevation: 0,
     );
   }
-  Widget productlistview(){
+
+  Widget productListView() {
     return ListView.builder(
-      controller: controller.scrollController,
-      padding: EdgeInsets.only(top: 2.h),
+        controller: controller.scrollController,
+        padding: EdgeInsets.only(top: 2.h),
         itemCount: controller.orders.length,
         itemBuilder: (BuildContext context, int index) {
-          return Column(
-            children: [
-              Stack(
-                clipBehavior: Clip.none,
+          return GestureDetector(
+              onTap: () {
+                Get.to(Myorderdetailui(orderData:
+                      controller.orders.elementAt(index),
+                ));
+              },
+              child: orderView(controller.orders.elementAt(index)));
+          //   Column(
+          //   children: [
+          //     Stack(
+          //       clipBehavior: Clip.none,
+          //       children: [
+          //         // Main Container
+          //         Positioned(
+          //           child: GestureDetector(
+          //             onTap: (){
+          //               Get.to(Myorderdetailui(productid:   controller.orders.elementAt(index).id!.toInt()??0,));
+          //             },
+          //             child: Container(
+          //               width: double.infinity,
+          //               // height: 15.5.h,
+          //               margin: EdgeInsets.only(left: 4.w, right: 4.w),
+          //               decoration: BoxDecoration(
+          //                 color: boxcolor,
+          //                 borderRadius: BorderRadius.circular(20),
+          //                 boxShadow: [
+          //                   BoxShadow(
+          //                     color: Colors.grey.withOpacity(.2),
+          //                     blurRadius: 20.0, // Soften the shadow
+          //                     spreadRadius: 0.0, // Extend the shadow
+          //                     offset: const Offset(
+          //                       5.0, // Move right 5 horizontally
+          //                       5.0, // Move down 5 vertically
+          //                     ),
+          //                   )
+          //                 ],
+          //               ),
+          //               child: Padding(
+          //                 padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 1.5.h),
+          //                 child: Row(
+          //                   crossAxisAlignment: CrossAxisAlignment.start,
+          //                   // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //                   children: [
+          //                     SizedBox(
+          //                       width: 30.w,
+          //                       height: 14.h,
+          //                       child: CommonImageWidget(
+          //                         imageSourceType: ImageSourceType.cached_image,
+          //                         imageUrl: controller.orders.elementAt(index).products?[0].product?.productImage.toString()??"",
+          //                         fit: BoxFit.fill,
+          //                       ),
+          //                     ),
+          //                     SizedBox(width: 3.5.w),
+          //                     Column(
+          //                       crossAxisAlignment: CrossAxisAlignment.start,
+          //                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //                       children: [
+          //                         SizedBox(
+          //                           width: 50.w,
+          //                           child: Row(
+          //                             children: [
+          //                               Text('Order Id: ',
+          //                                 overflow: TextOverflow.ellipsis,
+          //                                 style: TextStyle(
+          //                                   fontSize: 15,
+          //                                   fontWeight: FontWeight.w500,
+          //                                   color: themecolor,
+          //                                 ),
+          //                               ),
+          //                               Text(controller.orders
+          //                                               .elementAt(index)
+          //                                               .products?[0]
+          //                                               .id.toString() ??
+          //                                           "",
+          //                                 overflow: TextOverflow.ellipsis,
+          //                                 style: TextStyle(
+          //                                   fontSize: 15,
+          //                                   fontWeight: FontWeight.w500,
+          //                                   color: themecolor,
+          //                                 ),
+          //                               ),
+          //                             ],
+          //                           ),
+          //                         ),
+          //                         SizedBox(
+          //                           height: 5,
+          //                         ),
+          //                         SizedBox(
+          //                           width: 40.w,
+          //                           child: Text(
+          //                             controller.orders.elementAt(index).products?[0].product?.name.toString()??"",
+          //                             overflow: TextOverflow.ellipsis,
+          //                             style: TextStyle(
+          //                               fontSize: 17,
+          //                               fontWeight: FontWeight.w600,
+          //                               color: black,
+          //                             ),
+          //                           ),
+          //                         ),
+          //                         SizedBox(height: 1.h),
+          //                         SizedBox(
+          //                           width: 40.w,
+          //                           child: Text(
+          //                             controller.orders.elementAt(index).products?[0].product?.description.toString()??"",
+          //                             maxLines: 4,
+          //                             style: TextStyle(
+          //                               fontSize: 12,
+          //                               fontWeight: FontWeight.w500,
+          //                               color: black,
+          //                               overflow: TextOverflow.ellipsis,
+          //                             ),
+          //                           ),
+          //                         ),
+          //                         SizedBox(width:2.w,),
+          //                       ],
+          //                     ),
+          //                     // Icon(Icons.favorite, color: ordercncl_color),
+          //                     // Icon(Icons.share_outlined, color: black),
+          //                   ],
+          //                 ),
+          //               ),
+          //             ),
+          //           ),
+          //         ),
+          //         // MRP Box
+          //         Positioned(
+          //           bottom: -2.h, // Move half of the box outside
+          //           right: 8.w,
+          //           child: Align(
+          //             alignment: Alignment.bottomCenter,
+          //             child: Container(
+          //               width: 42.w,
+          //               height: 4.h,
+          //               decoration: BoxDecoration(
+          //                 borderRadius: BorderRadius.circular(12), // Rounded corners
+          //                 gradient: LinearGradient(
+          //                   colors: [
+          //                     gradientcolor1, // Start color
+          //                     gradientcolor2, // End color
+          //                   ],
+          //                   begin: Alignment.topLeft, // Gradient start point
+          //                   end: Alignment.bottomRight, // Gradient end point
+          //                 ),
+          //               ),
+          //               child: Center(
+          //                 child: Text(
+          //                   "MRP Rs.  ${  controller.orders.elementAt(index).products?[0].product?.price}",
+          //                   style: TextStyle(
+          //                     fontSize: 12,
+          //                     fontWeight: FontWeight.w600,
+          //                     color: white,
+          //                   ),
+          //                 ),
+          //               ),
+          //             ),
+          //           ),
+          //         ),
+          //       ],
+          //     ),
+          //     SizedBox(height: 3.h,)
+          //   ],
+          // );
+        });
+  }
+
+  Widget orderView(var data) {
+    Data orderData = data;
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 2.h, vertical: 1.h),
+      // height: 12.h,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5),
+          border: Border.all(color: Colors.grey.shade200, width: 0.8)),
+      child: Row(
+        crossAxisAlignment:
+            CrossAxisAlignment.start, // Ensures the row fills the height
+        children: [
+          // Container(
+          //   decoration: BoxDecoration(
+          //     borderRadius: BorderRadius.circular(3.h),
+          //     border: Border.all(color: Colors.grey.shade200, width: 0.8),
+          //     color: themecolor,
+          //   ),
+          //   width: 7,
+          // ),
+          Expanded(
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 1.h, vertical: 2.h),
+              child: Column(
                 children: [
-                  // Main Container
-                  Positioned(
-                    child: GestureDetector(
-                      onTap: (){
-                        Get.to(Myorderdetailui(productid:   controller.orders.elementAt(index).id!.toInt()??0,));
-                      },
-                      child: Container(
-                        width: double.infinity,
-                        // height: 15.5.h,
-                        margin: EdgeInsets.only(left: 4.w, right: 4.w),
+                  // SizedBox(
+                  //   height: 5.h,
+                  // ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "#Order id:${orderData.id}",
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                            color: themecolor),
+                      ),
+                      Container(
+                        padding:
+                            const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                         decoration: BoxDecoration(
-                          color: boxcolor,
-                          borderRadius: BorderRadius.circular(20),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(.2),
-                              blurRadius: 20.0, // Soften the shadow
-                              spreadRadius: 0.0, // Extend the shadow
-                              offset: const Offset(
-                                5.0, // Move right 5 horizontally
-                                5.0, // Move down 5 vertically
-                              ),
-                            )
+                            borderRadius: BorderRadius.circular(7),
+                            border: Border.all(color: themecolor)),
+                        child: Text(
+                          orderData.status ?? "",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 12,
+                              color: themecolor),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 2.h,
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                          child: Text(
+                            orderDateFormat(orderData.createdAt??"00000-00-00"),
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            color: black),
+                      )),
+                      Expanded(
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text(
+                              "Quantity: ",
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.black),
+                            ),
+                            Text(
+                              orderData.products?.length.toString() ?? "0",
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
+                                  color: themecolor),
+                            ),
                           ],
                         ),
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 1.5.h),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              SizedBox(
-                                width: 30.w,
-                                height: 14.h,
-                                child: CommonImageWidget(
-                                  imageSourceType: ImageSourceType.cached_image,
-                                  imageUrl: controller.orders.elementAt(index).products?[0].product?.productImage.toString()??"",
-                                  fit: BoxFit.fill,
-                                ),
-                              ),
-                              SizedBox(width: 3.5.w),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  SizedBox(
-                                    width: 50.w,
-                                    child: Row(
-                                      children: [
-                                        Text('Order Id: ',
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w500,
-                                            color: themecolor,
-                                          ),
-                                        ),
-                                        Text(controller.orders
-                                                        .elementAt(index)
-                                                        .products?[0]
-                                                        .id.toString() ??
-                                                    "",
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w500,
-                                            color: themecolor,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  SizedBox(
-                                    width: 40.w,
-                                    child: Text(
-                                      controller.orders.elementAt(index).products?[0].product?.name.toString()??"",
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.w600,
-                                        color: black,
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(height: 1.h),
-                                  SizedBox(
-                                    width: 40.w,
-                                    child: Text(
-                                      controller.orders.elementAt(index).products?[0].product?.description.toString()??"",
-                                      maxLines: 4,
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w500,
-                                        color: black,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(width:2.w,),
-                                ],
-                              ),
-                              // Icon(Icons.favorite, color: ordercncl_color),
-                              // Icon(Icons.share_outlined, color: black),
-                            ],
-                          ),
-                        ),
                       ),
-                    ),
-                  ),
-                  // MRP Box
-                  Positioned(
-                    bottom: -2.h, // Move half of the box outside
-                    right: 8.w,
-                    child: Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Container(
-                        width: 42.w,
-                        height: 4.h,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12), // Rounded corners
-                          gradient: LinearGradient(
-                            colors: [
-                              gradientcolor1, // Start color
-                              gradientcolor2, // End color
-                            ],
-                            begin: Alignment.topLeft, // Gradient start point
-                            end: Alignment.bottomRight, // Gradient end point
-                          ),
-                        ),
-                        child: Center(
+                      Expanded(
                           child: Text(
-                            "MRP Rs.  ${  controller.orders.elementAt(index).products?[0].product?.price}",
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                              color: white,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+                        "${currency}${orderData.orderTotal ?? "0"}",
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: themecolor),
+                        textAlign: TextAlign.right,
+                      )),
+                    ],
+                  )
                 ],
               ),
-              SizedBox(height: 3.h,)
-            ],
-          );
-        });
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

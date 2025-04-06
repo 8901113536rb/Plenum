@@ -6,6 +6,7 @@ class SharedUtils {
   var userdetail="Userdetails";
   var token="token";
   var address="address";
+  var fcmToken="fcmToken";
   var userfirstname="first_name";
   var userlastname="last_name";
   var useremail="email";
@@ -22,6 +23,10 @@ class SharedUtils {
   save_address_data(String data) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(address, data);
+  }
+  saveFcmToken(String data) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(fcmToken, data);
   }
 
   save_token(String data) async {
@@ -85,6 +90,10 @@ class SharedUtils {
   Future<String?> get_user_data() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString(userdetail);
+  }
+  Future<String?> getFcmToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(fcmToken);
   }
 
   Future<String?> get_address_data() async {

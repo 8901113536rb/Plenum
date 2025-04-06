@@ -111,6 +111,7 @@ class _VisualaidState extends State<Visualaid> {
                                 failed_toast(please_enter_text);
                               } else {
                                 controller.currentPage.value = 1;
+                                controller.products.clear();
                                 controller.get_VisualAid(
                                   controller.selectedCategoryValue.value,
                                   controller.selectedSubCategoryValue.value,
@@ -489,5 +490,11 @@ class _VisualaidState extends State<Visualaid> {
         ),
       ),
     );
+  }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    controller.searchcontroller.clear();
   }
 }

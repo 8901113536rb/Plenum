@@ -641,28 +641,38 @@ class _FeaturedproductscreenState extends State<Featuredproductscreen> {
                     right: 8.w,
                     child: Align(
                       alignment: Alignment.bottomCenter,
-                      child: Container(
-                        width: 42.w,
-                        height: 4.h,
-                        decoration: BoxDecoration(
-                          borderRadius:
-                          BorderRadius.circular(12), // Rounded corners
-                          gradient: LinearGradient(
-                            colors: [
-                              gradientcolor1, // Start color
-                              gradientcolor2, // End color
-                            ],
-                            begin: Alignment.topLeft, // Gradient start point
-                            end: Alignment.bottomRight, // Gradient end point
+                      child: GestureDetector(
+                        onTap: (){
+                          Get.to(Productdetailscreen(
+                              productid: controller.products
+                                  .elementAt(index)
+                                  .id
+                                  ?.toInt() ??
+                                  0));
+                        },
+                        child: Container(
+                          width: 42.w,
+                          height: 4.h,
+                          decoration: BoxDecoration(
+                            borderRadius:
+                            BorderRadius.circular(12), // Rounded corners
+                            gradient: LinearGradient(
+                              colors: [
+                                gradientcolor1, // Start color
+                                gradientcolor2, // End color
+                              ],
+                              begin: Alignment.topLeft, // Gradient start point
+                              end: Alignment.bottomRight, // Gradient end point
+                            ),
                           ),
-                        ),
-                        child: Center(
-                          child: Text(
-                            "MRP Rs.  ${controller.products.elementAt(index).price}",
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                              color: white,
+                          child: Center(
+                            child: Text(
+                              "MRP Rs.  ${controller.products.elementAt(index).price}",
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                                color: white,
+                              ),
                             ),
                           ),
                         ),
